@@ -264,16 +264,16 @@
                 </div>
             </div>
 
-            <!-- Base Energy Prices Customization (Col C & E) -->
+            <!-- Base Energy Prices Customization  -->
             <div id="baseEnergyContainer" style="margin-top: 12px; margin-bottom: 16px; background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; border: 1px solid #334155;">
-                <div style="font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: #38bdf8; margin-bottom: 8px;">BASE ENERGY PRICES (EXCL. VAT)</div>
+                <div style="font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: #38bdf8; margin-bottom: 8px;">BASE ENERGY PRICES</div>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
                     <div>
-                        <label style="font-size: 0.68rem; color: #94a3b8; display: block; margin-bottom: 4px;">Elec (Col C - €/kWh)</label>
+                        <label style="font-size: 0.68rem; color: #94a3b8; display: block; margin-bottom: 4px;">Electricity (€/kWh)</label>
                         <input type="number" id="baseElecPriceInput" step="0.001" style="width: 100%; background: #1a2332; color: #fff; border: 1px solid #334155; padding: 6px 8px; border-radius: 4px; font-size: 0.85rem;">
                     </div>
                     <div>
-                        <label style="font-size: 0.68rem; color: #94a3b8; display: block; margin-bottom: 4px;">Gas (Col E - €/kWh)</label>
+                        <label style="font-size: 0.68rem; color: #94a3b8; display: block; margin-bottom: 4px;">Gas (€/kWh)</label>
                         <input type="number" id="baseGasPriceInput" step="0.001" style="width: 100%; background: #1a2332; color: #fff; border: 1px solid #334155; padding: 6px 8px; border-radius: 4px; font-size: 0.85rem;">
                     </div>
                 </div>
@@ -318,10 +318,7 @@
                         <label style="font-size:0.7rem;color:var(--text-secondary);display:block;margin-bottom:0.25rem;" data-i18n="filtration_price">Filtration</label>
                         <input type="number" id="filtrationPrice" value="400000" step="1000">
                     </div>
-                    <div>
-                        <label style="font-size:0.7rem;color:var(--text-secondary);display:block;margin-bottom:0.25rem;" data-i18n="preheat_daily">Preheat (€/day)</label>
-                        <input type="number" id="preheatCost" value="300" step="10">
-                    </div>
+                    
                 </div>
             </div>
 
@@ -824,7 +821,7 @@ function calculateAndRender() {
   const generalInflation = 0.02;
   const manualGasInflation  = parseFloat(document.getElementById('gasInflation').value)  / 100;
   const manualElecInflation = parseFloat(document.getElementById('elecInflation').value) / 100;
-  const preheatCost = parseFloat(document.getElementById('preheatCost').value) || 300;
+  const preheatCost = 300;
 
   const cremationsDay = Math.round(volume / 250);
   const dayKey = cremationsDay.toString();
@@ -1027,7 +1024,7 @@ document.getElementById('themeToggle').addEventListener('click', function() {
 });
 
 // Price inputs: recalculate on change
-['ft3FurnacePrice','ft4FurnacePrice','filtrationPrice','preheatCost','gasInflation','elecInflation'].forEach(id => {
+['ft3FurnacePrice','ft4FurnacePrice','filtrationPrice','gasInflation','elecInflation'].forEach(id => {
   document.getElementById(id).addEventListener('input', calculateAndRender);
 });
 
