@@ -997,18 +997,21 @@ document.getElementById('volumeSlider').addEventListener('input', function() {
     }
     
 document.getElementById('btnForecast').addEventListener('click', function() {
-  isForecastMode = true;
-  this.classList.add('active');
+  document.getElementById('btnForecast').classList.add('active');
   document.getElementById('btnManual').classList.remove('active');
-  document.getElementById('manualInputsGroup').classList.remove('show');
-  calculateAndRender();
+  currentScenario = 'forecast';
+  const container = document.getElementById('baseEnergyContainer');
+  if (container) container.style.display = 'none';
+  updateApp();
 });
+
 document.getElementById('btnManual').addEventListener('click', function() {
-  isForecastMode = false;
-  this.classList.add('active');
+  document.getElementById('btnManual').classList.add('active');
   document.getElementById('btnForecast').classList.remove('active');
-  document.getElementById('manualInputsGroup').classList.add('show');
-  calculateAndRender();
+  currentScenario = 'manual';
+  const container = document.getElementById('baseEnergyContainer');
+  if (container) container.style.display = 'block';
+  updateApp();
 });
 
 document.getElementById('btnWithFilt').addEventListener('click', function() {
