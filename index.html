@@ -252,18 +252,19 @@
                 <span data-i18n="client_input">Client Input</span>
             </div>
 
-            <!-- Country -->
-            <!-- Client / Site Name -->
+                        <!-- 1. Country -->
+            <div class="input-group">
+                <label data-i18n="target_country">Target Country</label>
+                <select id="countrySelect"></select>
+            </div>
+
+            <!-- 2. Client / Site Name -->
             <div class="input-group">
                 <label style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: #38bdf8; margin-bottom: 6px; display: block;">CLIENT / SITE NAME</label>
                 <input type="text" id="clientNameInput" placeholder="e.g. FUNECAP" style="width: 100%; background: #1a2332; color: #fff; border: 1px solid #334155; padding: 8px 12px; border-radius: 6px; font-size: 0.85rem;">
             </div>
 
-            <!-- Target Country -->
-                <select id="countrySelect"></select>
-            </div>
-
-            <!-- Volume Slider -->
+            <!-- 3. Volume Slider -->
             <div class="input-group">
                 <label data-i18n="annual_volume">Annual Cremation Volume</label>
                 <div class="volume-container">
@@ -275,7 +276,7 @@
                 </div>
             </div>
 
-            <!-- Inflation Scenario -->
+            <!-- 4. Inflation Scenario -->
             <div class="input-group">
                 <label data-i18n="inflation_scenario">Inflation Scenario</label>
                 <div class="toggle-group">
@@ -284,18 +285,26 @@
                 </div>
             </div>
 
-            <div class="manual-inputs" id="manualInputsGroup">
-                <div class="input-group">
-                    <label data-i18n="gas_inflation">Annual Gas Inflation (%)</label>
-                    <input type="number" id="gasInflation" value="4" step="0.5" min="0">
+            <!-- Manual Subpanel (Only visible in Manual mode) -->
+            <div id="manualScenarioPanel" style="display: none; margin-top: 10px; margin-bottom: 16px; background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; border: 1px solid #334155;">
+                <div style="font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: #38bdf8; margin-bottom: 8px;">MANUAL CUSTOM PARAMETERS</div>
+                
+                <div style="margin-bottom: 8px;">
+                    <label style="font-size: 0.68rem; color: #94a3b8; display: block; margin-bottom: 4px;">General Inflation Rate (%/yr)</label>
+                    <input type="number" id="generalInflationInput" value="2.0" step="0.1" style="width: 100%; background: #1a2332; color: #fff; border: 1px solid #334155; padding: 6px 8px; border-radius: 4px; font-size: 0.85rem;">
                 </div>
-                <div class="input-group">
-                    <label data-i18n="elec_inflation">Annual Electricity Inflation (%)</label>
-                    <input type="number" id="elecInflation" value="2" step="0.5" min="0">
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                    <div>
+                        <label style="font-size: 0.68rem; color: #94a3b8; display: block; margin-bottom: 4px;">Electricity (€/kWh)</label>
+                        <input type="number" id="baseElecPriceInput" step="0.001" style="width: 100%; background: #1a2332; color: #fff; border: 1px solid #334155; padding: 6px 8px; border-radius: 4px; font-size: 0.85rem;">
+                    </div>
+                    <div>
+                        <label style="font-size: 0.68rem; color: #94a3b8; display: block; margin-bottom: 4px;">Gas (€/kWh)</label>
+                        <input type="number" id="baseGasPriceInput" step="0.001" style="width: 100%; background: #1a2332; color: #fff; border: 1px solid #334155; padding: 6px 8px; border-radius: 4px; font-size: 0.85rem;">
+                    </div>
                 </div>
             </div>
-
-            <hr class="section-sep">
 
             <!-- Filtration Toggle -->
             <div class="input-group">
@@ -821,9 +830,42 @@ function calculateAndRender() {
   const cParams = countriesData[selectedCountry];
   if (!cParams) return;
 
-  const gasPrice  = cParams.gas_price;
-  const elecPrice = cParams.elec_price;
-  const generalInflation = 0.02;
+      let gasPrice  = cParams.gas_price;
+  let elecPrice = cParams.elec_price;
+  let generalInflation = 0.02;
+
+  const baseElecEl = document.getElementById('baseElecPriceInput');
+  const baseGasEl  = document.getElementById('baseGasPriceInput');
+  const genInfEl   = document.getElementById('generalInflationInput');
+
+  if (genInfEl) {
+      const parsedGenInf = parseFloat(genInfEl.value);
+      if (!isNaN(parsedGenInf)) generalInflation = parsedGenInf / 100;
+  }
+
+  if (currentScenario === 'manual' && baseElecEl && baseGasEl) {
+      const parsedElec = parseFloat(baseElecEl.value);
+      const parsedGasKwh = parseFloat(baseGasEl.value);
+      if (!isNaN(parsedElec) && parsedElec > 0) elecPrice = parsedElec;
+      if (!isNaN(parsedGasKwh) && parsedGasKwh > 0) gasPrice = parsedGasKwh * 10.55;
+  }
+  let generalInflation = 0.02;
+
+  const baseElecEl = document.getElementById('baseElecPriceInput');
+  const baseGasEl  = document.getElementById('baseGasPriceInput');
+  const genInfEl   = document.getElementById('generalInflationInput');
+
+  if (genInfEl) {
+      const parsedGenInf = parseFloat(genInfEl.value);
+      if (!isNaN(parsedGenInf)) generalInflation = parsedGenInf / 100;
+  }
+
+  if (currentScenario === 'manual' && baseElecEl && baseGasEl) {
+      const parsedElec = parseFloat(baseElecEl.value);
+      const parsedGasKwh = parseFloat(baseGasEl.value);
+      if (!isNaN(parsedElec) && parsedElec > 0) elecPrice = parsedElec;
+      if (!isNaN(parsedGasKwh) && parsedGasKwh > 0) gasPrice = parsedGasKwh * 10.55;
+  }
   const manualGasInflation  = parseFloat(document.getElementById('gasInflation').value)  / 100;
   const manualElecInflation = parseFloat(document.getElementById('elecInflation').value) / 100;
   const preheatCost = parseFloat(document.getElementById('preheatCost').value) || 300;
@@ -984,7 +1026,48 @@ document.getElementById('volumeSlider').addEventListener('input', function() {
   calculateAndRender();
 });
 
-document.getElementById('btnForecast').addEventListener('click', function() {
+
+    function setScenario(scen) {
+        currentScenario = scen;
+        document.getElementById('btnForecast').classList.toggle('active', scen === 'forecast');
+        document.getElementById('btnManual').classList.toggle('active', scen === 'manual');
+        const panel = document.getElementById('manualScenarioPanel');
+        if (panel) panel.style.display = (scen === 'manual') ? 'block' : 'none';
+        calculateAndRender();
+    }
+
+    document.getElementById('btnForecast').addEventListener('click', () => setScenario('forecast'));
+    document.getElementById('btnManual').addEventListener('click', () => setScenario('manual'));
+
+    function updatePrintHeader() {
+        const input = document.getElementById('clientNameInput');
+        const val = input ? input.value.trim() : '';
+        const header = document.getElementById('printClientHeader');
+        if (header) {
+            header.innerText = 'CLIENT / SITE: ' + (val ? val.toUpperCase() : 'PROPOSAL');
+            header.style.display = val ? 'block' : 'none';
+        }
+    }
+
+    if (document.getElementById('clientNameInput')) {
+        document.getElementById('clientNameInput').addEventListener('input', updatePrintHeader);
+    }
+
+    document.getElementById('btnPdf').addEventListener('click', () => {
+        updatePrintHeader();
+        window.print();
+    });
+
+    // Live recalculation on typing in any manual parameter
+    ['clientNameInput', 'generalInflationInput', 'baseElecPriceInput', 'baseGasPriceInput', 'ft3FurnacePrice', 'ft4FurnacePrice', 'filtrationPrice'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('input', calculateAndRender);
+            el.addEventListener('change', calculateAndRender);
+        }
+    });
+
+// function() {
   isForecastMode = true;
   this.classList.add('active');
   document.getElementById('btnManual').classList.remove('active');
