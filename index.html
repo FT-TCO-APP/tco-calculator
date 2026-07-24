@@ -193,6 +193,16 @@
 
         /* PRINT / PDF */
         @media print {
+            header, .sidebar, .btn-pdf, footer, .icon-btn, .lang-select { display: none !important; }
+            #printClientBanner {
+                display: block !important;
+                font-size: 1.4rem !important;
+                font-weight: bold !important;
+                color: #003366 !important;
+                margin-bottom: 20px !important;
+                border-bottom: 2px solid #003366 !important;
+                padding-bottom: 8px !important;
+            }
             body { background: #fff; color: #000; }
             header, .sidebar, .btn-pdf, footer, .icon-btn, .lang-select { display: none !important; }
             main { grid-template-columns: 1fr; margin: 0; padding: 0; }
@@ -1137,7 +1147,24 @@ document.getElementById('themeToggle').addEventListener('click', function() {
 });
 
 // PDF
-document.getElementById('btnPdf').addEventListener('click', () => window.print());
+document.getElementById('clientNameInput').addEventListener('input', (e) => {
+        const val = e.target.value.trim();
+        const banner = document.getElementById('printClientBanner');
+        if (banner) {
+            banner.innerText = val ? 'CLIENT / SITE: ' + val.toUpperCase() : 'CLIENT / SITE: PROPOSAL';
+            banner.style.display = 'block';
+        }
+    });
+
+    document.getElementById('btnPdf').addEventListener('click', () => {
+        const val = document.getElementById('clientNameInput').value.trim();
+        const banner = document.getElementById('printClientBanner');
+        if (banner) {
+            banner.innerText = val ? 'CLIENT / SITE: ' + val.toUpperCase() : 'CLIENT / SITE: PROPOSAL';
+            banner.style.display = 'block';
+        }
+        window.print();
+    });
 
 // ==========================================================
 // INIT
