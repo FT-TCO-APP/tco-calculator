@@ -238,6 +238,13 @@
             </div>
 
             <!-- Country -->
+            <!-- Client / Site Name -->
+            <div class="input-group">
+                <label style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: #38bdf8; margin-bottom: 6px; display: block;">CLIENT / SITE NAME</label>
+                <input type="text" id="clientNameInput" placeholder="e.g. Crematorium Paris Nord" style="width: 100%; background: #1a2332; color: #fff; border: 1px solid #334155; padding: 8px 12px; border-radius: 6px; font-size: 0.85rem;">
+            </div>
+
+            <!-- Country -->
             <div class="input-group">
                 <label data-i18n="target_country">Target Country</label>
                 <select id="countrySelect"></select>
@@ -265,7 +272,7 @@
             </div>
 
             <!-- Base Energy Prices Customization  -->
-            <div id="baseEnergyContainer" style="margin-top: 12px; margin-bottom: 16px; background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; border: 1px solid #334155;">
+            <div id="baseEnergyContainer" style="display: none; margin-top: 12px; margin-bottom: 16px; background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; border: 1px solid #334155;">
                 <div style="font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: #38bdf8; margin-bottom: 8px;">BASE ENERGY PRICES</div>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
                     <div>
@@ -979,6 +986,16 @@ document.getElementById('volumeSlider').addEventListener('input', function() {
   calculateAndRender();
 });
 
+
+    function setScenario(scen) {
+        currentScenario = scen;
+        document.getElementById('btnForecast').classList.toggle('active', scen === 'forecast');
+        document.getElementById('btnManual').classList.toggle('active', scen === 'manual');
+        const container = document.getElementById('baseEnergyContainer');
+        if (container) container.style.display = (scen === 'manual') ? 'block' : 'none';
+        updateApp();
+    }
+    
 document.getElementById('btnForecast').addEventListener('click', function() {
   isForecastMode = true;
   this.classList.add('active');
