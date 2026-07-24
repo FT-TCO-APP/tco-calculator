@@ -237,12 +237,6 @@
                 <span data-i18n="client_input">Client Input</span>
             </div>
 
-            <!-- Client Name -->
-            <div class="input-group">
-                <label style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: #64b5f6; margin-bottom: 6px; display: block;">CLIENT / SITE NAME</label>
-                <input type="text" id="clientNameInput" placeholder="e.g. Crematorium Paris Nord" style="width: 100%; background: #1a2332; color: #fff; border: 1px solid #334155; padding: 8px 12px; border-radius: 6px; font-size: 0.85rem;">
-            </div>
-
             <!-- Country -->
             <div class="input-group">
                 <label data-i18n="target_country">Target Country</label>
@@ -267,6 +261,21 @@
                 <div class="toggle-group">
                     <button class="toggle-btn active" id="btnForecast" data-i18n="forecast">Forecast</button>
                     <button class="toggle-btn" id="btnManual" data-i18n="manual">Manual</button>
+                </div>
+            </div>
+
+            <!-- Base Energy Prices Customization (Col C & E) -->
+            <div id="baseEnergyContainer" style="margin-top: 12px; margin-bottom: 16px; background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; border: 1px solid #334155;">
+                <div style="font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: #38bdf8; margin-bottom: 8px;">BASE ENERGY PRICES (EXCL. VAT)</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                    <div>
+                        <label style="font-size: 0.68rem; color: #94a3b8; display: block; margin-bottom: 4px;">Elec (Col C - €/kWh)</label>
+                        <input type="number" id="baseElecPriceInput" step="0.001" style="width: 100%; background: #1a2332; color: #fff; border: 1px solid #334155; padding: 6px 8px; border-radius: 4px; font-size: 0.85rem;">
+                    </div>
+                    <div>
+                        <label style="font-size: 0.68rem; color: #94a3b8; display: block; margin-bottom: 4px;">Gas (Col E - €/kWh)</label>
+                        <input type="number" id="baseGasPriceInput" step="0.001" style="width: 100%; background: #1a2332; color: #fff; border: 1px solid #334155; padding: 6px 8px; border-radius: 4px; font-size: 0.85rem;">
+                    </div>
                 </div>
             </div>
 
@@ -309,7 +318,10 @@
                         <label style="font-size:0.7rem;color:var(--text-secondary);display:block;margin-bottom:0.25rem;" data-i18n="filtration_price">Filtration</label>
                         <input type="number" id="filtrationPrice" value="400000" step="1000">
                     </div>
-                    
+                    <div>
+                        <label style="font-size:0.7rem;color:var(--text-secondary);display:block;margin-bottom:0.25rem;" data-i18n="preheat_daily">Preheat (€/day)</label>
+                        <input type="number" id="preheatCost" value="300" step="10">
+                    </div>
                 </div>
             </div>
 
@@ -323,7 +335,6 @@
     <!-- ===================== DASHBOARD ===================== -->
     <div class="dashboard-content">
 
-        <div id="printClientBanner" style="display:none; font-size: 1.1rem; font-weight: 700; color: #64b5f6; padding: 10px 14px; background: rgba(255,255,255,0.08); border-left: 4px solid #38bdf8; border-radius: 8px; margin-bottom: 15px;"></div>
         <!-- Recommendation Card -->
         <div class="card recommendation-card">
             <div class="rec-header">
@@ -813,7 +824,7 @@ function calculateAndRender() {
   const generalInflation = 0.02;
   const manualGasInflation  = parseFloat(document.getElementById('gasInflation').value)  / 100;
   const manualElecInflation = parseFloat(document.getElementById('elecInflation').value) / 100;
-  const preheatCost = 300;
+  const preheatCost = parseFloat(document.getElementById('preheatCost').value) || 300;
 
   const cremationsDay = Math.round(volume / 250);
   const dayKey = cremationsDay.toString();
@@ -1016,30 +1027,12 @@ document.getElementById('themeToggle').addEventListener('click', function() {
 });
 
 // Price inputs: recalculate on change
-['ft3FurnacePrice','ft4FurnacePrice','filtrationPrice','gasInflation','elecInflation'].forEach(id => {
+['ft3FurnacePrice','ft4FurnacePrice','filtrationPrice','preheatCost','gasInflation','elecInflation'].forEach(id => {
   document.getElementById(id).addEventListener('input', calculateAndRender);
 });
 
 // PDF
-document.getElementById('clientNameInput').addEventListener('input', (e) => {
-        const banner = document.getElementById('printClientBanner');
-        if (e.target.value.trim()) {
-            banner.innerText = 'CLIENT / SITE: ' + e.target.value.trim().toUpperCase();
-            banner.style.display = 'block';
-        } else {
-            banner.style.display = 'none';
-        }
-    });
-
-    document.getElementById('btnPdf').addEventListener('click', () => {
-        const val = document.getElementById('clientNameInput').value.trim();
-        const banner = document.getElementById('printClientBanner');
-        if (val) {
-            banner.innerText = 'CLIENT / SITE: ' + val.toUpperCase();
-            banner.style.display = 'block';
-        }
-        window.print();
-    });
+document.getElementById('btnPdf').addEventListener('click', () => window.print());
 
 // ==========================================================
 // INIT
