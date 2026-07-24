@@ -630,6 +630,16 @@ document.getElementById('langSelect').addEventListener('change', function() {
   calculateAndRender();
 });
 
+  // Live recalculation on typing in any manual parameter
+  ['baseElecPriceInput', 'baseGasPriceInput', 'gasInflation', 'elecInflation', 'ft3FurnacePrice', 'ft4FurnacePrice', 'filtrationPrice', 'clientNameInput'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+          el.addEventListener('input', calculateAndRender);
+          el.addEventListener('change', calculateAndRender);
+      }
+  });
+
+
 // ==========================================================
 // DATA
 // ==========================================================
@@ -818,13 +828,41 @@ function formatEUR(val) {
   return new Intl.NumberFormat('fr-FR', {style:'currency', currency:'EUR', maximumFractionDigits:0}).format(val);
 }
 
+
+function loadCountryDefaults() {
+  const cData = countriesData[selectedCountry] || countriesData['France'];
+  if (cData) {
+      const eIn = document.getElementById('baseElecPriceInput');
+      const gIn = document.getElementById('baseGasPriceInput');
+      if (eIn && (!eIn.value || eIn.dataset.lastCountry !== selectedCountry)) {
+          eIn.value = cData.elec_price;
+          eIn.dataset.lastCountry = selectedCountry;
+      }
+      if (gIn && (!gIn.value || gIn.dataset.lastCountry !== selectedCountry)) {
+          gIn.value = (cData.gas_price / 10.55).toFixed(4);
+          gIn.dataset.lastCountry = selectedCountry;
+      }
+  }
+}
+
 function calculateAndRender() {
+  loadCountryDefaults();
   const volume = volumeSteps[selectedVolumeIndex];
   const cParams = countriesData[selectedCountry];
   if (!cParams) return;
 
-  const gasPrice  = cParams.gas_price;
-  const elecPrice = cParams.elec_price;
+  let gasPrice  = cParams.gas_price;
+  let elecPrice = cParams.elec_price;
+
+  const baseElecEl = document.getElementById('baseElecPriceInput');
+  const baseGasEl  = document.getElementById('baseGasPriceInput');
+
+  if (baseElecEl && baseGasEl) {
+      const parsedElec = parseFloat(baseElecEl.value);
+      const parsedGasKwh = parseFloat(baseGasEl.value);
+      if (!isNaN(parsedElec) && parsedElec > 0) elecPrice = parsedElec;
+      if (!isNaN(parsedGasKwh) && parsedGasKwh > 0) gasPrice = parsedGasKwh * 10.55;
+  }
   const generalInflation = 0.02;
   const manualGasInflation  = parseFloat(document.getElementById('gasInflation').value)  / 100;
   const manualElecInflation = parseFloat(document.getElementById('elecInflation').value) / 100;
@@ -980,11 +1018,31 @@ document.getElementById('countrySelect').addEventListener('change', function() {
   calculateAndRender();
 });
 
+  // Live recalculation on typing in any manual parameter
+  ['baseElecPriceInput', 'baseGasPriceInput', 'gasInflation', 'elecInflation', 'ft3FurnacePrice', 'ft4FurnacePrice', 'filtrationPrice', 'clientNameInput'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+          el.addEventListener('input', calculateAndRender);
+          el.addEventListener('change', calculateAndRender);
+      }
+  });
+
+
 document.getElementById('volumeSlider').addEventListener('input', function() {
   selectedVolumeIndex = parseInt(this.value);
   document.getElementById('volumeVal').textContent = volumeSteps[selectedVolumeIndex];
   calculateAndRender();
 });
+
+  // Live recalculation on typing in any manual parameter
+  ['baseElecPriceInput', 'baseGasPriceInput', 'gasInflation', 'elecInflation', 'ft3FurnacePrice', 'ft4FurnacePrice', 'filtrationPrice', 'clientNameInput'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+          el.addEventListener('input', calculateAndRender);
+          el.addEventListener('change', calculateAndRender);
+      }
+  });
+
 
 
     function setScenario(scen) {
@@ -1024,6 +1082,16 @@ document.getElementById('btnWithFilt').addEventListener('click', function() {
   document.getElementById('filtrationPriceGroup').style.pointerEvents = 'auto';
   calculateAndRender();
 });
+
+  // Live recalculation on typing in any manual parameter
+  ['baseElecPriceInput', 'baseGasPriceInput', 'gasInflation', 'elecInflation', 'ft3FurnacePrice', 'ft4FurnacePrice', 'filtrationPrice', 'clientNameInput'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+          el.addEventListener('input', calculateAndRender);
+          el.addEventListener('change', calculateAndRender);
+      }
+  });
+
 document.getElementById('btnWithoutFilt').addEventListener('click', function() {
   isWithFiltration = false;
   this.className = 'filt-btn active-without';
@@ -1035,6 +1103,16 @@ document.getElementById('btnWithoutFilt').addEventListener('click', function() {
   calculateAndRender();
 });
 
+  // Live recalculation on typing in any manual parameter
+  ['baseElecPriceInput', 'baseGasPriceInput', 'gasInflation', 'elecInflation', 'ft3FurnacePrice', 'ft4FurnacePrice', 'filtrationPrice', 'clientNameInput'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+          el.addEventListener('input', calculateAndRender);
+          el.addEventListener('change', calculateAndRender);
+      }
+  });
+
+
 // Theme toggle
 document.getElementById('themeToggle').addEventListener('click', function() {
   const html = document.documentElement;
@@ -1042,6 +1120,16 @@ document.getElementById('themeToggle').addEventListener('click', function() {
   html.setAttribute('data-theme', isDark ? 'light' : 'dark');
   calculateAndRender();
 });
+
+  // Live recalculation on typing in any manual parameter
+  ['baseElecPriceInput', 'baseGasPriceInput', 'gasInflation', 'elecInflation', 'ft3FurnacePrice', 'ft4FurnacePrice', 'filtrationPrice', 'clientNameInput'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+          el.addEventListener('input', calculateAndRender);
+          el.addEventListener('change', calculateAndRender);
+      }
+  });
+
 
 // Price inputs: recalculate on change
 ['ft3FurnacePrice','ft4FurnacePrice','filtrationPrice','gasInflation','elecInflation'].forEach(id => {
