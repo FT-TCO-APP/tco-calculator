@@ -830,8 +830,25 @@ function calculateAndRender() {
   const cParams = countriesData[selectedCountry];
   if (!cParams) return;
 
-      let gasPrice  = cParams.gas_price;
+        let gasPrice  = cParams.gas_price;
   let elecPrice = cParams.elec_price;
+  let generalInflation = 0.02;
+
+  const baseElecEl = document.getElementById('baseElecPriceInput');
+  const baseGasEl  = document.getElementById('baseGasPriceInput');
+  const genInfEl   = document.getElementById('generalInflationInput');
+
+  if (genInfEl) {
+      const parsedGenInf = parseFloat(genInfEl.value);
+      if (!isNaN(parsedGenInf)) generalInflation = parsedGenInf / 100;
+  }
+
+  if (currentScenario === 'manual' && baseElecEl && baseGasEl) {
+      const parsedElec = parseFloat(baseElecEl.value);
+      const parsedGasKwh = parseFloat(baseGasEl.value);
+      if (!isNaN(parsedElec) && parsedElec > 0) elecPrice = parsedElec;
+      if (!isNaN(parsedGasKwh) && parsedGasKwh > 0) gasPrice = parsedGasKwh * 10.55;
+  }
   let generalInflation = 0.02;
 
   const baseElecEl = document.getElementById('baseElecPriceInput');
