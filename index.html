@@ -296,6 +296,22 @@
                 </div>
             </div>
 
+            
+            <!-- General Parameters (Inflation & Horizon) -->
+            <div class="input-group">
+                <label data-i18n="general_parameters">General Parameters</label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 6px;">
+                    <div>
+                        <label style="font-size: 0.68rem; color: #94a3b8; display: block; margin-bottom: 4px;">General Inflation (%/yr)</label>
+                        <input type="number" id="generalInflationInput" value="2.0" step="0.1" style="width: 100%; background: #1a2332; color: #fff; border: 1px solid #334155; padding: 6px 8px; border-radius: 4px; font-size: 0.85rem;">
+                    </div>
+                    <div>
+                        <label style="font-size: 0.68rem; color: #94a3b8; display: block; margin-bottom: 4px;">Horizon (Years)</label>
+                        <input type="number" id="horizonInput" value="25" min="1" max="30" style="width: 100%; background: #1a2332; color: #fff; border: 1px solid #334155; padding: 6px 8px; border-radius: 4px; font-size: 0.85rem;">
+                    </div>
+                </div>
+            </div>
+
             <!-- Inflation Scenario -->
             <div class="input-group">
                 <label data-i18n="inflation_scenario">Inflation Scenario</label>
@@ -663,6 +679,16 @@ document.getElementById('langSelect').addEventListener('change', function() {
   applyTranslations();
   calculateAndRender();
 });
+
+  // Live recalculation on typing in ANY input field
+  ['clientNameInput', 'generalInflationInput', 'horizonInput', 'baseElecPriceInput', 'baseGasPriceInput', 'gasInflation', 'elecInflation', 'ft3FurnacePrice', 'ft4FurnacePrice', 'filtrationPrice'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+          el.addEventListener('input', calculateAndRender);
+          el.addEventListener('change', calculateAndRender);
+      }
+  });
+
 
   // Live recalculation on typing in any manual parameter
   ['baseElecPriceInput', 'baseGasPriceInput', 'gasInflation', 'elecInflation', 'ft3FurnacePrice', 'ft4FurnacePrice', 'filtrationPrice', 'clientNameInput'].forEach(id => {
@@ -1052,6 +1078,16 @@ document.getElementById('countrySelect').addEventListener('change', function() {
   calculateAndRender();
 });
 
+  // Live recalculation on typing in ANY input field
+  ['clientNameInput', 'generalInflationInput', 'horizonInput', 'baseElecPriceInput', 'baseGasPriceInput', 'gasInflation', 'elecInflation', 'ft3FurnacePrice', 'ft4FurnacePrice', 'filtrationPrice'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+          el.addEventListener('input', calculateAndRender);
+          el.addEventListener('change', calculateAndRender);
+      }
+  });
+
+
   // Live recalculation on typing in any manual parameter
   ['baseElecPriceInput', 'baseGasPriceInput', 'gasInflation', 'elecInflation', 'ft3FurnacePrice', 'ft4FurnacePrice', 'filtrationPrice', 'clientNameInput'].forEach(id => {
       const el = document.getElementById(id);
@@ -1067,6 +1103,16 @@ document.getElementById('volumeSlider').addEventListener('input', function() {
   document.getElementById('volumeVal').textContent = volumeSteps[selectedVolumeIndex];
   calculateAndRender();
 });
+
+  // Live recalculation on typing in ANY input field
+  ['clientNameInput', 'generalInflationInput', 'horizonInput', 'baseElecPriceInput', 'baseGasPriceInput', 'gasInflation', 'elecInflation', 'ft3FurnacePrice', 'ft4FurnacePrice', 'filtrationPrice'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+          el.addEventListener('input', calculateAndRender);
+          el.addEventListener('change', calculateAndRender);
+      }
+  });
+
 
   // Live recalculation on typing in any manual parameter
   ['baseElecPriceInput', 'baseGasPriceInput', 'gasInflation', 'elecInflation', 'ft3FurnacePrice', 'ft4FurnacePrice', 'filtrationPrice', 'clientNameInput'].forEach(id => {
@@ -1117,6 +1163,16 @@ document.getElementById('btnWithFilt').addEventListener('click', function() {
   calculateAndRender();
 });
 
+  // Live recalculation on typing in ANY input field
+  ['clientNameInput', 'generalInflationInput', 'horizonInput', 'baseElecPriceInput', 'baseGasPriceInput', 'gasInflation', 'elecInflation', 'ft3FurnacePrice', 'ft4FurnacePrice', 'filtrationPrice'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+          el.addEventListener('input', calculateAndRender);
+          el.addEventListener('change', calculateAndRender);
+      }
+  });
+
+
   // Live recalculation on typing in any manual parameter
   ['baseElecPriceInput', 'baseGasPriceInput', 'gasInflation', 'elecInflation', 'ft3FurnacePrice', 'ft4FurnacePrice', 'filtrationPrice', 'clientNameInput'].forEach(id => {
       const el = document.getElementById(id);
@@ -1137,6 +1193,16 @@ document.getElementById('btnWithoutFilt').addEventListener('click', function() {
   calculateAndRender();
 });
 
+  // Live recalculation on typing in ANY input field
+  ['clientNameInput', 'generalInflationInput', 'horizonInput', 'baseElecPriceInput', 'baseGasPriceInput', 'gasInflation', 'elecInflation', 'ft3FurnacePrice', 'ft4FurnacePrice', 'filtrationPrice'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+          el.addEventListener('input', calculateAndRender);
+          el.addEventListener('change', calculateAndRender);
+      }
+  });
+
+
   // Live recalculation on typing in any manual parameter
   ['baseElecPriceInput', 'baseGasPriceInput', 'gasInflation', 'elecInflation', 'ft3FurnacePrice', 'ft4FurnacePrice', 'filtrationPrice', 'clientNameInput'].forEach(id => {
       const el = document.getElementById(id);
@@ -1154,6 +1220,16 @@ document.getElementById('themeToggle').addEventListener('click', function() {
   html.setAttribute('data-theme', isDark ? 'light' : 'dark');
   calculateAndRender();
 });
+
+  // Live recalculation on typing in ANY input field
+  ['clientNameInput', 'generalInflationInput', 'horizonInput', 'baseElecPriceInput', 'baseGasPriceInput', 'gasInflation', 'elecInflation', 'ft3FurnacePrice', 'ft4FurnacePrice', 'filtrationPrice'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+          el.addEventListener('input', calculateAndRender);
+          el.addEventListener('change', calculateAndRender);
+      }
+  });
+
 
   // Live recalculation on typing in any manual parameter
   ['baseElecPriceInput', 'baseGasPriceInput', 'gasInflation', 'elecInflation', 'ft3FurnacePrice', 'ft4FurnacePrice', 'filtrationPrice', 'clientNameInput'].forEach(id => {
