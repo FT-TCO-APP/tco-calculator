@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="fr" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -74,15 +74,18 @@
         .icon-btn:hover { background: #334155; }
 
         /* MAIN LAYOUT */
-        main { max-width: 1500px; width: 100%; margin: 1.5rem auto; padding: 0 1.5rem; display: grid; grid-template-columns: 400px 1fr; gap: 1.5rem; flex-grow: 1; }
+        main { max-width: 1500px; width: 100%; margin: 1.5rem auto; padding: 0 1.5rem; display: grid; grid-template-columns: 410px 1fr; gap: 1.5rem; flex-grow: 1; }
+        @media (max-width: 1024px) {
+            main { grid-template-columns: 1fr; }
+        }
 
         /* SIDEBAR */
         .sidebar { display: flex; flex-direction: column; gap: 1.25rem; }
         .card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; padding: 1.25rem; box-shadow: var(--shadow-sm); transition: var(--transition); }
         .card:hover { box-shadow: var(--shadow-md); }
         .card-title { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.65rem; }
-        .input-group { margin-bottom: 1rem; }
-        .input-group label { display: block; font-size: 0.8rem; font-weight: 500; color: var(--text-secondary); margin-bottom: 0.35rem; text-transform: uppercase; letter-spacing: 0.04em; }
+        .input-group { margin-bottom: 1.1rem; }
+        .input-group label { display: block; font-size: 0.78rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.04em; }
         .input-group select, .input-group input[type="number"], .input-group input[type="text"] {
             width: 100%; padding: 0.65rem 0.9rem; border: 1px solid var(--border-color);
             border-radius: 8px; background-color: var(--bg-card2); color: var(--text-primary);
@@ -95,40 +98,36 @@
         .toggle-btn { background: transparent; border: none; padding: 0.55rem; font-size: 0.85rem; font-weight: 500; color: var(--text-secondary); cursor: pointer; border-radius: 7px; transition: var(--transition); }
         .toggle-btn.active { background-color: var(--bg-card); color: var(--text-primary); box-shadow: var(--shadow-sm); font-weight: 600; }
 
-        /* FILTRATION TOGGLE — special 2-button */
+        /* FILTRATION TOGGLE */
         .filtration-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.25rem; }
         .filt-btn { background: var(--bg-primary); border: 1.5px solid var(--border-color); padding: 0.65rem; font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); cursor: pointer; border-radius: 10px; transition: var(--transition); text-align: center; }
         .filt-btn.active-with { background: #064e3b; border-color: #22c55e; color: #22c55e; box-shadow: 0 0 10px rgba(34,197,94,0.25); }
         .filt-btn.active-without { background: #431407; border-color: #f97316; color: #f97316; box-shadow: 0 0 10px rgba(249,115,22,0.25); }
 
         /* VOLUME SLIDER */
-        .volume-container { margin-top: 0.5rem; }
-        .volume-display { display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 1.3rem; color: var(--accent-color); margin-bottom: 0.5rem; }
+        .volume-container { margin-top: 0.4rem; background: var(--bg-card2); padding: 0.85rem; border-radius: 10px; border: 1px solid var(--border-color); }
+        .volume-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+        .volume-display { font-weight: 700; font-size: 1.25rem; color: var(--accent-color); display: flex; align-items: center; gap: 0.3rem; }
         .volume-unit { font-size: 0.8rem; font-weight: 400; color: var(--text-secondary); }
-        .volume-slider { width: 100%; -webkit-appearance: none; appearance: none; height: 6px; border-radius: 3px; background: var(--border-color); outline: none; }
-        .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: var(--accent-color); cursor: pointer; box-shadow: 0 0 12px rgba(56,189,248,0.5); transition: var(--transition); }
+        .volume-slider { width: 100%; -webkit-appearance: none; appearance: none; height: 6px; border-radius: 3px; background: var(--border-color); outline: none; margin-top: 0.4rem; }
+        .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: var(--accent-color); cursor: pointer; box-shadow: 0 0 12px rgba(56,189,248,0.5); transition: var(--transition); }
         .volume-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
 
-        /* CUSTOM PRICE FIELDS */
-        .price-fields { display: none; }
-        .price-fields.show { display: block; }
-        .price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
-
-        /* MANUAL INPUTS */
-        .manual-inputs { display: none; animation: fadeIn 0.3s ease-out; }
-        .manual-inputs.show { display: block; }
+        /* PRICE GRID */
+        .price-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; }
 
         /* SECTION DIVIDER */
         .section-sep { border: none; border-top: 1px dashed var(--border-color); margin: 1rem 0; }
 
         /* PDF BUTTON */
         .btn-pdf {
-            background: var(--accent-color); color: #fff; border: none; padding: 0.8rem 1.25rem;
-            border-radius: 10px; font-weight: 600; font-size: 0.95rem; cursor: pointer;
+            background: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
+            color: #fff; border: none; padding: 0.9rem 1.25rem;
+            border-radius: 10px; font-weight: 700; font-size: 0.95rem; cursor: pointer;
             transition: var(--transition); display: flex; align-items: center; justify-content: center;
-            gap: 0.5rem; box-shadow: 0 4px 12px rgba(56,189,248,0.35); width: 100%; margin-top: 0.5rem;
+            gap: 0.6rem; box-shadow: 0 4px 14px rgba(56,189,248,0.35); width: 100%; margin-top: 0.5rem;
         }
-        .btn-pdf:hover { filter: brightness(1.15); transform: translateY(-1px); }
+        .btn-pdf:hover { filter: brightness(1.15); transform: translateY(-2px); box-shadow: 0 6px 18px rgba(56,189,248,0.45); }
 
         /* DASHBOARD */
         .dashboard-content { display: flex; flex-direction: column; gap: 1.25rem; }
@@ -191,7 +190,7 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* PRINT / PDF */
+        /* PRINT / PDF STYLES */
         @media print {
             header, .sidebar, .btn-pdf, footer, .icon-btn, .lang-select { display: none !important; }
             #printClientHeader {
@@ -208,12 +207,12 @@
             }
             body { background: #fff; color: #000; }
             main { grid-template-columns: 1fr; margin: 0; padding: 0; }
-            .card { border: none; box-shadow: none; padding: 0; margin-bottom: 1.5rem; }
-            .recommendation-card { border: 2px solid #000 !important; background: #fff !important; color: #000 !important; }
+            .card { border: 1px solid #ccc; box-shadow: none; padding: 1rem; margin-bottom: 1rem; }
+            .recommendation-card { border: 2px solid #003366 !important; background: #fff !important; color: #000 !important; }
             .rec-description, .rec-tech-name { color: #000 !important; border-color: #ccc !important; }
-            .tco-table th, .tco-table td { border-bottom: 1px solid #ccc !important; }
-            .chart-wrapper { height: 280px; }
-            .kpi-value, .rec-tech-name { text-shadow: none !important; }
+            .tco-table th, .tco-table td { border-bottom: 1px solid #ccc !important; color: #000 !important; }
+            .chart-wrapper { height: 300px; }
+            .kpi-value, .rec-tech-name { text-shadow: none !important; color: #000 !important; }
         }
     </style>
 </head>
@@ -229,7 +228,7 @@
     <div class="header-actions">
         <select class="lang-select" id="langSelect" title="Language">
             <option value="en">🇬🇧 English</option>
-            <option value="fr">🇫🇷 Français</option>
+            <option value="fr" selected>🇫🇷 Français</option>
             <option value="de">🇩🇪 Deutsch</option>
             <option value="it">🇮🇹 Italiano</option>
             <option value="es">🇪🇸 Español</option>
@@ -241,7 +240,7 @@
 </header>
 
 <main>
-    <!-- PDF Print Header -->
+    <!-- PDF Print Header (hidden on web, visible in PDF print) -->
     <div id="printClientHeader" style="display: none; width: 100%; padding: 14px 20px; background: #003366; color: #ffffff; font-size: 1.4rem; font-weight: 800; border-radius: 8px; margin-bottom: 25px;">CLIENT / SITE: PROPOSAL</div>
     
     <!-- ===================== SIDEBAR ===================== -->
@@ -258,21 +257,24 @@
                 <select id="countrySelect"></select>
             </div>
 
-            <!-- 2. Client / Site Name -->
+            <!-- 2. CLIENT / SITE NAME -->
             <div class="input-group">
-                <label style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: #38bdf8; margin-bottom: 6px; display: block;">CLIENT / SITE NAME</label>
-                <input type="text" id="clientNameInput" placeholder="e.g. FUNECAP" style="width: 100%; background: #1a2332; color: #fff; border: 1px solid #334155; padding: 8px 12px; border-radius: 6px; font-size: 0.85rem;">
+                <label style="color: #38bdf8;">CLIENT / SITE NAME</label>
+                <input type="text" id="clientNameInput" placeholder="e.g. FUNECAP">
             </div>
 
             <!-- 3. Annual Cremation Volume -->
             <div class="input-group">
                 <label data-i18n="annual_volume">Annual Cremation Volume</label>
                 <div class="volume-container">
-                    <div class="volume-display">
-                        <span id="volumeVal">1000</span>
-                        <span class="volume-unit" data-i18n="crem_yr">crem./yr</span>
+                    <div class="volume-header">
+                        <div class="volume-display">
+                            <span id="volumeVal">1000</span>
+                            <span class="volume-unit" data-i18n="crem_yr">crem./yr</span>
+                        </div>
+                        <input type="number" id="volumeInput" value="1000" min="0" max="8000" step="50" style="width: 90px; padding: 4px 8px; font-size: 0.85rem; text-align: center;">
                     </div>
-                    <input type="range" id="volumeSlider" class="volume-slider" min="0" max="8" step="1" value="2">
+                    <input type="range" id="volumeSlider" class="volume-slider" min="0" max="8000" step="50" value="1000">
                 </div>
             </div>
 
@@ -285,30 +287,30 @@
                 </div>
             </div>
 
-            <!-- 5. Manual Custom Parameters (Hidden in Forecast, Shown in Manual mode) -->
-            <div id="manualScenarioPanel" style="display: none; margin-top: 10px; margin-bottom: 16px; background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; border: 1px solid #334155;">
-                <div style="font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: #38bdf8; margin-bottom: 8px;">MANUAL CUSTOM PARAMETERS</div>
+            <!-- Manual Custom Parameters Sub-Panel -->
+            <div id="manualScenarioPanel" style="display: none; margin-top: -0.3rem; margin-bottom: 1.1rem; background: rgba(255,255,255,0.04); padding: 12px; border-radius: 10px; border: 1px solid var(--border-color);">
+                <div style="font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: var(--accent-color); margin-bottom: 8px;">MANUAL CUSTOM PARAMETERS</div>
                 
                 <div style="margin-bottom: 8px;">
-                    <label style="font-size: 0.68rem; color: #94a3b8; display: block; margin-bottom: 4px;">General Inflation Rate (%/yr)</label>
-                    <input type="number" id="generalInflationInput" value="2.0" step="0.1" style="width: 100%; background: #1a2332; color: #fff; border: 1px solid #334155; padding: 6px 8px; border-radius: 4px; font-size: 0.85rem;">
+                    <label style="font-size: 0.7rem; color: var(--text-secondary); display: block; margin-bottom: 4px;">General Inflation Rate (%/yr)</label>
+                    <input type="number" id="generalInflationInput" value="2.0" step="0.1" style="width: 100%; background: var(--bg-card2); color: #fff; border: 1px solid var(--border-color); padding: 6px 8px; border-radius: 6px; font-size: 0.85rem;">
                 </div>
 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
                     <div>
-                        <label style="font-size: 0.68rem; color: #94a3b8; display: block; margin-bottom: 4px;">Electricity (€/kWh)</label>
-                        <input type="number" id="baseElecPriceInput" step="0.001" style="width: 100%; background: #1a2332; color: #fff; border: 1px solid #334155; padding: 6px 8px; border-radius: 4px; font-size: 0.85rem;">
+                        <label style="font-size: 0.7rem; color: var(--text-secondary); display: block; margin-bottom: 4px;">Electricity (€/kWh)</label>
+                        <input type="number" id="baseElecPriceInput" step="0.001" style="width: 100%; background: var(--bg-card2); color: #fff; border: 1px solid var(--border-color); padding: 6px 8px; border-radius: 6px; font-size: 0.85rem;">
                     </div>
                     <div>
-                        <label style="font-size: 0.68rem; color: #94a3b8; display: block; margin-bottom: 4px;">Gas (€/kWh)</label>
-                        <input type="number" id="baseGasPriceInput" step="0.001" style="width: 100%; background: #1a2332; color: #fff; border: 1px solid #334155; padding: 6px 8px; border-radius: 4px; font-size: 0.85rem;">
+                        <label style="font-size: 0.7rem; color: var(--text-secondary); display: block; margin-bottom: 4px;">Gas (€/kWh)</label>
+                        <input type="number" id="baseGasPriceInput" step="0.001" style="width: 100%; background: var(--bg-card2); color: #fff; border: 1px solid var(--border-color); padding: 6px 8px; border-radius: 6px; font-size: 0.85rem;">
                     </div>
                 </div>
             </div>
 
             <hr class="section-sep">
 
-            <!-- Filtration Toggle -->
+            <!-- 5. Filtration Configuration -->
             <div class="input-group">
                 <label data-i18n="filtration_config">Filtration Configuration</label>
                 <div class="filtration-toggle">
@@ -318,7 +320,7 @@
                 <p id="filtrationHint" style="font-size:0.75rem;color:var(--text-secondary);margin-top:0.4rem;" data-i18n="filt_hint_with">New site – Full system (furnace + filtration)</p>
             </div>
 
-            <!-- Custom Prices (always visible, editable) -->
+            <!-- 6. Equipment Pricing (€) -->
             <div class="input-group">
                 <label data-i18n="equipment_pricing">Equipment Pricing (€)</label>
                 <div class="price-grid">
@@ -334,12 +336,12 @@
                         <label style="font-size:0.7rem;color:var(--text-secondary);display:block;margin-bottom:0.25rem;" data-i18n="filtration_price">Filtration</label>
                         <input type="number" id="filtrationPrice" value="400000" step="1000">
                     </div>
-                    
                 </div>
             </div>
 
+            <!-- 7. Generate PDF Report -->
             <button class="btn-pdf" id="btnPdf">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
                 <span data-i18n="generate_pdf">Generate PDF Report</span>
             </button>
         </div>
@@ -425,18 +427,15 @@ const i18n = {
     inflation_scenario: "Inflation Scenario",
     forecast: "Forecast",
     manual: "Manual",
-    gas_inflation: "Annual Gas Inflation (%)",
-    elec_inflation: "Annual Elec. Inflation (%)",
     filtration_config: "Filtration Configuration",
     with_filtration: "✅ With Filtration",
     without_filtration: "⚠️ Without Filtration",
     filt_hint_with: "New site – Full system (furnace + filtration)",
-    filt_hint_without: "Retrofit – Existing filtration system (furnace only)",
+    filt_hint_without: "Existing site / Retrofit (furnace only, no filtration)",
     equipment_pricing: "Equipment Pricing (€)",
     furnace_price_ft3: "FT3 Furnace",
     furnace_price_ft4: "FT4 Furnace",
     filtration_price: "Filtration",
-    preheat_daily: "Preheat (€/day)",
     generate_pdf: "Generate PDF Report",
     rec_label: "Recommended Technology (25 Years)",
     breakeven_label: "Break-even Year (vs FT3)",
@@ -466,18 +465,15 @@ const i18n = {
     inflation_scenario: "Scénario d'Inflation",
     forecast: "Prévisions",
     manual: "Manuel",
-    gas_inflation: "Inflation Annuelle Gaz (%)",
-    elec_inflation: "Inflation Annuelle Élec. (%)",
     filtration_config: "Configuration Filtration",
     with_filtration: "✅ Avec Filtration",
     without_filtration: "⚠️ Sans Filtration",
     filt_hint_with: "Nouveau site – Système complet (four + filtration)",
-    filt_hint_without: "Remplacement – Filtration existante (four uniquement)",
+    filt_hint_without: "Site existant / Remplacement (four uniquement, sans filtration)",
     equipment_pricing: "Prix Équipement (€)",
     furnace_price_ft3: "Four FT3",
     furnace_price_ft4: "Four FT4",
     filtration_price: "Filtration",
-    preheat_daily: "Préchauffage (€/jour)",
     generate_pdf: "Générer le Rapport PDF",
     rec_label: "Technologie Recommandée (25 Ans)",
     breakeven_label: "Point Mort (vs FT3)",
@@ -499,7 +495,7 @@ const i18n = {
     rec_electric: "Le FT4 Électrique 100% est le choix optimal. Il offre le coût d'exploitation (OPEX) à long terme le plus bas. Année de point mort vs FT3 : ",
   },
   de: {
-    subtitle: "TCO-Entscheidungshilfe v4",
+    subtitle: "TCO-Entscheidungshilfe",
     client_input: "Kundeneingabe",
     target_country: "Zielland",
     annual_volume: "Jährliches Einäscherungsvolumen",
@@ -507,24 +503,21 @@ const i18n = {
     inflation_scenario: "Inflationsszenario",
     forecast: "Prognose",
     manual: "Manuell",
-    gas_inflation: "Jährl. Gas-Inflation (%)",
-    elec_inflation: "Jährl. Strom-Inflation (%)",
     filtration_config: "Filtrationskonfiguration",
     with_filtration: "✅ Mit Filtration",
     without_filtration: "⚠️ Ohne Filtration",
     filt_hint_with: "Neuer Standort – Komplettanlage (Ofen + Filtration)",
-    filt_hint_without: "Retrofit – Vorhandene Filtration (nur Ofen)",
+    filt_hint_without: "Vorhandener Standort (nur Ofen, ohne Filtration)",
     equipment_pricing: "Gerätepreise (€)",
     furnace_price_ft3: "FT3 Ofen",
     furnace_price_ft4: "FT4 Ofen",
     filtration_price: "Filtration",
-    preheat_daily: "Vorheizung (€/Tag)",
     generate_pdf: "PDF-Bericht erstellen",
     rec_label: "Empfohlene Technologie (25 Jahre)",
     breakeven_label: "Amortisationsjahr (vs. FT3)",
     avoidance_label: "TCO-Einsparung über 25 Jahre",
     cost_per_crem_label: "Ø Kosten / Einäscherung",
-    chart_title: "Kumulative TCO-Vergleich (25 Jahre)",
+    chart_title: "Kumulativer TCO-Vergleich (25 Jahre)",
     table_title: "Kostenübersicht (kumulativ)",
     th_technology: "Technologie",
     th_tco8: "TCO 8 J.",
@@ -535,12 +528,12 @@ const i18n = {
     year: "Jahr",
     with_filt_banner: "✅ Mit Filtration",
     without_filt_banner: "⚠️ Ohne Filtration",
-    rec_ft3: "FT3 Standard ist die wirtschaftlichste Wahl. Die niedrigere Anfangsinvestition überwiegt die höheren Energiekosten bei diesem Volumen.",
-    rec_hybrid: "FT4 Hybrid ist die optimale Wahl. Es kombiniert Gas & Strom zur Kostenreduzierung. Amortisationsjahr vs. FT3: ",
-    rec_electric: "FT4 Electric 100% ist die optimale Wahl. Es bietet die niedrigsten langfristigen Betriebskosten. Amortisationsjahr vs. FT3: ",
+    rec_ft3: "FT3 Standard ist die wirtschaftlichste Wahl.",
+    rec_hybrid: "FT4 Hybrid ist die optimale Wahl. Amortisationsjahr vs. FT3: ",
+    rec_electric: "FT4 Electric 100% ist die optimale Wahl. Amortisationsjahr vs. FT3: ",
   },
   it: {
-    subtitle: "Strumento di Supporto alle Decisioni TCO v4",
+    subtitle: "Strumento di Supporto alle Decisioni TCO",
     client_input: "Dati Cliente",
     target_country: "Paese Target",
     annual_volume: "Volume Annuale di Cremazioni",
@@ -548,18 +541,15 @@ const i18n = {
     inflation_scenario: "Scenario di Inflazione",
     forecast: "Previsione",
     manual: "Manuale",
-    gas_inflation: "Inflazione Annua Gas (%)",
-    elec_inflation: "Inflazione Annua Elett. (%)",
     filtration_config: "Configurazione Filtrazione",
     with_filtration: "✅ Con Filtrazione",
     without_filtration: "⚠️ Senza Filtrazione",
     filt_hint_with: "Nuovo sito – Sistema completo (forno + filtrazione)",
-    filt_hint_without: "Retrofit – Filtrazione esistente (solo forno)",
+    filt_hint_without: "Sito esistente (solo forno, senza filtrazione)",
     equipment_pricing: "Prezzi Apparecchiature (€)",
     furnace_price_ft3: "Forno FT3",
     furnace_price_ft4: "Forno FT4",
     filtration_price: "Filtrazione",
-    preheat_daily: "Preriscaldamento (€/giorno)",
     generate_pdf: "Genera Rapporto PDF",
     rec_label: "Tecnologia Raccomandata (25 Anni)",
     breakeven_label: "Anno di Pareggio (vs FT3)",
@@ -576,12 +566,12 @@ const i18n = {
     year: "Anno",
     with_filt_banner: "✅ Con Filtrazione",
     without_filt_banner: "⚠️ Senza Filtrazione",
-    rec_ft3: "FT3 Standard è la scelta più conveniente. L'investimento iniziale più basso supera i costi energetici più elevati a questo volume.",
-    rec_hybrid: "FT4 Ibrido è la scelta ottimale. Combina riscaldamento a gas ed elettrico. Anno di pareggio vs FT3: ",
-    rec_electric: "FT4 Elettrico 100% è la scelta ottimale. Offre i costi operativi a lungo termine più bassi. Anno di pareggio vs FT3: ",
+    rec_ft3: "FT3 Standard è la scelta più conveniente.",
+    rec_hybrid: "FT4 Ibrido è la scelta ottimale. Anno di pareggio vs FT3: ",
+    rec_electric: "FT4 Elettrico 100% è la scelta ottimale. Anno di pareggio vs FT3: ",
   },
   es: {
-    subtitle: "Herramienta de Apoyo a Decisiones TCO v4",
+    subtitle: "Herramienta de Apoyo a Decisiones TCO",
     client_input: "Entrada del Cliente",
     target_country: "País Objetivo",
     annual_volume: "Volumen Anual de Cremaciones",
@@ -589,18 +579,15 @@ const i18n = {
     inflation_scenario: "Escenario de Inflación",
     forecast: "Previsión",
     manual: "Manual",
-    gas_inflation: "Inflación Anual Gas (%)",
-    elec_inflation: "Inflación Anual Elect. (%)",
     filtration_config: "Configuración de Filtración",
     with_filtration: "✅ Con Filtración",
     without_filtration: "⚠️ Sin Filtración",
     filt_hint_with: "Nuevo sitio – Sistema completo (horno + filtración)",
-    filt_hint_without: "Retrofit – Filtración existente (solo horno)",
+    filt_hint_without: "Sitio existente (solo horno, sin filtración)",
     equipment_pricing: "Precios de Equipos (€)",
     furnace_price_ft3: "Horno FT3",
     furnace_price_ft4: "Horno FT4",
     filtration_price: "Filtración",
-    preheat_daily: "Precalentamiento (€/día)",
     generate_pdf: "Generar Informe PDF",
     rec_label: "Tecnología Recomendada (25 Años)",
     breakeven_label: "Año de Punto Muerto (vs FT3)",
@@ -617,13 +604,13 @@ const i18n = {
     year: "Año",
     with_filt_banner: "✅ Con Filtración",
     without_filt_banner: "⚠️ Sin Filtración",
-    rec_ft3: "FT3 Standard es la opción más rentable. La menor inversión inicial supera los mayores costes energéticos a este volumen.",
-    rec_hybrid: "FT4 Hybrid es la opción óptima. Combina calefacción de gas y eléctrica para reducir costes. Año de punto muerto vs FT3: ",
-    rec_electric: "FT4 Electric 100% es la opción óptima. Ofrece los menores costes operativos a largo plazo. Año de punto muerto vs FT3: ",
+    rec_ft3: "FT3 Standard es la opción más rentable.",
+    rec_hybrid: "FT4 Hybrid es la opción óptima. Año de punto muerto vs FT3: ",
+    rec_electric: "FT4 Electric 100% es la opción óptima. Año de punto muerto vs FT3: ",
   }
 };
 
-let currentLang = 'en';
+let currentLang = 'fr';
 function t(key) { return (i18n[currentLang] && i18n[currentLang][key]) || i18n.en[key] || key; }
 function applyTranslations() {
   document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -640,29 +627,29 @@ document.getElementById('langSelect').addEventListener('change', function() {
 });
 
 // ==========================================================
-// DATA
+// OFFICIAL R&D COUNTRY TARIFFS & DATA (19 COUNTRIES)
 // ==========================================================
 const countriesData = {
-  "France":       { gas_price: 1.29398282,   elec_price: 0.175244,    hourly_rate: 45, asp: 650 },
-  "Italy":        { gas_price: 0.98885150,   elec_price: 0.251671,    hourly_rate: 45, asp: 650 },
-  "Spain":        { gas_price: 0.77130417,   elec_price: 0.151254,    hourly_rate: 45, asp: 650 },
-  "Germany":      { gas_price: 1.21487470,   elec_price: 0.258639,    hourly_rate: 45, asp: 650 },
-  "United Kingdom":{ gas_price:0.63527231,   elec_price: 0.231184,    hourly_rate: 45, asp: 650 },
-  "Poland":       { gas_price: 1.09089110,   elec_price: 0.219842,    hourly_rate: 45, asp: 650 },
-  "United States":{ gas_price: 0.21169812,   elec_price: 0.078453,    hourly_rate: 45, asp: 650 },
-  "Australia":    { gas_price: 0.39790934,   elec_price: 0.279744,    hourly_rate: 45, asp: 650 },
-  "Denmark":      { gas_price: 1.07361020,   elec_price: 0.138916,    hourly_rate: 45, asp: 650 },
-  "Sweden":       { gas_price: 1.86469140,   elec_price: 0.110813,    hourly_rate: 45, asp: 650 },
-  "Norway":       { gas_price: 0.00000000,   elec_price: 0.094476,    hourly_rate: 45, asp: 650 },
-  "Finland":      { gas_price: 1.32647366,   elec_price: 0.085452,    hourly_rate: 45, asp: 650 },
-  "Estonia":      { gas_price: 0.78825591,   elec_price: 0.161078,    hourly_rate: 45, asp: 650 },
-  "Latvia":       { gas_price: 0.87442726,   elec_price: 0.155481,    hourly_rate: 45, asp: 650 },
-  "Lithuania":    { gas_price: 0.77978004,   elec_price: 0.181756,    hourly_rate: 45, asp: 650 },
-  // NEW COUNTRIES — EU benchmark prices 2026 (to be updated with Stéphane's official indices)
-  "Netherlands":  { gas_price: 1.18000000,   elec_price: 0.220000,    hourly_rate: 45, asp: 650 },
-  "Belgium":      { gas_price: 1.12000000,   elec_price: 0.240000,    hourly_rate: 45, asp: 650 },
-  "Austria":      { gas_price: 1.09000000,   elec_price: 0.210000,    hourly_rate: 45, asp: 650 },
-  "Switzerland":  { gas_price: 1.20000000,   elec_price: 0.205000,    hourly_rate: 45, asp: 650 },
+  "France":         { gas_kwh: 0.12265, gas_m3: 1.29398282, elec_price: 0.175244, hourly_rate: 45, asp: 650 },
+  "Italy":          { gas_kwh: 0.09373, gas_m3: 0.98885150, elec_price: 0.251671, hourly_rate: 45, asp: 650 },
+  "Spain":          { gas_kwh: 0.07311, gas_m3: 0.77130417, elec_price: 0.151254, hourly_rate: 45, asp: 650 },
+  "Germany":        { gas_kwh: 0.11515, gas_m3: 1.21487470, elec_price: 0.258639, hourly_rate: 45, asp: 650 },
+  "United Kingdom": { gas_kwh: 0.06022, gas_m3: 0.63527231, elec_price: 0.231184, hourly_rate: 45, asp: 650 },
+  "Poland":         { gas_kwh: 0.10340, gas_m3: 1.09089110, elec_price: 0.219842, hourly_rate: 45, asp: 650 },
+  "United States":  { gas_kwh: 0.02007, gas_m3: 0.21169812, elec_price: 0.078453, hourly_rate: 45, asp: 650 },
+  "Australia":      { gas_kwh: 0.03772, gas_m3: 0.39790934, elec_price: 0.279744, hourly_rate: 45, asp: 650 },
+  "Denmark":        { gas_kwh: 0.10176, gas_m3: 1.07361020, elec_price: 0.138916, hourly_rate: 45, asp: 650 },
+  "Sweden":         { gas_kwh: 0.17675, gas_m3: 1.86469140, elec_price: 0.110813, hourly_rate: 45, asp: 650 },
+  "Norway":         { gas_kwh: 0.00000, gas_m3: 0.00000000, elec_price: 0.094476, hourly_rate: 45, asp: 650 },
+  "Finland":        { gas_kwh: 0.12573, gas_m3: 1.32647366, elec_price: 0.085452, hourly_rate: 45, asp: 650 },
+  "Estonia":        { gas_kwh: 0.07472, gas_m3: 0.78825591, elec_price: 0.161078, hourly_rate: 45, asp: 650 },
+  "Latvia":         { gas_kwh: 0.08288, gas_m3: 0.87442726, elec_price: 0.155481, hourly_rate: 45, asp: 650 },
+  "Lithuania":      { gas_kwh: 0.07391, gas_m3: 0.77978004, elec_price: 0.181756, hourly_rate: 45, asp: 650 },
+  // OFFICIAL R&D UPDATED TARIFFS 2026
+  "Netherlands":    { gas_kwh: 0.09000, gas_m3: 1.27000000, elec_price: 0.205000, hourly_rate: 45, asp: 650 },
+  "Belgium":        { gas_kwh: 0.05800, gas_m3: 0.82000000, elec_price: 0.194000, hourly_rate: 45, asp: 650 },
+  "Austria":        { gas_kwh: 0.07000, gas_m3: 0.99000000, elec_price: 0.203000, hourly_rate: 45, asp: 650 },
+  "Switzerland":    { gas_kwh: 0.11600, gas_m3: 1.87000000, elec_price: 0.219000, hourly_rate: 45, asp: 650 },
 };
 
 // CONSUMPTIONS DATA (cremations/day -> gas m3/crem, elec kWh/crem)
@@ -712,7 +699,7 @@ const componentsBaseData = {
   }
 };
 
-// FORECASTS DATA (simplified EU-based trend for new countries uses France pattern)
+// FORECASTS DATA (26 years arrays per country)
 const forecastsData = {
   electricity: {
     "France":        [0.1534,0.175244,0.169173,0.162789,0.166045,0.169366,0.172753,0.176208,0.179733,0.183327,0.186994,0.190734,0.194548,0.198439,0.202408,0.206456,0.210585,0.214797,0.219093,0.223475,0.227944,0.232503,0.237153,0.241896,0.246734,0.251669],
@@ -730,11 +717,10 @@ const forecastsData = {
     "Estonia":       [0.141,0.161078,0.155498,0.149630,0.152623,0.155675,0.158789,0.161965,0.165204,0.168508,0.171878,0.175316,0.178822,0.182399,0.186047,0.189768,0.193563,0.197434,0.201383,0.205410,0.209519,0.213709,0.217983,0.222343,0.226790,0.231326],
     "Latvia":        [0.1361,0.155481,0.150094,0.144430,0.147319,0.150265,0.153271,0.156336,0.159463,0.162652,0.165905,0.169223,0.172608,0.176060,0.179581,0.183173,0.186836,0.190573,0.194384,0.198272,0.202237,0.206282,0.210408,0.214616,0.218908,0.223287],
     "Lithuania":     [0.1591,0.181756,0.175459,0.168838,0.172215,0.175659,0.179172,0.182756,0.186411,0.190139,0.193942,0.197821,0.201777,0.205813,0.209929,0.214128,0.218410,0.222778,0.227234,0.231779,0.236414,0.241143,0.245965,0.250885,0.255902,0.261020],
-    // New countries (using EU benchmark growth rates - to be updated with Stéphane's official data)
-    "Netherlands":   [0.192,0.220000,0.214500,0.206900,0.211100,0.215300,0.219600,0.224000,0.228500,0.233100,0.237800,0.242600,0.247500,0.252500,0.257600,0.262700,0.268000,0.273400,0.278900,0.284500,0.290200,0.296000,0.302000,0.308100,0.314300,0.320700],
-    "Belgium":       [0.210,0.240000,0.234000,0.225600,0.230100,0.234700,0.239400,0.244200,0.249100,0.254100,0.259200,0.264400,0.269700,0.275100,0.280600,0.286200,0.291900,0.297800,0.303800,0.309900,0.316100,0.322500,0.329000,0.335600,0.342400,0.349200],
-    "Austria":       [0.185,0.210000,0.204750,0.197400,0.201400,0.205400,0.209500,0.213700,0.218000,0.222400,0.226800,0.231400,0.236000,0.240700,0.245500,0.250400,0.255400,0.260500,0.265700,0.271000,0.276400,0.282000,0.287600,0.293400,0.299300,0.305300],
-    "Switzerland":   [0.182,0.205000,0.199875,0.192700,0.196600,0.200500,0.204500,0.208600,0.212800,0.217000,0.221400,0.225800,0.230300,0.234900,0.239600,0.244400,0.249300,0.254300,0.259400,0.264600,0.269900,0.275300,0.280800,0.286500,0.292200,0.298100],
+    "Netherlands":   [0.180,0.205000,0.234000,0.238680,0.243454,0.248323,0.253289,0.258355,0.263522,0.268792,0.274168,0.279652,0.285245,0.290950,0.296769,0.302704,0.308758,0.314933,0.321232,0.327657,0.334210,0.340894,0.347712,0.354666,0.361759,0.368994],
+    "Belgium":       [0.170,0.194000,0.222000,0.226440,0.230969,0.235588,0.240300,0.245106,0.250008,0.255008,0.260108,0.265310,0.270617,0.276029,0.281550,0.287181,0.292924,0.298783,0.304758,0.310854,0.317071,0.323412,0.329880,0.336478,0.343208,0.350072],
+    "Austria":       [0.178,0.203000,0.232000,0.236640,0.241373,0.246200,0.251124,0.256147,0.261270,0.266495,0.271825,0.277262,0.282807,0.288463,0.294232,0.300117,0.306119,0.312242,0.318486,0.324856,0.331353,0.337980,0.344740,0.351635,0.358668,0.365841],
+    "Switzerland":   [0.192,0.219000,0.286000,0.291720,0.297554,0.303506,0.309576,0.315767,0.322082,0.328524,0.335094,0.341796,0.348632,0.355605,0.362717,0.369971,0.377371,0.384918,0.392617,0.400469,0.408478,0.416648,0.424981,0.433480,0.442150,0.450993],
   },
   gas: {
     "France":        [0.96638,1.293983,1.179017,1.055990,1.087669,1.120299,1.153908,1.188526,1.224181,1.260907,1.298734,1.337696,1.377827,1.419162,1.461736,1.505589,1.550756,1.597279,1.645197,1.694553,1.745390,1.797751,1.851684,1.907235,1.964452,2.023385],
@@ -752,21 +738,19 @@ const forecastsData = {
     "Estonia":       [0.59069,0.788256,0.718288,0.643073,0.662385,0.682257,0.702724,0.723806,0.745520,0.767886,0.790923,0.814650,0.839090,0.864263,0.890191,0.916897,0.944404,0.972736,1.001918,1.031976,1.062935,1.094823,1.127668,1.161498,1.196343,1.232234],
     "Latvia":        [0.65582,0.874427,0.797023,0.713429,0.734832,0.756877,0.779583,0.802971,0.827060,0.851872,0.877428,0.903751,0.930864,0.958790,0.987554,1.017181,1.047696,1.079127,1.111501,1.144846,1.179191,1.214567,1.251004,1.288534,1.327190,1.367006],
     "Lithuania":     [0.58484,0.779780,0.711022,0.636210,0.655496,0.675161,0.695216,0.715672,0.736543,0.757840,0.779575,0.801762,0.824415,0.847547,0.871174,0.895309,0.919968,0.945167,0.970922,0.997249,1.024165,1.051685,1.079824,1.108599,1.138027,1.168125],
-    // New countries (EU benchmark - to be updated)
-    "Netherlands":   [0.88,1.180000,1.075800,0.962900,0.991800,1.021550,1.052190,1.083760,1.116270,1.149760,1.184250,1.219778,1.256371,1.294062,1.332884,1.372870,1.414056,1.456477,1.500172,1.545177,1.591532,1.639278,1.688456,1.739110,1.791283,1.845022],
-    "Belgium":       [0.84,1.120000,1.020800,0.913900,0.941350,0.969590,0.998680,1.028640,1.059500,1.091285,1.124024,1.157745,1.192477,1.228252,1.265099,1.303052,1.342143,1.382408,1.423880,1.466596,1.510594,1.555912,1.602589,1.650667,1.700187,1.751192],
-    "Austria":       [0.82,1.090000,0.993400,0.889000,0.915670,0.943140,0.971434,1.000577,1.030594,1.061512,1.093357,1.126158,1.159943,1.194741,1.230583,1.267500,1.305525,1.344691,1.385031,1.426582,1.469380,1.513461,1.558865,1.605631,1.653800,1.703414],
-    "Switzerland":   [0.90,1.200000,1.093800,0.979600,1.009190,1.039466,1.070450,1.102163,1.134628,1.167867,1.201903,1.236760,1.272463,1.309037,1.346508,1.384903,1.424250,1.464578,1.505915,1.548292,1.591741,1.636293,1.681982,1.728841,1.776906,1.826213],
+    "Netherlands":   [0.950,1.270000,1.157600,1.036000,1.067080,1.099092,1.132065,1.166027,1.201008,1.237038,1.274149,1.312374,1.351745,1.392297,1.434066,1.477088,1.521401,1.567043,1.614054,1.662476,1.712350,1.763721,1.816632,1.871131,1.927265,1.985083],
+    "Belgium":       [0.610,0.820000,0.747400,0.669200,0.689276,0.709954,0.731253,0.753191,0.775786,0.799060,0.823032,0.847723,0.873155,0.899349,0.926330,0.954120,0.982743,1.012226,1.042592,1.073870,1.106086,1.139269,1.173447,1.208650,1.244910,1.282257],
+    "Austria":       [0.740,0.990000,0.902400,0.808000,0.832240,0.857207,0.882923,0.909411,0.936693,0.964794,0.993738,1.023550,1.054257,1.085884,1.118461,1.152015,1.186575,1.222172,1.258837,1.296603,1.335501,1.375566,1.416833,1.459338,1.503118,1.548211],
+    "Switzerland":   [1.400,1.870000,1.704500,1.526000,1.571780,1.618933,1.667501,1.717526,1.769052,1.822124,1.876787,1.933091,1.991084,2.050816,2.112341,2.175711,2.240982,2.308212,2.377458,2.448782,2.522245,2.597913,2.675850,2.756126,2.838809,2.923974],
   }
 };
 
 // ==========================================================
 // STATE
 // ==========================================================
-const volumeSteps = [500,750,1000,1250,1500,1750,2000,2250,2500];
-let selectedVolumeIndex = 2;
-let selectedCountry = 'Spain';
-let isForecastMode = true;
+let selectedVolume = 1000;
+let selectedCountry = 'France';
+let currentScenario = 'forecast';
 let isWithFiltration = true;
 let tcoChart = null;
 
@@ -775,6 +759,7 @@ let tcoChart = null;
 // ==========================================================
 function populateCountries() {
   const sel = document.getElementById('countrySelect');
+  sel.innerHTML = '';
   Object.keys(countriesData).forEach(c => {
     const opt = document.createElement('option');
     opt.value = c;
@@ -785,15 +770,32 @@ function populateCountries() {
 }
 
 // ==========================================================
+// DYNAMIC CONSUMPTION INTERPOLATION
+// ==========================================================
+function getConsumption(tech, cremDay) {
+  const d = Math.max(2, Math.min(10, cremDay));
+  const dLow = Math.floor(d);
+  const dHigh = Math.ceil(d);
+  const frac = d - dLow;
+  const cData = consumptionsData[tech];
+  const lowData = cData[dLow.toString()] || cData["2"];
+  const highData = cData[dHigh.toString()] || cData["10"];
+  return {
+    gas: lowData.gas + frac * (highData.gas - lowData.gas),
+    elec: lowData.elec + frac * (highData.elec - lowData.elec)
+  };
+}
+
+// ==========================================================
 // CALCULATION ENGINE
 // ==========================================================
 function getFiltrationServiceFee() {
   const baseFee = 25.68;
-  return isWithFiltration ? baseFee : baseFee * 2 / 3; // 2/3 without filtration
+  return isWithFiltration ? baseFee : baseFee * 2 / 3; // 2/3 rule without filtration (€17.12)
 }
 
 function getCapex(tech) {
-  const ft3Furnace = parseFloat(document.getElementById('ft3FurnacePrice').value) || 400000;
+  const ft3Furnace = parseFloat(document.getElementById('ft3FurnacePrice').value) || 260000;
   const ft4Furnace = parseFloat(document.getElementById('ft4FurnacePrice').value) || 360000;
   const filtPrice  = isWithFiltration ? (parseFloat(document.getElementById('filtrationPrice').value) || 400000) : 0;
   if (tech === 'FT3') return ft3Furnace + filtPrice;
@@ -809,10 +811,10 @@ function getOtherOpex(tech, volume) {
 
   // Filtration components: 0 if without filtration
   const filt = isWithFiltration ? 1 : 0;
-  const exchanger  = filt * cDb.exchanger_cost  / (cDb.exchanger_freq  * volume);
-  const filterBags = filt * cDb.filter_bags_cost / (cDb.filter_bags_freq * volume);
-  const filterBox  = filt * cDb.filter_box_cost  / (cDb.filter_box_freq  * volume);
-  const abcTower   = filt * cDb.abc_tower_cost   / (cDb.abc_tower_freq   * volume);
+  const exchanger  = (volume > 0) ? (filt * cDb.exchanger_cost  / (cDb.exchanger_freq  * volume)) : 0;
+  const filterBags = (volume > 0) ? (filt * cDb.filter_bags_cost / (cDb.filter_bags_freq * volume)) : 0;
+  const filterBox  = (volume > 0) ? (filt * cDb.filter_box_cost  / (cDb.filter_box_freq  * volume)) : 0;
+  const abcTower   = (volume > 0) ? (filt * cDb.abc_tower_cost   / (cDb.abc_tower_freq   * volume)) : 0;
 
   const serviceFee = getFiltrationServiceFee();
   const cParams = countriesData[selectedCountry];
@@ -828,22 +830,28 @@ function formatEUR(val) {
 }
 
 function calculateAndRender() {
-  const volume = volumeSteps[selectedVolumeIndex];
+  const volume = selectedVolume;
   const cParams = countriesData[selectedCountry];
   if (!cParams) return;
 
-      let gasPrice  = cParams.gas_price;
+  let gasPrice  = cParams.gas_m3;
   let elecPrice = cParams.elec_price;
   let generalInflation = 0.02;
+  let manualGasInflation = 0.02;
+  let manualElecInflation = 0.02;
+
+  const genInfEl = document.getElementById('generalInflationInput');
+  if (genInfEl) {
+      const parsedGenInf = parseFloat(genInfEl.value);
+      if (!isNaN(parsedGenInf)) {
+          generalInflation = parsedGenInf / 100;
+          manualGasInflation = generalInflation;
+          manualElecInflation = generalInflation;
+      }
+  }
 
   const baseElecEl = document.getElementById('baseElecPriceInput');
   const baseGasEl  = document.getElementById('baseGasPriceInput');
-  const genInfEl   = document.getElementById('generalInflationInput');
-
-  if (genInfEl) {
-      const parsedGenInf = parseFloat(genInfEl.value);
-      if (!isNaN(parsedGenInf)) generalInflation = parsedGenInf / 100;
-  }
 
   if (currentScenario === 'manual' && baseElecEl && baseGasEl) {
       const parsedElec = parseFloat(baseElecEl.value);
@@ -851,33 +859,15 @@ function calculateAndRender() {
       if (!isNaN(parsedElec) && parsedElec > 0) elecPrice = parsedElec;
       if (!isNaN(parsedGasKwh) && parsedGasKwh > 0) gasPrice = parsedGasKwh * 10.55;
   }
-  let generalInflation = 0.02;
 
-  const baseElecEl = document.getElementById('baseElecPriceInput');
-  const baseGasEl  = document.getElementById('baseGasPriceInput');
-  const genInfEl   = document.getElementById('generalInflationInput');
+  // Internal fixed R&D preheat electricity (300 kWh/day over 250 operating days = 75,000 kWh/yr)
+  const annualPreheatKwh = 300 * 250;
 
-  if (genInfEl) {
-      const parsedGenInf = parseFloat(genInfEl.value);
-      if (!isNaN(parsedGenInf)) generalInflation = parsedGenInf / 100;
-  }
+  const cremationsDay = Math.max(1, volume / 250);
 
-  if (currentScenario === 'manual' && baseElecEl && baseGasEl) {
-      const parsedElec = parseFloat(baseElecEl.value);
-      const parsedGasKwh = parseFloat(baseGasEl.value);
-      if (!isNaN(parsedElec) && parsedElec > 0) elecPrice = parsedElec;
-      if (!isNaN(parsedGasKwh) && parsedGasKwh > 0) gasPrice = parsedGasKwh * 10.55;
-  }
-  const manualGasInflation  = parseFloat(document.getElementById('gasInflation').value)  / 100;
-  const manualElecInflation = parseFloat(document.getElementById('elecInflation').value) / 100;
-  const preheatCost = parseFloat(document.getElementById('preheatCost').value) || 300;
-
-  const cremationsDay = Math.round(volume / 250);
-  const dayKey = cremationsDay.toString();
-
-  const ft3Cons    = consumptionsData.FT3[dayKey];
-  const hybridCons = consumptionsData.FT4_Hybrid[dayKey];
-  const elecCons   = consumptionsData.FT4_Electric[dayKey];
+  const ft3Cons    = getConsumption('FT3', cremationsDay);
+  const hybridCons = getConsumption('FT4_Hybrid', cremationsDay);
+  const elecCons   = getConsumption('FT4_Electric', cremationsDay);
 
   const ft3Gas1    = ft3Cons.gas    * gasPrice;
   const hybridGas1 = hybridCons.gas * gasPrice;
@@ -885,7 +875,10 @@ function calculateAndRender() {
 
   const ft3Elec1    = ft3Cons.elec    * elecPrice;
   const hybridElec1 = hybridCons.elec * elecPrice;
-  const elecElec1   = (elecCons.elec + preheatCost / cremationsDay) * elecPrice;
+  
+  // FT4 Electric annual energy cost = (volume * elecCons + 75000 kWh preheat) * elecPrice
+  const elecElec1_per_crem = elecCons.elec * elecPrice;
+  const preheatElec1_annual = annualPreheatKwh * elecPrice;
 
   const ft3Other    = getOtherOpex('FT3', volume);
   const hybridOther = getOtherOpex('FT4_Hybrid', volume);
@@ -898,51 +891,56 @@ function calculateAndRender() {
   const hybridTcoCurve = [capexFT4];
   const elecTcoCurve   = [capexFT4];
 
+  const isForecast = (currentScenario === 'forecast');
   const gasPricesCountry  = forecastsData.gas[selectedCountry];
   const elecPricesCountry = forecastsData.electricity[selectedCountry];
 
   for (let y = 1; y <= 25; y++) {
     let gasMult, elecMult;
-    if (!isForecastMode || !gasPricesCountry) {
+    if (!isForecast || !gasPricesCountry || !elecPricesCountry) {
       gasMult  = ((1 + manualGasInflation)**y  - 1) / (manualGasInflation  || 0.0001);
       elecMult = ((1 + manualElecInflation)**y - 1) / (manualElecInflation || 0.0001);
     } else {
       gasMult  = gasPricesCountry.slice(1, y+1).reduce((a,b) => a+b, 0) / gasPrice;
       elecMult = elecPricesCountry.slice(1, y+1).reduce((a,b) => a+b, 0) / elecPrice;
     }
-    const otherMult = ((1 + generalInflation)**y - 1) / generalInflation;
+    const otherMult = ((1 + generalInflation)**y - 1) / (generalInflation || 0.0001);
 
-    ft3TcoCurve.push(capexFT3    + volume * (ft3Gas1    * gasMult + ft3Elec1    * elecMult + ft3Other    * otherMult));
-    hybridTcoCurve.push(capexFT4 + volume * (hybridGas1 * gasMult + hybridElec1 * elecMult + hybridOther * otherMult));
-    elecTcoCurve.push(capexFT4   + volume * (elecGas1   * gasMult + elecElec1   * elecMult + elecOther   * otherMult));
+    const ft3Energy = volume * (ft3Gas1 * gasMult + ft3Elec1 * elecMult);
+    const hybridEnergy = volume * (hybridGas1 * gasMult + hybridElec1 * elecMult);
+    const elecEnergy = (volume * elecElec1_per_crem + preheatElec1_annual) * elecMult;
+
+    ft3TcoCurve.push(capexFT3    + ft3Energy    + volume * ft3Other    * otherMult);
+    hybridTcoCurve.push(capexFT4 + hybridEnergy + volume * hybridOther * otherMult);
+    elecTcoCurve.push(capexFT4   + elecEnergy   + volume * elecOther   * otherMult);
   }
 
   const finalFT3    = ft3TcoCurve[25];
   const finalHybrid = hybridTcoCurve[25];
   const finalElec   = elecTcoCurve[25];
   const minTCO = Math.min(finalFT3, finalHybrid, finalElec);
-  const bestTech = (minTCO === finalFT3) ? 'FT3' : (minTCO === finalHybrid) ? 'FT4 Hybrid' : 'FT4 Electric';
+  const bestTech = (minTCO === finalFT3) ? 'FT3 Standard' : (minTCO === finalHybrid) ? 'FT4 Hybrid' : 'FT4 Electric';
   const bestCurve = (minTCO === finalFT3) ? ft3TcoCurve : (minTCO === finalHybrid) ? hybridTcoCurve : elecTcoCurve;
 
-  // Break-even
+  // Break-even vs FT3
   let breakEvenYear = null;
-  if (bestTech !== 'FT3') {
+  if (bestTech !== 'FT3 Standard') {
     const betterCurve = (bestTech === 'FT4 Hybrid') ? hybridTcoCurve : elecTcoCurve;
     for (let y = 1; y <= 25; y++) {
       if (betterCurve[y] < ft3TcoCurve[y]) { breakEvenYear = y; break; }
     }
   }
 
-  const avoidance = (bestTech !== 'FT3') ? finalFT3 - minTCO : 0;
-  const costPerCrem = minTCO / (25 * volume);
+  const avoidance = (bestTech !== 'FT3 Standard') ? finalFT3 - minTCO : 0;
+  const costPerCrem = (volume > 0) ? (minTCO / (25 * volume)) : 0;
 
   // UPDATE UI
-  const techEmoji = bestTech === 'FT3' ? '🔥' : bestTech === 'FT4 Hybrid' ? '⚡🔥' : '⚡';
+  const techEmoji = (bestTech === 'FT3 Standard') ? '🔥' : (bestTech === 'FT4 Hybrid') ? '⚡🔥' : '⚡';
   document.getElementById('recTechName').textContent = bestTech + ' ' + techEmoji;
 
   // Recommendation text
   let recText = '';
-  if (bestTech === 'FT3') recText = t('rec_ft3');
+  if (bestTech === 'FT3 Standard') recText = t('rec_ft3');
   else if (bestTech === 'FT4 Hybrid') recText = t('rec_hybrid') + (breakEvenYear ? t('year') + ' ' + breakEvenYear + '.' : t('na') + '.');
   else recText = t('rec_electric') + (breakEvenYear ? t('year') + ' ' + breakEvenYear + '.' : t('na') + '.');
   document.getElementById('recDescription').textContent = recText;
@@ -1007,7 +1005,7 @@ function calculateAndRender() {
         tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + formatEUR(ctx.parsed.y) } }
       },
       scales: {
-        x: { ticks:{color:textColor}, grid:{color:gridColor}, title:{display:true, text: isDark?'Années':'Years', color:textColor} },
+        x: { ticks:{color:textColor}, grid:{color:gridColor}, title:{display:true, text: (currentLang==='fr'?'Années':'Years'), color:textColor} },
         y: { ticks:{color:textColor, callback:v=>formatEUR(v)}, grid:{color:gridColor} }
       }
     }
@@ -1015,7 +1013,7 @@ function calculateAndRender() {
 }
 
 // ==========================================================
-// EVENT LISTENERS
+// EVENT LISTENERS & HANDLERS
 // ==========================================================
 document.getElementById('countrySelect').addEventListener('change', function() {
   selectedCountry = this.value;
@@ -1024,59 +1022,48 @@ document.getElementById('countrySelect').addEventListener('change', function() {
       const eIn = document.getElementById('baseElecPriceInput');
       const gIn = document.getElementById('baseGasPriceInput');
       if (eIn) eIn.value = cData.elec_price;
-      if (gIn) gIn.value = (cData.gas_price / 10.55).toFixed(4);
+      if (gIn) gIn.value = cData.gas_kwh;
+  }
+  updatePrintHeader();
+  calculateAndRender();
+});
+
+const volumeSlider = document.getElementById('volumeSlider');
+const volumeInput  = document.getElementById('volumeInput');
+const volumeVal    = document.getElementById('volumeVal');
+
+function setVolume(val) {
+  selectedVolume = Math.max(0, Math.min(8000, parseInt(val) || 0));
+  volumeSlider.value = selectedVolume;
+  volumeInput.value  = selectedVolume;
+  volumeVal.textContent = selectedVolume;
+  calculateAndRender();
+}
+
+volumeSlider.addEventListener('input', e => setVolume(e.target.value));
+volumeInput.addEventListener('input', e => setVolume(e.target.value));
+
+function setScenario(scen) {
+  currentScenario = scen;
+  document.getElementById('btnForecast').classList.toggle('active', scen === 'forecast');
+  document.getElementById('btnManual').classList.toggle('active', scen === 'manual');
+  const panel = document.getElementById('manualScenarioPanel');
+  if (panel) panel.style.display = (scen === 'manual') ? 'block' : 'none';
+  
+  if (scen === 'manual') {
+      const cData = countriesData[selectedCountry];
+      if (cData) {
+          const eIn = document.getElementById('baseElecPriceInput');
+          const gIn = document.getElementById('baseGasPriceInput');
+          if (eIn) eIn.value = cData.elec_price;
+          if (gIn) gIn.value = cData.gas_kwh;
+      }
   }
   calculateAndRender();
-});
+}
 
-document.getElementById('volumeSlider').addEventListener('input', function() {
-  selectedVolumeIndex = parseInt(this.value);
-  document.getElementById('volumeVal').textContent = volumeSteps[selectedVolumeIndex];
-  calculateAndRender();
-});
-
-
-    function setScenario(scen) {
-        currentScenario = scen;
-        document.getElementById('btnForecast').classList.toggle('active', scen === 'forecast');
-        document.getElementById('btnManual').classList.toggle('active', scen === 'manual');
-        const panel = document.getElementById('manualScenarioPanel');
-        if (panel) panel.style.display = (scen === 'manual') ? 'block' : 'none';
-        calculateAndRender();
-    }
-
-    document.getElementById('btnForecast').addEventListener('click', () => setScenario('forecast'));
-    document.getElementById('btnManual').addEventListener('click', () => setScenario('manual'));
-
-    function updatePrintHeader() {
-        const input = document.getElementById('clientNameInput');
-        const val = input ? input.value.trim() : '';
-        const countryVal = selectedCountry || '';
-        const header = document.getElementById('printClientHeader');
-        if (header) {
-            header.innerText = 'CLIENT / SITE: ' + (val ? val.toUpperCase() : 'PROPOSAL') + (countryVal ? (' — ' + countryVal.toUpperCase()) : '');
-            header.style.display = val ? 'block' : 'none';
-        }
-    }
-
-    if (document.getElementById('clientNameInput')) {
-        document.getElementById('clientNameInput').addEventListener('input', updatePrintHeader);
-    }
-
-    document.getElementById('btnPdf').addEventListener('click', () => {
-        updatePrintHeader();
-        window.print();
-    });
-
-    // Live recalculation on typing in any manual parameter
-    ['clientNameInput', 'generalInflationInput', 'baseElecPriceInput', 'baseGasPriceInput', 'ft3FurnacePrice', 'ft4FurnacePrice', 'filtrationPrice'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) {
-            el.addEventListener('input', calculateAndRender);
-            el.addEventListener('change', calculateAndRender);
-        }
-    });
-
+document.getElementById('btnForecast').addEventListener('click', () => setScenario('forecast'));
+document.getElementById('btnManual').addEventListener('click', () => setScenario('manual'));
 
 document.getElementById('btnWithFilt').addEventListener('click', function() {
   isWithFiltration = true;
@@ -1086,8 +1073,15 @@ document.getElementById('btnWithFilt').addEventListener('click', function() {
   document.getElementById('filtrationHint').textContent = t('filt_hint_with');
   document.getElementById('filtrationPriceGroup').style.opacity = '1';
   document.getElementById('filtrationPriceGroup').style.pointerEvents = 'auto';
+  
+  // Reset CAPEX to default With Filtration values
+  document.getElementById('ft3FurnacePrice').value = 260000;
+  document.getElementById('ft4FurnacePrice').value = 360000;
+  document.getElementById('filtrationPrice').value = 400000;
+
   calculateAndRender();
 });
+
 document.getElementById('btnWithoutFilt').addEventListener('click', function() {
   isWithFiltration = false;
   this.className = 'filt-btn active-without';
@@ -1096,7 +1090,42 @@ document.getElementById('btnWithoutFilt').addEventListener('click', function() {
   document.getElementById('filtrationHint').textContent = t('filt_hint_without');
   document.getElementById('filtrationPriceGroup').style.opacity = '0.4';
   document.getElementById('filtrationPriceGroup').style.pointerEvents = 'none';
+
+  // Set CAPEX to Without Filtration defaults (FT3=400k, FT4=500k, Filtration=0)
+  document.getElementById('ft3FurnacePrice').value = 400000;
+  document.getElementById('ft4FurnacePrice').value = 500000;
+  document.getElementById('filtrationPrice').value = 0;
+
   calculateAndRender();
+});
+
+function updatePrintHeader() {
+  const input = document.getElementById('clientNameInput');
+  const clientVal = input ? input.value.trim() : '';
+  const countryVal = selectedCountry || '';
+  const header = document.getElementById('printClientHeader');
+  if (header) {
+      const siteStr = clientVal ? clientVal.toUpperCase() : 'PROPOSAL';
+      const cStr = countryVal ? countryVal.toUpperCase() : '';
+      header.innerText = 'CLIENT / SITE: ' + siteStr + (cStr ? (' — ' + cStr) : '');
+      header.style.display = 'block';
+  }
+}
+
+document.getElementById('clientNameInput').addEventListener('input', updatePrintHeader);
+
+document.getElementById('btnPdf').addEventListener('click', () => {
+  updatePrintHeader();
+  window.print();
+});
+
+// Live recalculation on typing in any parameter
+['clientNameInput', 'generalInflationInput', 'baseElecPriceInput', 'baseGasPriceInput', 'ft3FurnacePrice', 'ft4FurnacePrice', 'filtrationPrice'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) {
+      el.addEventListener('input', calculateAndRender);
+      el.addEventListener('change', calculateAndRender);
+  }
 });
 
 // Theme toggle
@@ -1107,19 +1136,12 @@ document.getElementById('themeToggle').addEventListener('click', function() {
   calculateAndRender();
 });
 
-// Price inputs: recalculate on change
-['ft3FurnacePrice','ft4FurnacePrice','filtrationPrice','preheatCost','gasInflation','elecInflation'].forEach(id => {
-  document.getElementById(id).addEventListener('input', calculateAndRender);
-});
-
-// PDF
-document.getElementById('btnPdf').addEventListener('click', () => window.print());
-
 // ==========================================================
 // INIT
 // ==========================================================
 populateCountries();
 applyTranslations();
+updatePrintHeader();
 calculateAndRender();
 </script>
 </body>
