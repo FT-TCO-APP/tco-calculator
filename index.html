@@ -4,232 +4,329 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FT TCO Calculator - Decision Support Tool</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="./chart.umd.min.js"></script>
     <style>
         :root {
-            --bg-primary: #0f172a;
-            --bg-card: #1e293b;
-            --bg-card2: #162032;
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --accent-color: #38bdf8;
-            --accent-hover: #7dd3fc;
-            --border-color: #334155;
-            --success-color: #22c55e;
-            --warning-color: #f97316;
-            --danger-color: #ef4444;
+            --bg-primary: #0f172a; --bg-card: #1e293b; --bg-card2: #162032;
+            --text-primary: #f8fafc; --text-secondary: #94a3b8; --accent-color: #38bdf8;
+            --border-color: #334155; --success-color: #22c55e; --warning-color: #f97316;
             --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.4);
             --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
         [data-theme="light"] {
-            --bg-primary: #f1f5f9;
-            --bg-card: #ffffff;
-            --bg-card2: #f8fafc;
-            --text-primary: #0f172a;
-            --text-secondary: #64748b;
-            --accent-color: #0284c7;
-            --accent-hover: #0369a1;
+            --bg-primary: #f1f5f9; --bg-card: #ffffff; --bg-card2: #f8fafc;
+            --text-primary: #0f172a; --text-secondary: #64748b; --accent-color: #0284c7;
             --border-color: #e2e8f0;
             --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
             --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Outfit', sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }
         body { background-color: var(--bg-primary); color: var(--text-primary); min-height: 100vh; display: flex; flex-direction: column; transition: var(--transition); }
-
-        /* HEADER */
-        header {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            color: #fff;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: var(--shadow-md);
-            border-bottom: 2px solid var(--accent-color);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .logo-container { display: flex; align-items: center; gap: 1rem; }
-        .logo-symbol { width: 42px; height: 42px; background: var(--accent-color); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.3rem; color: #fff; box-shadow: 0 0 18px rgba(56,189,248,0.5); }
-        .header-title h1 { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.02em; }
-        .header-title p { font-size: 0.8rem; color: #94a3b8; }
-        .header-actions { display: flex; align-items: center; gap: 0.75rem; }
-        .lang-select {
-            background: #1e293b;
-            border: 1px solid #334155;
-            color: #fff;
-            border-radius: 8px;
-            padding: 0.4rem 0.75rem;
-            font-size: 0.85rem;
-            cursor: pointer;
-            outline: none;
-        }
-        .lang-select option { background: #1e293b; }
-        .icon-btn { background: transparent; border: 1px solid #334155; color: #fff; cursor: pointer; padding: 0.5rem; border-radius: 8px; display: flex; align-items: center; justify-content: center; transition: var(--transition); }
+        header { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #fff; padding: 0.8rem 1.5rem; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow-md); border-bottom: 2px solid var(--accent-color); position: sticky; top: 0; z-index: 100; }
+        .logo-container { display: flex; align-items: center; gap: 0.8rem; }
+        .logo-symbol { width: 36px; height: 36px; background: var(--accent-color); border-radius: 9px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.2rem; color: #fff; box-shadow: 0 0 14px rgba(56,189,248,0.5); }
+        .header-title h1 { font-size: 1.1rem; font-weight: 700; }
+        .header-title p { font-size: 0.75rem; color: #94a3b8; }
+        .header-actions { display: flex; align-items: center; gap: 0.6rem; }
+        .lang-select { background: #1e293b; border: 1px solid #334155; color: #fff; border-radius: 8px; padding: 0.35rem 0.7rem; font-size: 0.8rem; cursor: pointer; outline: none; }
+        .icon-btn { background: transparent; border: 1px solid #334155; color: #fff; cursor: pointer; padding: 0.4rem; border-radius: 8px; display: flex; align-items: center; justify-content: center; transition: var(--transition); }
         .icon-btn:hover { background: #334155; }
-
-        /* PRINT HEADER - HIDDEN ON WEB SCREEN, VISIBLE ON PDF PRINT */
-        #printClientHeader {
-            display: none;
-        }
-
-        /* MAIN LAYOUT: FIXED LEFT SIDEBAR (400px), WIDE RIGHT DASHBOARD (1fr) */
-        main {
-            max-width: 1600px;
-            width: 100%;
-            margin: 1.5rem auto;
-            padding: 0 1.5rem;
-            display: grid;
-            grid-template-columns: 400px 1fr;
-            gap: 1.5rem;
-            align-items: start;
-            flex-grow: 1;
-        }
-        @media (max-width: 1080px) {
-            main { grid-template-columns: 1fr; }
-        }
-
-        /* SIDEBAR */
-        .sidebar { display: flex; flex-direction: column; gap: 1.25rem; }
-        .card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; padding: 1.25rem; box-shadow: var(--shadow-sm); transition: var(--transition); }
+        main { max-width: 1550px; width: 100%; margin: 1rem auto; padding: 0 1rem; display: grid; grid-template-columns: 370px 1fr; gap: 1.15rem; flex-grow: 1; }
+        .sidebar { display: flex; flex-direction: column; gap: 0.9rem; }
+        .card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 13px; padding: 1.05rem; box-shadow: var(--shadow-sm); transition: var(--transition); }
         .card:hover { box-shadow: var(--shadow-md); }
-        .card-title { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.65rem; }
-        .input-group { margin-bottom: 1.1rem; }
-        .input-group label { display: block; font-size: 0.78rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.04em; }
-        .input-group select, .input-group input[type="number"], .input-group input[type="text"] {
-            width: 100%; padding: 0.65rem 0.9rem; border: 1px solid var(--border-color);
-            border-radius: 8px; background-color: var(--bg-card2); color: var(--text-primary);
-            font-size: 0.9rem; outline: none; transition: var(--transition);
-        }
+        .card-title { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.4rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; }
+        .input-group { margin-bottom: 0.75rem; }
+        .input-group label { display: block; font-size: 0.72rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0.25rem; text-transform: uppercase; letter-spacing: 0.04em; }
+        .input-group select, .input-group input[type="number"], .input-group input[type="text"] { width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; background-color: var(--bg-card2); color: var(--text-primary); font-size: 0.82rem; outline: none; transition: var(--transition); }
         .input-group select:focus, .input-group input:focus { border-color: var(--accent-color); box-shadow: 0 0 0 3px rgba(56,189,248,0.15); }
-
-        /* TOGGLE BUTTONS */
-        .toggle-group { display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem; background-color: var(--bg-primary); padding: 0.25rem; border-radius: 10px; border: 1px solid var(--border-color); }
-        .toggle-btn { background: transparent; border: none; padding: 0.55rem; font-size: 0.85rem; font-weight: 500; color: var(--text-secondary); cursor: pointer; border-radius: 7px; transition: var(--transition); }
+        .toggle-group { display: grid; grid-template-columns: 1fr 1fr; gap: 0.25rem; background-color: var(--bg-primary); padding: 0.2rem; border-radius: 8px; border: 1px solid var(--border-color); }
+        .toggle-btn { background: transparent; border: none; padding: 0.4rem; font-size: 0.78rem; font-weight: 500; color: var(--text-secondary); cursor: pointer; border-radius: 6px; transition: var(--transition); text-align: center; }
         .toggle-btn.active { background-color: var(--bg-card); color: var(--text-primary); box-shadow: var(--shadow-sm); font-weight: 600; }
-
-        /* FILTRATION TOGGLE */
-        .filtration-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.25rem; }
-        .filt-btn { background: var(--bg-primary); border: 1.5px solid var(--border-color); padding: 0.65rem; font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); cursor: pointer; border-radius: 10px; transition: var(--transition); text-align: center; }
-        .filt-btn.active-with { background: #064e3b; border-color: #22c55e; color: #22c55e; box-shadow: 0 0 10px rgba(34,197,94,0.25); }
-        .filt-btn.active-without { background: #431407; border-color: #f97316; color: #f97316; box-shadow: 0 0 10px rgba(249,115,22,0.25); }
-
-        /* VOLUME SLIDER */
-        .volume-container { margin-top: 0.4rem; background: var(--bg-card2); padding: 0.85rem; border-radius: 10px; border: 1px solid var(--border-color); }
-        .volume-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
-        .volume-display { font-weight: 700; font-size: 1.25rem; color: var(--accent-color); display: flex; align-items: center; gap: 0.3rem; }
-        .volume-unit { font-size: 0.8rem; font-weight: 400; color: var(--text-secondary); }
-        .volume-slider { width: 100%; -webkit-appearance: none; appearance: none; height: 6px; border-radius: 3px; background: var(--border-color); outline: none; margin-top: 0.4rem; }
-        .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: var(--accent-color); cursor: pointer; box-shadow: 0 0 12px rgba(56,189,248,0.5); transition: var(--transition); }
-        .volume-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
-
-        /* PRICE GRID */
-        .price-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; }
-
-        /* SECTION DIVIDER */
-        .section-sep { border: none; border-top: 1px dashed var(--border-color); margin: 1rem 0; }
-
-        /* PDF BUTTON */
-        .btn-pdf {
-            background: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
-            color: #fff; border: none; padding: 0.9rem 1.25rem;
-            border-radius: 10px; font-weight: 700; font-size: 0.95rem; cursor: pointer;
-            transition: var(--transition); display: flex; align-items: center; justify-content: center;
-            gap: 0.6rem; box-shadow: 0 4px 14px rgba(56,189,248,0.35); width: 100%; margin-top: 0.5rem;
-        }
-        .btn-pdf:hover { filter: brightness(1.15); transform: translateY(-2px); box-shadow: 0 6px 18px rgba(56,189,248,0.45); }
-
-        /* DASHBOARD ON THE RIGHT */
-        .dashboard-content { display: flex; flex-direction: column; gap: 1.25rem; width: 100%; }
-
-        /* RECOMMENDATION CARD */
-        .recommendation-card {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            color: #fff;
-            border: 2px solid var(--accent-color);
-            position: relative;
-            overflow: hidden;
-            border-radius: 16px;
-            padding: 1.5rem;
-        }
-        .recommendation-card::before {
-            content: '';
-            position: absolute;
-            top: -40%;
-            right: -20%;
-            width: 320px;
-            height: 320px;
-            background: radial-gradient(circle, rgba(56,189,248,0.2) 0%, transparent 70%);
-            pointer-events: none;
-        }
+        .subpanel { display: none; margin-top: 0.5rem; background: rgba(255,255,255,0.03); padding: 0.65rem; border-radius: 7px; border: 1px solid var(--border-color); }
+        .subpanel.show { display: block; animation: fadeIn 0.2s ease-out; }
+        .subpanel-title { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; color: var(--accent-color); margin-bottom: 0.45rem; letter-spacing: 0.05em; }
+        .filtration-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem; margin-top: 0.15rem; }
+        .filt-btn { background: var(--bg-primary); border: 1.5px solid var(--border-color); padding: 0.5rem; font-size: 0.78rem; font-weight: 600; color: var(--text-secondary); cursor: pointer; border-radius: 8px; transition: var(--transition); text-align: center; }
+        .filt-btn.active-with { background: #064e3b; border-color: #22c55e; color: #22c55e; box-shadow: 0 0 8px rgba(34,197,94,0.25); }
+        .filt-btn.active-without { background: #431407; border-color: #f97316; color: #f97316; box-shadow: 0 0 8px rgba(249,115,22,0.25); }
+        .volume-container { margin-top: 0.3rem; }
+        .volume-display { display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 1.15rem; color: var(--accent-color); margin-bottom: 0.3rem; }
+        .volume-unit { font-size: 0.72rem; font-weight: 400; color: var(--text-secondary); }
+        .volume-slider { width: 100%; -webkit-appearance: none; appearance: none; height: 5px; border-radius: 3px; background: var(--border-color); outline: none; }
+        .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--accent-color); cursor: pointer; box-shadow: 0 0 8px rgba(56,189,248,0.5); }
+        .price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; }
+        .btn-pdf { background: var(--accent-color); color: #fff; border: none; padding: 0.7rem 1rem; border-radius: 9px; font-weight: 600; font-size: 0.88rem; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 0.4rem; box-shadow: 0 4px 12px rgba(56,189,248,0.35); width: 100%; margin-top: 0.35rem; }
+        .btn-pdf:hover { filter: brightness(1.15); transform: translateY(-1px); }
+        .dashboard-content { display: flex; flex-direction: column; gap: 1rem; }
+        .recommendation-card { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #fff; border: 2px solid var(--accent-color); position: relative; overflow: hidden; border-radius: 13px; padding: 1.15rem; }
+        .recommendation-card::before { content: ''; position: absolute; top: -40%; right: -20%; width: 280px; height: 280px; background: radial-gradient(circle, rgba(56,189,248,0.18) 0%, transparent 70%); pointer-events: none; }
         .rec-header { display: flex; justify-content: space-between; align-items: flex-start; }
-        .rec-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: #94a3b8; }
-        .rec-tech-name { font-size: 2.2rem; font-weight: 700; margin-top: 0.2rem; text-shadow: 0 0 15px rgba(56,189,248,0.5); }
-        .rec-badge { background: rgba(56,189,248,0.15); border: 1px solid var(--accent-color); color: var(--accent-color); padding: 0.25rem 0.75rem; border-radius: 999px; font-size: 0.8rem; font-weight: 600; white-space: nowrap; }
-        .rec-description { font-size: 0.95rem; color: #cbd5e1; margin-top: 1rem; line-height: 1.6; border-top: 1px solid #334155; padding-top: 1rem; }
-
-        /* FILTRATION BANNER */
-        .filtration-banner {
-            display: flex; align-items: center; gap: 0.5rem; margin-top: 0.75rem;
-            font-size: 0.82rem; font-weight: 600; padding: 0.4rem 0.75rem;
-            border-radius: 8px; width: fit-content;
-        }
+        .rec-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; font-weight: 600; }
+        .rec-tech-name { font-size: 1.9rem; font-weight: 700; margin-top: 0.1rem; text-shadow: 0 0 12px rgba(56,189,248,0.4); }
+        .rec-badge { background: rgba(56,189,248,0.15); border: 1px solid var(--accent-color); color: var(--accent-color); padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.75rem; font-weight: 600; white-space: nowrap; }
+        .rec-description { font-size: 0.85rem; color: #cbd5e1; margin-top: 0.65rem; line-height: 1.45; border-top: 1px solid #334155; padding-top: 0.65rem; }
+        .filtration-banner { display: flex; align-items: center; gap: 0.35rem; margin-top: 0.45rem; font-size: 0.75rem; font-weight: 600; padding: 0.3rem 0.6rem; border-radius: 6px; width: fit-content; }
         .filtration-banner.with { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
         .filtration-banner.without { background: rgba(249,115,22,0.15); color: #f97316; border: 1px solid rgba(249,115,22,0.3); }
-
-        /* KPI GRID - 3 COLUMNS SIDE BY SIDE IN DASHBOARD */
-        .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
-        @media (max-width: 768px) { .kpi-grid { grid-template-columns: 1fr; } }
-        .kpi-card { display: flex; flex-direction: column; gap: 0.4rem; }
-        .kpi-value { font-size: 1.7rem; font-weight: 700; color: var(--text-primary); }
-        .kpi-label { font-size: 0.8rem; font-weight: 500; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em; }
-
-        /* CHART CARD */
-        .chart-card { flex-grow: 1; }
-        .chart-wrapper { height: 350px; position: relative; }
-
-        /* TCO TABLE */
+        .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+        .kpi-card { display: flex; flex-direction: column; }
+        .kpi-label { font-size: 0.7rem; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.25rem; }
+        .kpi-value { font-size: 1.5rem; font-weight: 700; color: var(--text-primary); }
+        .kpi-subtext { font-size: 0.68rem; color: #94a3b8; margin-top: 0.3rem; line-height: 1.3; border-top: 1px dashed var(--border-color); padding-top: 0.3rem; }
+        .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .chart-card { min-width: 0; }
+        .chart-wrapper { height: 280px; position: relative; }
+        footer { background: #0f172a; color: #64748b; padding: 0.8rem 1.5rem; text-align: center; font-size: 0.75rem; border-top: 1px solid #1e293b; margin-top: auto; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+        
         .tco-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
         .tco-table th, .tco-table td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border-color); }
-        .tco-table th { font-weight: 600; color: var(--text-secondary); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; }
-        .tco-table td { font-size: 0.9rem; }
-        .tco-table tr:hover td { background: rgba(56,189,248,0.05); }
-        .tco-table .best-row td { color: var(--accent-color); font-weight: 700; }
+        .tco-table th { font-weight: 600; color: var(--text-secondary); font-size: 0.85rem; text-transform: uppercase; }
+        .tco-table td { font-size: 0.95rem; }
+        .tco-table tr:hover { background-color: var(--bg-primary); }
+        .tech-ft3 { font-weight: 600; color: #f97316; }
+        .tech-ft4h { font-weight: 600; color: #38bdf8; }
+        .tech-ft4e { font-weight: 600; color: #22c55e; }
 
-        /* FOOTER */
-        footer { background: #0f172a; color: #64748b; padding: 1rem 2rem; text-align: center; font-size: 0.8rem; border-top: 1px solid #1e293b; margin-top: auto; }
+        @page {
+            size: A4 landscape;
+            margin: 6mm;
+        }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* PRINT / PDF STYLES */
         @media print {
-            header, .sidebar, .btn-pdf, footer, .icon-btn, .lang-select { display: none !important; }
-            #printClientHeader {
+            html,
+            body {
+                width: 100% !important;
+                height: auto !important;
+                min-height: 0 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                overflow: hidden !important;
+                background: #ffffff !important;
+                color: #000000 !important;
+                print-color-adjust: exact !important;
+                -webkit-print-color-adjust: exact !important;
+            }
+
+            header,
+            .sidebar,
+            footer,
+            .btn-pdf,
+            .icon-btn,
+            .lang-select {
+                display: none !important;
+            }
+
+            main {
                 display: block !important;
+                width: 100% !important;
+                max-width: none !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                zoom: 1 !important;
+                transform: none !important;
+            }
+
+            #printClientHeader {
+                margin: 0 0 1.5mm !important;
+                padding: 1.8mm 3mm !important;
+                border-radius: 3px !important;
                 background: #003366 !important;
                 color: #ffffff !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-                font-size: 1.5rem !important;
-                font-weight: 800 !important;
-                padding: 14px 20px !important;
-                border-radius: 6px !important;
-                margin-bottom: 25px !important;
+                text-align: center !important;
+                font-size: 10pt !important;
+                line-height: 1.05 !important;
+                font-weight: 700 !important;
             }
-            body { background: #fff; color: #000; }
-            main { grid-template-columns: 1fr; margin: 0; padding: 0; }
-            .card { border: 1px solid #ccc; box-shadow: none; padding: 1rem; margin-bottom: 1rem; }
-            .recommendation-card { border: 2px solid #003366 !important; background: #fff !important; color: #000 !important; }
-            .rec-description, .rec-tech-name { color: #000 !important; border-color: #ccc !important; }
-            .tco-table th, .tco-table td { border-bottom: 1px solid #ccc !important; color: #000 !important; }
-            .chart-wrapper { height: 300px; }
-            .kpi-value, .rec-tech-name { text-shadow: none !important; color: #000 !important; }
+
+            #printParamsBlock {
+                display: block !important;
+                margin: 0 0 1.5mm !important;
+                padding: 1.7mm 2.5mm !important;
+                border: 1px solid #b8c2cc !important;
+                border-radius: 3px !important;
+                background: #ffffff !important;
+                color: #1f2937 !important;
+                font-size: 7.2pt !important;
+                line-height: 1.18 !important;
+            }
+
+            .dashboard-content {
+                display: grid !important;
+                grid-template-rows: auto auto minmax(0, 1fr) !important;
+                gap: 2mm !important;
+                width: 100% !important;
+                min-height: 0 !important;
+            }
+
+            .recommendation-card,
+            .kpi-grid,
+            .charts-row {
+                break-inside: avoid !important;
+                page-break-inside: avoid !important;
+            }
+
+            .recommendation-card {
+                margin: 0 !important;
+                min-height: 0 !important;
+                padding: 2.5mm 3mm !important;
+                border: 1.4px solid #0284c7 !important;
+                background: #f8fafc !important;
+                color: #000000 !important;
+            }
+
+            .recommendation-card::before {
+                display: none !important;
+            }
+
+            .rec-label {
+                font-size: 7pt !important;
+            }
+
+            .rec-tech-name {
+                margin-top: 0.5mm !important;
+                font-size: 17pt !important;
+                line-height: 1 !important;
+            }
+
+            .rec-badge {
+                padding: 0.8mm 2mm !important;
+                font-size: 7pt !important;
+            }
+
+            .filtration-banner {
+                margin-top: 1mm !important;
+                padding: 0.8mm 2mm !important;
+                font-size: 7pt !important;
+            }
+
+            .rec-description {
+                margin-top: 1.3mm !important;
+                padding-top: 1.3mm !important;
+                font-size: 7.5pt !important;
+                line-height: 1.18 !important;
+            }
+
+            .rec-label,
+            .rec-description,
+            .rec-tech-name {
+                color: #000000 !important;
+                text-shadow: none !important;
+            }
+
+            .kpi-grid {
+                display: grid !important;
+                grid-template-columns: repeat(3, 1fr) !important;
+                gap: 2mm !important;
+                margin: 0 !important;
+                min-height: 0 !important;
+            }
+
+            .card {
+                background: #ffffff !important;
+                color: #000000 !important;
+                border: 1px solid #cbd5e1 !important;
+                box-shadow: none !important;
+            }
+
+            .kpi-card {
+                min-height: 0 !important;
+                padding: 2.5mm !important;
+            }
+
+            .kpi-label {
+                margin-bottom: 0.7mm !important;
+                font-size: 6.8pt !important;
+            }
+
+            .kpi-value {
+                font-size: 15pt !important;
+                line-height: 1 !important;
+            }
+
+            .kpi-subtext {
+                margin-top: 1mm !important;
+                padding-top: 1mm !important;
+                font-size: 6.2pt !important;
+                line-height: 1.15 !important;
+            }
+
+            .kpi-label,
+            .kpi-subtext,
+            .card-title,
+            .tco-table th {
+                color: #475569 !important;
+            }
+
+            .kpi-value,
+            .tco-table td {
+                color: #000000 !important;
+            }
+
+            .charts-row {
+                display: grid !important;
+                grid-template-columns: 1.08fr 0.92fr !important;
+                gap: 2mm !important;
+                align-items: stretch !important;
+                height: 108mm !important;
+                min-height: 108mm !important;
+                max-height: 108mm !important;
+                margin: 0 !important;
+            }
+
+            .chart-card {
+                height: 108mm !important;
+                min-height: 108mm !important;
+                max-height: 108mm !important;
+                padding: 2mm !important;
+                overflow: hidden !important;
+            }
+
+            .chart-card .card-title {
+                height: 7mm !important;
+                margin: 0 0 1mm !important;
+                padding: 0 0 1mm !important;
+                font-size: 8pt !important;
+                line-height: 1 !important;
+            }
+
+            .chart-wrapper {
+                width: 100% !important;
+                height: 96mm !important;
+                max-height: 96mm !important;
+                overflow: hidden !important;
+            }
+
+            #tcoChart {
+                display: none !important;
+            }
+
+            #tcoChartPrintCanvas {
+                display: block !important;
+                width: 100% !important;
+                height: 100% !important;
+            }
+
+            .table-responsive {
+                overflow: hidden !important;
+            }
+
+            .tco-table {
+                width: 100% !important;
+                margin-top: 1mm !important;
+                table-layout: fixed !important;
+            }
+
+            .tco-table th,
+            .tco-table td {
+                padding: 2mm 1.5mm !important;
+                font-size: 7.6pt !important;
+                white-space: nowrap !important;
+            }
         }
+
     </style>
 </head>
 <body data-theme="dark">
@@ -238,926 +335,2468 @@
         <div class="logo-symbol">FT</div>
         <div class="header-title">
             <h1>Facultatieve Technologies</h1>
-            <p data-i18n="subtitle">TCO Decision Support Tool</p>
+            <p data-i18n="subtitle">Outil d'Aide à la Décision TCO</p>
         </div>
     </div>
     <div class="header-actions">
         <select class="lang-select" id="langSelect" title="Language">
+            <option value="fr">🇫🇷 Français</option>
             <option value="en">🇬🇧 English</option>
-            <option value="fr" selected>🇫🇷 Français</option>
             <option value="de">🇩🇪 Deutsch</option>
             <option value="it">🇮🇹 Italiano</option>
             <option value="es">🇪🇸 Español</option>
         </select>
         <button class="icon-btn" id="themeToggle" title="Toggle Theme">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
         </button>
     </div>
 </header>
-
 <main>
-    <!-- PDF Print Header (hidden on web, visible only when exporting PDF) -->
-    <div id="printClientHeader">CLIENT / SITE: PROPOSAL</div>
+    <div id="printClientHeader" style="display: none;"></div>
+    <div id="printParamsBlock" style="display: none; margin-bottom: 12px; font-size: 0.82rem; color: #333; border: 1px solid #ccc; padding: 10px; border-radius: 6px;"><div id="printParamsContent"></div></div>
     
-    <!-- ===================== LEFT SIDEBAR (INPUTS) ===================== -->
     <div class="sidebar">
         <div class="card">
             <div class="card-title">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
                 <span data-i18n="client_input">Saisie Client</span>
             </div>
-
-            <!-- 1. Target Country (PAYS CIBLE) -->
             <div class="input-group">
-                <label data-i18n="target_country">Target Country</label>
+                <label data-i18n="target_country">Pays Cible</label>
                 <select id="countrySelect"></select>
             </div>
-
-            <!-- 2. CLIENT / SITE NAME (Directly under Country) -->
             <div class="input-group">
-                <label style="color: #38bdf8;">CLIENT / SITE NAME</label>
-                <input type="text" id="clientNameInput" placeholder="e.g. FUNECAP">
+                <label data-i18n="client_site_name">Client / Site Name</label>
+                <input type="text" id="clientNameInput" data-i18n-placeholder="client_placeholder" placeholder="Saisir le nom du client ou du site">
             </div>
-
-            <!-- 3. Annual Cremation Volume (VOLUME ANNUEL DE CRÉMATIONS) -->
             <div class="input-group">
-                <label data-i18n="annual_volume">Annual Cremation Volume</label>
+                <label data-i18n="annual_volume">Volume Annuel de Crémations</label>
                 <div class="volume-container">
-                    <div class="volume-header">
-                        <div class="volume-display">
-                            <span id="volumeVal">1000</span>
-                            <span class="volume-unit" data-i18n="crem_yr">crem./yr</span>
-                        </div>
-                        <input type="number" id="volumeInput" value="1000" min="0" max="8000" step="50" style="width: 90px; padding: 4px 8px; font-size: 0.85rem; text-align: center;">
+                    <div class="volume-display">
+                        <span id="volumeVal">1000</span>
+                        <span class="volume-unit" data-i18n="crem_yr">crém./an</span>
                     </div>
-                    <input type="range" id="volumeSlider" class="volume-slider" min="0" max="8000" step="50" value="1000">
+                    <input type="range" id="volumeSlider" class="volume-slider" min="500" max="3500" step="50" value="1000">
                 </div>
             </div>
-
-            <!-- 4. Inflation Scenario (SCÉNARIO D'INFLATION) -->
             <div class="input-group">
-                <label data-i18n="inflation_scenario">Inflation Scenario</label>
+                <label data-i18n="inflation_scenario">Scénario d'Inflation</label>
                 <div class="toggle-group">
-                    <button class="toggle-btn active" id="btnForecast" data-i18n="forecast">Forecast</button>
-                    <button class="toggle-btn" id="btnManual" data-i18n="manual">Manual</button>
+                    <button class="toggle-btn active" id="btnInflationAuto" data-i18n="forecast">Prévisions</button>
+                    <button class="toggle-btn" id="btnInflationManual" data-i18n="manual">Manuel</button>
                 </div>
-            </div>
-
-            <!-- Manual Custom Parameters Sub-Panel -->
-            <div id="manualScenarioPanel" style="display: none; margin-top: -0.3rem; margin-bottom: 1.1rem; background: rgba(255,255,255,0.04); padding: 12px; border-radius: 10px; border: 1px solid var(--border-color);">
-                <div style="font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: var(--accent-color); margin-bottom: 8px;">MANUAL CUSTOM PARAMETERS</div>
-                
-                <div style="margin-bottom: 8px;">
-                    <label style="font-size: 0.7rem; color: var(--text-secondary); display: block; margin-bottom: 4px;">General Inflation Rate (%/yr)</label>
-                    <input type="number" id="generalInflationInput" value="2.0" step="0.1" style="width: 100%; background: var(--bg-card2); color: #fff; border: 1px solid var(--border-color); padding: 6px 8px; border-radius: 6px; font-size: 0.85rem;">
-                </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-                    <div>
-                        <label style="font-size: 0.7rem; color: var(--text-secondary); display: block; margin-bottom: 4px;">Electricity (€/kWh)</label>
-                        <input type="number" id="baseElecPriceInput" step="0.001" style="width: 100%; background: var(--bg-card2); color: #fff; border: 1px solid var(--border-color); padding: 6px 8px; border-radius: 6px; font-size: 0.85rem;">
-                    </div>
-                    <div>
-                        <label style="font-size: 0.7rem; color: var(--text-secondary); display: block; margin-bottom: 4px;">Gas (€/kWh)</label>
-                        <input type="number" id="baseGasPriceInput" step="0.001" style="width: 100%; background: var(--bg-card2); color: #fff; border: 1px solid var(--border-color); padding: 6px 8px; border-radius: 6px; font-size: 0.85rem;">
+                <div id="manualInflationPanel" class="subpanel">
+                    <div class="subpanel-title" data-i18n="manual_inflation_title">Taux d'Inflation Annuels</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;">
+                        <div>
+                            <label style="font-size:0.63rem;color:#94a3b8;display:block;margin-bottom:2px;" data-i18n="elec_inflation">Inflation Élec (%/an)</label>
+                            <input type="number" id="manualElecInflation" value="2.0" step="0.1">
+                        </div>
+                        <div>
+                            <label style="font-size:0.63rem;color:#94a3b8;display:block;margin-bottom:2px;" data-i18n="gas_inflation">Inflation Gaz (%/an)</label>
+                            <input type="number" id="manualGasInflation" value="4.0" step="0.1">
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <hr class="section-sep">
-
-            <!-- 5. Filtration Configuration (CONFIGURATION FILTRATION) -->
             <div class="input-group">
-                <label data-i18n="filtration_config">Filtration Configuration</label>
+                <label data-i18n="energy_prices_scenario">Prix Énergie Actuels</label>
+                <div class="toggle-group">
+                    <button class="toggle-btn active" id="btnEnergyAuto" data-i18n="auto">Automatique</button>
+                    <button class="toggle-btn" id="btnEnergyManual" data-i18n="manual">Manuel</button>
+                </div>
+                <div id="manualEnergyPanel" class="subpanel">
+                    <div class="subpanel-title" data-i18n="manual_energy_title">Prix Initiaux de l'Énergie</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;">
+                        <div>
+                            <label style="font-size:0.63rem;color:#94a3b8;display:block;margin-bottom:2px;" data-i18n="elec_price_label">Électricité (€/kWh)</label>
+                            <input type="number" id="baseElecPrice" step="0.001">
+                        </div>
+                        <div>
+                            <label style="font-size:0.63rem;color:#94a3b8;display:block;margin-bottom:2px;" data-i18n="gas_price_label">Gaz (€/m³)</label>
+                            <input type="number" id="baseGasPrice" step="0.001">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group">
+                <label data-i18n="filtration_config">Configuration Filtration</label>
                 <div class="filtration-toggle">
-                    <button class="filt-btn active-with" id="btnWithFilt" data-i18n="with_filtration">✅ With Filtration</button>
-                    <button class="filt-btn" id="btnWithoutFilt" data-i18n="without_filtration">⚠️ Without Filtration</button>
+                    <button class="filt-btn active-with" id="btnWithFilt" data-i18n="with_filtration">✅ Avec Filtration</button>
+                    <button class="filt-btn" id="btnWithoutFilt" data-i18n="without_filtration">⚠️ Sans Filtration</button>
                 </div>
-                <p id="filtrationHint" style="font-size:0.75rem;color:var(--text-secondary);margin-top:0.4rem;" data-i18n="filt_hint_with">New site – Full system (furnace + filtration)</p>
             </div>
-
-            <!-- 6. Equipment Pricing (€) (PRIX ÉQUIPEMENT €) -->
             <div class="input-group">
-                <label data-i18n="equipment_pricing">Equipment Pricing (€)</label>
+                <label data-i18n="equipment_pricing">Prix Équipement (€)</label>
                 <div class="price-grid">
                     <div>
-                        <label style="font-size:0.7rem;color:var(--text-secondary);display:block;margin-bottom:0.25rem;" data-i18n="furnace_price_ft3">FT3 Furnace</label>
-                        <input type="number" id="ft3FurnacePrice" value="260000" step="1000">
+                        <label style="font-size:0.65rem;color:var(--text-secondary);display:block;margin-bottom:0.2rem;" data-i18n="furnace_price_ft3">Four FT3</label>
+                        <input type="number" id="ft3FurnacePrice" value="260000" step="5000">
                     </div>
                     <div>
-                        <label style="font-size:0.7rem;color:var(--text-secondary);display:block;margin-bottom:0.25rem;" data-i18n="furnace_price_ft4">FT4 Furnace</label>
-                        <input type="number" id="ft4FurnacePrice" value="360000" step="1000">
+                        <label style="font-size:0.65rem;color:var(--text-secondary);display:block;margin-bottom:0.2rem;" data-i18n="furnace_price_ft4">Four FT4</label>
+                        <input type="number" id="ft4FurnacePrice" value="360000" step="5000">
                     </div>
-                    <div id="filtrationPriceGroup">
-                        <label style="font-size:0.7rem;color:var(--text-secondary);display:block;margin-bottom:0.25rem;" data-i18n="filtration_price">Filtration</label>
-                        <input type="number" id="filtrationPrice" value="400000" step="1000">
+                    <div id="filtrationPriceGroup" style="grid-column:span 2;">
+                        <label style="font-size:0.65rem;color:var(--text-secondary);display:block;margin-bottom:0.2rem;" data-i18n="filtration_price">Filtration</label>
+                        <input type="number" id="filtrationPrice" value="400000" step="5000">
                     </div>
                 </div>
             </div>
-
-            <!-- 7. Generate PDF Report -->
             <button class="btn-pdf" id="btnPdf">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-                <span data-i18n="generate_pdf">Generate PDF Report</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                <span data-i18n="generate_pdf">Générer Rapport PDF</span>
             </button>
         </div>
     </div>
-
-    <!-- ===================== RIGHT DASHBOARD (RESULTS & CHARTS) ===================== -->
+    
     <div class="dashboard-content">
-
-        <!-- Recommendation Card -->
         <div class="card recommendation-card">
             <div class="rec-header">
                 <div>
-                    <div class="rec-label" data-i18n="rec_label">Recommended Technology (25 Years)</div>
-                    <div class="rec-tech-name" id="recTechName">Computing...</div>
+                    <div class="rec-label" data-i18n="rec_label">Technologie Recommandée (25 Ans)</div>
+                    <div class="rec-tech-name" id="recTechName">...</div>
                 </div>
                 <div class="rec-badge" id="recBadge">—</div>
             </div>
-            <div id="filtrationBanner" class="filtration-banner with">✅ With Filtration</div>
-            <div class="rec-description" id="recDescription">Loading analysis...</div>
+            <div id="filtrationBanner" class="filtration-banner with">✅ Avec Filtration</div>
+            <div class="rec-description" id="recDescription">Analyse en cours...</div>
         </div>
-
-        <!-- KPIs Grid (3 cards in 1 row) -->
         <div class="kpi-grid">
             <div class="card kpi-card">
-                <span class="kpi-label" data-i18n="breakeven_label">Break-even Year (vs FT3)</span>
+                <span class="kpi-label" data-i18n="breakeven_label">Point Mort (vs FT3)</span>
                 <span class="kpi-value" id="beValue">—</span>
             </div>
             <div class="card kpi-card">
-                <span class="kpi-label" data-i18n="avoidance_label">TCO Savings over 25 Yrs</span>
+                <span class="kpi-label" data-i18n="avoidance_label">Évitement de Coût sur 25 Ans</span>
                 <span class="kpi-value" id="avoidanceValue">—</span>
             </div>
             <div class="card kpi-card">
-                <span class="kpi-label" data-i18n="cost_per_crem_label">Avg Cost / Cremation</span>
+                <span class="kpi-label" data-i18n="cost_per_crem_label">Coût Opérationnel / Crémation</span>
                 <span class="kpi-value" id="costPerCremValue">—</span>
+                <div class="kpi-subtext" data-i18n="cost_per_crem_tooltip">Inclut énergie, main d'œuvre, maintenance courante, gros entretiens & composants.</div>
             </div>
         </div>
-
-        <!-- TCO Cumulative Chart Card -->
-        <div class="card chart-card">
-            <div class="card-title">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-                <span data-i18n="chart_title">Cumulative TCO Comparison (25 Years)</span>
+        <div class="charts-row">
+            <div class="card chart-card">
+                <div class="card-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                    <span data-i18n="chart_title">Comparaison TCO Cumulé (25 Ans)</span>
+                </div>
+                <div class="chart-wrapper">
+    <canvas id="tcoChart"></canvas>
+    <canvas id="tcoChartPrintCanvas" style="display:none;"></canvas>
+</div>
             </div>
-            <div class="chart-wrapper"><canvas id="tcoChart"></canvas></div>
-        </div>
-
-        <!-- Summary Table Card -->
-        <div class="card">
-            <div class="card-title">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
-                <span data-i18n="table_title">Cumulative Cost Summary</span>
+            
+            <div class="card chart-card" id="tcoSummaryCard">
+                <div class="card-title">
+                    <span data-i18n="table_title">Synthèse des Coûts Cumulés</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="tco-table">
+                        <thead>
+                            <tr>
+                                <th data-i18n="table_tech">Technologie</th>
+                                <th data-i18n="tco_8y">TCO 8 Ans</th>
+                                <th data-i18n="tco_15y">TCO 15 Ans</th>
+                                <th data-i18n="tco_25y">TCO 25 Ans</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tcoTableBody"></tbody>
+                    </table>
+                </div>
             </div>
-            <table class="tco-table">
-                <thead>
-                    <tr>
-                        <th data-i18n="th_technology">Technology</th>
-                        <th data-i18n="th_tco8">TCO 8 Yrs</th>
-                        <th data-i18n="th_tco15">TCO 15 Yrs</th>
-                        <th data-i18n="th_tco25">TCO 25 Yrs</th>
-                    </tr>
-                </thead>
-                <tbody id="tcoTableBody"></tbody>
-            </table>
+
         </div>
     </div>
 </main>
-
-<footer>
-    <p>© 2026 Facultatieve Technologies — <span data-i18n="footer_text">Confidential. For internal use only.</span></p>
-</footer>
+<footer><p>Facultatieve Technologies © 2026 — TCO Decision Support Tool</p></footer>
 
 <script>
-// ==========================================================
-// TRANSLATIONS
-// ==========================================================
-const i18n = {
-  en: {
-    subtitle: "TCO Decision Support Tool",
-    client_input: "Client Input",
-    target_country: "Target Country",
-    annual_volume: "Annual Cremation Volume",
-    crem_yr: "crem./yr",
-    inflation_scenario: "Inflation Scenario",
-    forecast: "Forecast",
-    manual: "Manual",
-    filtration_config: "Filtration Configuration",
-    with_filtration: "✅ With Filtration",
-    without_filtration: "⚠️ Without Filtration",
-    filt_hint_with: "New site – Full system (furnace + filtration)",
-    filt_hint_without: "Existing site / Retrofit (furnace only, no filtration)",
-    equipment_pricing: "Equipment Pricing (€)",
-    furnace_price_ft3: "FT3 Furnace",
-    furnace_price_ft4: "FT4 Furnace",
-    filtration_price: "Filtration",
-    generate_pdf: "Generate PDF Report",
-    rec_label: "Recommended Technology (25 Years)",
-    breakeven_label: "Break-even Year (vs FT3)",
-    avoidance_label: "TCO Savings over 25 Yrs",
-    cost_per_crem_label: "Avg Cost / Cremation",
-    chart_title: "Cumulative TCO Comparison (25 Years)",
-    table_title: "Cumulative Cost Summary",
-    th_technology: "Technology",
-    th_tco8: "TCO 8 Yrs",
-    th_tco15: "TCO 15 Yrs",
-    th_tco25: "TCO 25 Yrs",
-    footer_text: "Confidential. For internal use only.",
-    na: "N/A",
-    year: "Year",
-    with_filt_banner: "✅ With Filtration",
-    without_filt_banner: "⚠️ Without Filtration",
-    rec_ft3: "FT3 Standard is the most cost-effective choice. The lower initial investment outweighs the higher energy costs at this cremation volume. Break-even is not applicable as FT3 is already the reference.",
-    rec_hybrid: "FT4 Hybrid is the optimal choice. It combines gas & electric heating to reduce energy costs while benefiting from a lower CAPEX vs FT4 Electric. Break-even year vs FT3: ",
-    rec_electric: "FT4 Electric 100% is the optimal choice. It offers the lowest long-term operating cost (OPEX). Break-even year vs FT3: ",
+const countriesData = {
+  "France": {
+    "gas_price": 1.29398282,
+    "elec_price": 0.17524416000000004,
+    "hourly_rate": 45,
+    "asp": 650
   },
-  fr: {
-    subtitle: "Outil d'Aide à la Décision TCO",
-    client_input: "Saisie Client",
-    target_country: "Pays Cible",
-    annual_volume: "Volume Annuel de Crémations",
-    crem_yr: "crém./an",
-    inflation_scenario: "Scénario d'Inflation",
-    forecast: "Prévisions",
-    manual: "Manuel",
-    filtration_config: "Configuration Filtration",
-    with_filtration: "✅ Avec Filtration",
-    without_filtration: "⚠️ Sans Filtration",
-    filt_hint_with: "Nouveau site – Système complet (four + filtration)",
-    filt_hint_without: "Site existant / Remplacement (four uniquement, sans filtration)",
-    equipment_pricing: "Prix Équipement (€)",
-    furnace_price_ft3: "Four FT3",
-    furnace_price_ft4: "Four FT4",
-    filtration_price: "Filtration",
-    generate_pdf: "Générer le Rapport PDF",
-    rec_label: "Technologie Recommandée (25 Ans)",
-    breakeven_label: "Point Mort (vs FT3)",
-    avoidance_label: "Économie TCO sur 25 Ans",
-    cost_per_crem_label: "Coût Moyen / Crémation",
-    chart_title: "Comparaison TCO Cumulé (25 Ans)",
-    table_title: "Synthèse des Coûts Cumulés",
-    th_technology: "Technologie",
-    th_tco8: "TCO 8 Ans",
-    th_tco15: "TCO 15 Ans",
-    th_tco25: "TCO 25 Ans",
-    footer_text: "Confidentiel. Usage interne uniquement.",
-    na: "Non applicable",
-    year: "Année",
-    with_filt_banner: "✅ Avec Filtration",
-    without_filt_banner: "⚠️ Sans Filtration",
-    rec_ft3: "Le FT3 Standard est le choix le plus économique. L'investissement initial plus faible compense les coûts d'énergie plus élevés à ce volume. Le point mort n'est pas applicable car le FT3 est déjà la référence.",
-    rec_hybrid: "Le FT4 Hybride est le choix optimal. Il combine chauffage gaz & électrique pour réduire les coûts d'énergie avec un CAPEX inférieur au FT4 Électrique. Année de point mort vs FT3 : ",
-    rec_electric: "Le FT4 Électrique 100% est le choix optimal. Il offre le coût d'exploitation (OPEX) à long terme le plus bas. Année de point mort vs FT3 : ",
+  "Italy": {
+    "gas_price": 0.9888515000000003,
+    "elec_price": 0.25167072,
+    "hourly_rate": 45,
+    "asp": 650
   },
-  de: {
-    subtitle: "TCO-Entscheidungshilfe",
-    client_input: "Kundeneingabe",
-    target_country: "Zielland",
-    annual_volume: "Jährliches Einäscherungsvolumen",
-    crem_yr: "Einäsch./J.",
-    inflation_scenario: "Inflationsszenario",
-    forecast: "Prognose",
-    manual: "Manuell",
-    filtration_config: "Filtrationskonfiguration",
-    with_filtration: "✅ Mit Filtration",
-    without_filtration: "⚠️ Ohne Filtration",
-    filt_hint_with: "Neuer Standort – Komplettanlage (Ofen + Filtration)",
-    filt_hint_without: "Vorhandener Standort (nur Ofen, ohne Filtration)",
-    equipment_pricing: "Gerätepreise (€)",
-    furnace_price_ft3: "FT3 Ofen",
-    furnace_price_ft4: "FT4 Ofen",
-    filtration_price: "Filtration",
-    generate_pdf: "PDF-Bericht erstellen",
-    rec_label: "Empfohlene Technologie (25 Jahre)",
-    breakeven_label: "Amortisationsjahr (vs. FT3)",
-    avoidance_label: "TCO-Einsparung über 25 Jahre",
-    cost_per_crem_label: "Ø Kosten / Einäscherung",
-    chart_title: "Kumulativer TCO-Vergleich (25 Jahre)",
-    table_title: "Kostenübersicht (kumulativ)",
-    th_technology: "Technologie",
-    th_tco8: "TCO 8 J.",
-    th_tco15: "TCO 15 J.",
-    th_tco25: "TCO 25 J.",
-    footer_text: "Vertraulich. Nur für den internen Gebrauch.",
-    na: "N/A",
-    year: "Jahr",
-    with_filt_banner: "✅ Mit Filtration",
-    without_filt_banner: "⚠️ Ohne Filtration",
-    rec_ft3: "FT3 Standard ist die wirtschaftlichste Wahl.",
-    rec_hybrid: "FT4 Hybrid ist die optimale Wahl. Amortisationsjahr vs. FT3: ",
-    rec_electric: "FT4 Electric 100% ist die optimale Wahl. Amortisationsjahr vs. FT3: ",
+  "Spain": {
+    "gas_price": 0.7713041700000001,
+    "elec_price": 0.15125376000000001,
+    "hourly_rate": 45,
+    "asp": 650
   },
-  it: {
-    subtitle: "Strumento di Supporto alle Decisioni TCO",
-    client_input: "Dati Cliente",
-    target_country: "Paese Target",
-    annual_volume: "Volume Annuale di Cremazioni",
-    crem_yr: "crem./anno",
-    inflation_scenario: "Scenario di Inflazione",
-    forecast: "Previsione",
-    manual: "Manuale",
-    filtration_config: "Configurazione Filtrazione",
-    with_filtration: "✅ Con Filtrazione",
-    without_filtration: "⚠️ Senza Filtrazione",
-    filt_hint_with: "Nuovo sito – Sistema completo (forno + filtrazione)",
-    filt_hint_without: "Sito esistente (solo forno, senza filtrazione)",
-    equipment_pricing: "Prezzi Apparecchiature (€)",
-    furnace_price_ft3: "Forno FT3",
-    furnace_price_ft4: "Forno FT4",
-    filtration_price: "Filtrazione",
-    generate_pdf: "Genera Rapporto PDF",
-    rec_label: "Tecnologia Raccomandata (25 Anni)",
-    breakeven_label: "Anno di Pareggio (vs FT3)",
-    avoidance_label: "Risparmio TCO in 25 Anni",
-    cost_per_crem_label: "Costo Medio / Cremazione",
-    chart_title: "Confronto TCO Cumulato (25 Anni)",
-    table_title: "Riepilogo Costi Cumulati",
-    th_technology: "Tecnologia",
-    th_tco8: "TCO 8 Anni",
-    th_tco15: "TCO 15 Anni",
-    th_tco25: "TCO 25 Anni",
-    footer_text: "Riservato. Solo per uso interno.",
-    na: "N/A",
-    year: "Anno",
-    with_filt_banner: "✅ Con Filtrazione",
-    without_filt_banner: "⚠️ Senza Filtrazione",
-    rec_ft3: "FT3 Standard è la scelta più conveniente.",
-    rec_hybrid: "FT4 Ibrido è la scelta ottimale. Anno di pareggio vs FT3: ",
-    rec_electric: "FT4 Elettrico 100% è la scelta ottimale. Anno di pareggio vs FT3: ",
+  "Germany": {
+    "gas_price": 1.2148747,
+    "elec_price": 0.25863936000000004,
+    "hourly_rate": 45,
+    "asp": 650
   },
-  es: {
-    subtitle: "Herramienta de Apoyo a Decisiones TCO",
-    client_input: "Entrada del Cliente",
-    target_country: "País Objetivo",
-    annual_volume: "Volumen Anual de Cremaciones",
-    crem_yr: "crem./año",
-    inflation_scenario: "Escenario de Inflación",
-    forecast: "Previsión",
-    manual: "Manual",
-    filtration_config: "Configuración de Filtración",
-    with_filtration: "✅ Con Filtración",
-    without_filtration: "⚠️ Sin Filtración",
-    filt_hint_with: "Nuevo sitio – Sistema completo (horno + filtración)",
-    filt_hint_without: "Sitio existente (solo horno, sin filtración)",
-    equipment_pricing: "Precios de Equipos (€)",
-    furnace_price_ft3: "Horno FT3",
-    furnace_price_ft4: "Horno FT4",
-    filtration_price: "Filtración",
-    generate_pdf: "Generar Informe PDF",
-    rec_label: "Tecnología Recomendada (25 Años)",
-    breakeven_label: "Año de Punto Muerto (vs FT3)",
-    avoidance_label: "Ahorro TCO en 25 Años",
-    cost_per_crem_label: "Coste Medio / Cremación",
-    chart_title: "Comparación TCO Acumulado (25 Años)",
-    table_title: "Resumen de Costes Acumulados",
-    th_technology: "Tecnología",
-    th_tco8: "TCO 8 Años",
-    th_tco15: "TCO 15 Años",
-    th_tco25: "TCO 25 Años",
-    footer_text: "Confidencial. Solo para uso interno.",
-    na: "N/A",
-    year: "Año",
-    with_filt_banner: "✅ Con Filtración",
-    without_filt_banner: "⚠️ Sin Filtración",
-    rec_ft3: "FT3 Standard es la opción más rentable.",
-    rec_hybrid: "FT4 Hybrid es la opción óptima. Año de punto muerto vs FT3: ",
-    rec_electric: "FT4 Electric 100% es la opción óptima. Año de punto muerto vs FT3: ",
+  "United Kingdom": {
+    "gas_price": 0.6352723076923078,
+    "elec_price": 0.23118390532544383,
+    "hourly_rate": 45,
+    "asp": 650
+  },
+  "Poland": {
+    "gas_price": 1.0908911000000001,
+    "elec_price": 0.21984199999999998,
+    "hourly_rate": 45,
+    "asp": 650
+  },
+  "United States": {
+    "gas_price": 0.21169811896551727,
+    "elec_price": 0.07845314655172414,
+    "hourly_rate": 45,
+    "asp": 650
+  },
+  "Australia": {
+    "gas_price": 0.39790934322033894,
+    "elec_price": 0.27974392655367225,
+    "hourly_rate": 45,
+    "asp": 650
+  },
+  "Denmark": {
+    "gas_price": 1.0736102,
+    "elec_price": 0.13891584,
+    "hourly_rate": 45,
+    "asp": 650
+  },
+  "Sweden": {
+    "gas_price": 1.8646914000000003,
+    "elec_price": 0.11081280000000002,
+    "hourly_rate": 45,
+    "asp": 650
+  },
+  "Norway": {
+    "gas_price": 0.0,
+    "elec_price": 0.09447648,
+    "hourly_rate": 45,
+    "asp": 650
+  },
+  "Finland": {
+    "gas_price": 1.3264736550000003,
+    "elec_price": 0.08545152000000002,
+    "hourly_rate": 45,
+    "asp": 650
+  },
+  "Estonia": {
+    "gas_price": 0.7882559100000002,
+    "elec_price": 0.16107839999999998,
+    "hourly_rate": 45,
+    "asp": 650
+  },
+  "Latvia": {
+    "gas_price": 0.8744272550000001,
+    "elec_price": 0.15548064,
+    "hourly_rate": 45,
+    "asp": 650
+  },
+  "Lithuania": {
+    "gas_price": 0.77978004,
+    "elec_price": 0.18175584,
+    "hourly_rate": 45,
+    "asp": 650
+  },
+  "Netherlands": {
+    "gas_price": 1.2713805,
+    "elec_price": 0.23373504000000003,
+    "hourly_rate": 45,
+    "asp": 650
+  },
+  "Belgium": {
+    "gas_price": 0.8193341000000001,
+    "elec_price": 0.22162560000000003,
+    "hourly_rate": 45,
+    "asp": 650
+  },
+  "Austria": {
+    "gas_price": 0.9888515000000001,
+    "elec_price": 0.23179296000000002,
+    "hourly_rate": 45,
+    "asp": 650
+  },
+  "Switzerland": {
+    "gas_price": 1.7543338378378381,
+    "elec_price": 0.26914508108108104,
+    "hourly_rate": 45,
+    "asp": 650
+  }
+};
+const componentsData = {"FT3": {"hearth_cost": 9000, "hearth_freq": 3000, "half_cost": 20000, "half_freq": 6000, "full_cost": 90000, "full_freq": 10000, "cells_cost": 0, "cells_freq": 0, "exchanger_cost": 40000, "exchanger_freq": 10, "filter_bags_cost": 7000, "filter_bags_freq": 13, "filter_box_cost": 50000, "filter_box_freq": 25, "abc_tower_cost": 15000, "abc_tower_freq": 20}, "FT4_Hybrid": {"hearth_cost": 9000, "hearth_freq": 3000, "half_cost": 20000, "half_freq": 6000, "full_cost": 90000, "full_freq": 10000, "cells_cost": 15000, "cells_freq": 3000, "exchanger_cost": 40000, "exchanger_freq": 10, "filter_bags_cost": 7000, "filter_bags_freq": 13, "filter_box_cost": 50000, "filter_box_freq": 25, "abc_tower_cost": 15000, "abc_tower_freq": 20}, "FT4_Electric": {"hearth_cost": 9000, "hearth_freq": 3000, "half_cost": 20000, "half_freq": 6000, "full_cost": 90000, "full_freq": 10000, "cells_cost": 15000, "cells_freq": 3000, "exchanger_cost": 40000, "exchanger_freq": 10, "filter_bags_cost": 7000, "filter_bags_freq": 13, "filter_box_cost": 50000, "filter_box_freq": 25, "abc_tower_cost": 15000, "abc_tower_freq": 20}};
+const consumptionsData = {
+  "FT3": {
+    "2": {
+      "gas": 47.35314543685349,
+      "elec": 0
+    },
+    "3": {
+      "gas": 37.346858479507496,
+      "elec": 0
+    },
+    "4": {
+      "gas": 31.62150826864895,
+      "elec": 0
+    },
+    "5": {
+      "gas": 27.883170284015588,
+      "elec": 0
+    },
+    "6": {
+      "gas": 25.18738234674574,
+      "elec": 0
+    },
+    "7": {
+      "gas": 23.11493654704633,
+      "elec": 0
+    },
+    "8": {
+      "gas": 21.45551627332735,
+      "elec": 0
+    },
+    "9": {
+      "gas": 20.08700126254956,
+      "elec": 0
+    },
+    "10": {
+      "gas": 18.932827361233407,
+      "elec": 0
+    }
+  },
+  "FT4_Hybrid": {
+    "2": {
+      "gas": 17.41476443930315,
+      "elec": 105.7420255
+    },
+    "3": {
+      "gas": 12.831177298441562,
+      "elec": 85.038017
+    },
+    "4": {
+      "gas": 9.872403617358165,
+      "elec": 73.76351275
+    },
+    "5": {
+      "gas": 7.787653689820749,
+      "elec": 65.4648102
+    },
+    "6": {
+      "gas": 6.4891297735109505,
+      "elec": 59.403934673239
+    },
+    "7": {
+      "gas": 5.562000752421965,
+      "elec": 54.68660927786895
+    },
+    "8": {
+      "gas": 4.866899657770736,
+      "elec": 50.880168986678356
+    },
+    "9": {
+      "gas": 4.326406091702012,
+      "elec": 47.725303024853474
+    },
+    "10": {
+      "gas": 3.8940873660067177,
+      "elec": 45.05570234195127
+    }
+  },
+  "FT4_Electric": {
+    "2": {
+      "gas": 0,
+      "elec": 60
+    },
+    "3": {
+      "gas": 0,
+      "elec": 40
+    },
+    "4": {
+      "gas": 0,
+      "elec": 35
+    },
+    "5": {
+      "gas": 0,
+      "elec": 30
+    },
+    "6": {
+      "gas": 0,
+      "elec": 25
+    },
+    "7": {
+      "gas": 0,
+      "elec": 22
+    },
+    "8": {
+      "gas": 0,
+      "elec": 20
+    },
+    "9": {
+      "gas": 0,
+      "elec": 18
+    },
+    "10": {
+      "gas": 0,
+      "elec": 15
+    }
+  }
+};
+const forecastDataset = {
+  "electricity": {
+    "France": [
+      0.1534,
+      0.17524416000000004,
+      0.16917320160000004,
+      0.16278930720000004,
+      0.16604509334400006,
+      0.16936599521088005,
+      0.17275331511509767,
+      0.17620838141739964,
+      0.17973254904574765,
+      0.1833272000266626,
+      0.18699374402719587,
+      0.1907336189077398,
+      0.1945482912858946,
+      0.1984392571116125,
+      0.20240804225384476,
+      0.20645620309892165,
+      0.2105853271609001,
+      0.2147970337041181,
+      0.21909297437820047,
+      0.22347483386576447,
+      0.22794433054307978,
+      0.23250321715394137,
+      0.2371532814970202,
+      0.2418963471269606,
+      0.2467342740694998,
+      0.2516689595508898
+    ],
+    "Italy": [
+      0.2203,
+      0.25167072,
+      0.24295212719999998,
+      0.2337841224,
+      0.238459804848,
+      0.24322900094496,
+      0.2480935809638592,
+      0.2530554525831364,
+      0.2581165616347991,
+      0.2632788928674951,
+      0.26854447072484505,
+      0.273915360139342,
+      0.27939366734212884,
+      0.2849815406889714,
+      0.29068117150275086,
+      0.2964947949328059,
+      0.302424690831462,
+      0.30847318464809126,
+      0.3146426483410531,
+      0.3209355013078742,
+      0.3273542113340317,
+      0.33390129556071235,
+      0.3405793214719266,
+      0.3473909079013651,
+      0.35433872605939243,
+      0.36142550058058026
+    ],
+    "Spain": [
+      0.1324,
+      0.15125376000000001,
+      0.1460138976,
+      0.1405039392,
+      0.143314017984,
+      0.14618029834368002,
+      0.14910390431055362,
+      0.15208598239676469,
+      0.15512770204469997,
+      0.15823025608559396,
+      0.16139486120730584,
+      0.16462275843145197,
+      0.16791521360008102,
+      0.17127351787208264,
+      0.1746989882295243,
+      0.17819296799411477,
+      0.18175682735399706,
+      0.185391963901077,
+      0.18909980317909855,
+      0.19288179924268054,
+      0.19673943522753415,
+      0.20067422393208484,
+      0.20468770841072653,
+      0.20878146257894106,
+      0.2129570918305199,
+      0.2172162336671303
+    ],
+    "Germany": [
+      0.2264,
+      0.25863936000000004,
+      0.24967935360000004,
+      0.24025749120000003,
+      0.24506264102400005,
+      0.24996389384448006,
+      0.2549631717213697,
+      0.2600624351557971,
+      0.265263683858913,
+      0.2705689575360913,
+      0.2759803366868131,
+      0.28149994342054935,
+      0.2871299422889603,
+      0.29287254113473954,
+      0.2987299919574343,
+      0.304704591796583,
+      0.31079868363251467,
+      0.317014657305165,
+      0.3233549504512683,
+      0.32982204946029364,
+      0.3364184904494995,
+      0.3431468602584895,
+      0.3500097974636593,
+      0.3570099934129325,
+      0.36415019328119114,
+      0.37143319714681494
+    ],
+    "United Kingdom": [
+      0.20236686390532546,
+      0.23118390532544383,
+      0.22317503431952665,
+      0.21475333491124263,
+      0.2190484016094675,
+      0.22342936964165688,
+      0.22789795703449,
+      0.23245591617517983,
+      0.23710503449868342,
+      0.24184713518865708,
+      0.24668407789243021,
+      0.25161775945027887,
+      0.2566501146392844,
+      0.2617831169320701,
+      0.2670187792707115,
+      0.2723591548561258,
+      0.2778063379532483,
+      0.28336246471231324,
+      0.28902971400655947,
+      0.2948103082866907,
+      0.30070651445242447,
+      0.3067206447414729,
+      0.31285505763630245,
+      0.3191121587890285,
+      0.3254944019648091,
+      0.3320042900041053
+    ],
+    "Poland": [
+      0.1915,
+      0.21984199999999998,
+      0.21326636875,
+      0.20622455468749995,
+      0.21138016855468744,
+      0.2166646727685546,
+      0.22208128958776846,
+      0.22763332182746265,
+      0.2333241548731492,
+      0.2391572587449779,
+      0.24513619021360233,
+      0.2512645949689424,
+      0.2575462098431659,
+      0.263984865089245,
+      0.2705844867164761,
+      0.27734909888438797,
+      0.28428282635649765,
+      0.29138989701541007,
+      0.2986746444407953,
+      0.30614151055181515,
+      0.3137950483156105,
+      0.32163992452350076,
+      0.32968092263658827,
+      0.3379229457025029,
+      0.3463710193450655,
+      0.3550302948286921
+    ],
+    "United States": [
+      0.07431034482758621,
+      0.07845314655172414,
+      0.07924339062499998,
+      0.0800241136853448,
+      0.08202471652747842,
+      0.08407533444066538,
+      0.086177217801682,
+      0.08833164824672404,
+      0.09053993945289214,
+      0.09280343793921444,
+      0.0951235238876948,
+      0.09750161198488716,
+      0.09993915228450934,
+      0.10243763109162204,
+      0.1049985718689126,
+      0.1076235361656354,
+      0.11031412456977628,
+      0.11307197768402068,
+      0.11589877712612118,
+      0.11879624655427419,
+      0.12176615271813103,
+      0.1248103065360843,
+      0.1279305641994864,
+      0.13112882830447356,
+      0.1344070490120854,
+      0.1377672252373875
+    ],
+    "Australia": [
+      0.26497175141242935,
+      0.27974392655367225,
+      0.2825617355225988,
+      0.2853455949858756,
+      0.2924792348605224,
+      0.29979121573203543,
+      0.3072859961253363,
+      0.3149681460284696,
+      0.32284234967918135,
+      0.3309134084211609,
+      0.33918624363168987,
+      0.3476658997224821,
+      0.35635754721554413,
+      0.3652664858959327,
+      0.374398148043331,
+      0.3837581017444142,
+      0.3933520542880245,
+      0.40318585564522513,
+      0.4132655020363557,
+      0.4235971395872646,
+      0.4341870680769461,
+      0.44504174477886976,
+      0.4561677883983415,
+      0.4675719831083,
+      0.47926128268600743,
+      0.49124281475315756
+    ],
+    "Denmark": [
+      0.1216,
+      0.13891584,
+      0.13410339840000002,
+      0.1290428928,
+      0.13162375065600002,
+      0.13425622566912002,
+      0.13694135018250242,
+      0.13968017718615247,
+      0.14247378072987552,
+      0.14532325634447302,
+      0.14822972147136249,
+      0.15119431590078974,
+      0.15421820221880553,
+      0.15730256626318165,
+      0.16044861758844528,
+      0.16365758994021418,
+      0.16693074173901845,
+      0.17026935657379882,
+      0.1736747437052748,
+      0.1771482385793803,
+      0.18069120335096792,
+      0.18430502741798727,
+      0.187991127966347,
+      0.19175095052567395,
+      0.19558596953618743,
+      0.19949768892691117
+    ],
+    "Sweden": [
+      0.097,
+      0.11081280000000002,
+      0.10697392800000001,
+      0.102937176,
+      0.10499591952000001,
+      0.1070958379104,
+      0.10923775466860801,
+      0.11142250976198018,
+      0.11365095995721979,
+      0.11592397915636418,
+      0.11824245873949146,
+      0.1206073079142813,
+      0.12301945407256692,
+      0.12547984315401828,
+      0.12798944001709864,
+      0.1305492288174406,
+      0.13316021339378942,
+      0.1358234176616652,
+      0.1385398860148985,
+      0.14131068373519648,
+      0.1441368974099004,
+      0.14701963535809842,
+      0.1499600280652604,
+      0.1529592286265656,
+      0.15601841319909693,
+      0.15913878146307886
+    ],
+    "Norway": [
+      0.0827,
+      0.09447648,
+      0.09120354480000001,
+      0.08776190160000001,
+      0.08951713963200002,
+      0.09130748242464001,
+      0.09313363207313281,
+      0.09499630471459547,
+      0.09689623080888739,
+      0.09883415542506514,
+      0.10081083853356644,
+      0.10282705530423777,
+      0.10488359641032254,
+      0.10698126833852899,
+      0.10912089370529957,
+      0.11130331157940555,
+      0.11352937781099366,
+      0.11579996536721354,
+      0.11811596467455782,
+      0.12047828396804898,
+      0.12288784964740997,
+      0.12534560664035818,
+      0.12785251877316534,
+      0.13040956914862864,
+      0.13301776053160122,
+      0.13567811574223324
+    ],
+    "Finland": [
+      0.0748,
+      0.08545152000000002,
+      0.08249123520000001,
+      0.0793783584,
+      0.080965925568,
+      0.08258524407936,
+      0.0842369489609472,
+      0.08592168794016615,
+      0.08764012169896948,
+      0.08939292413294887,
+      0.09118078261560786,
+      0.09300439826792002,
+      0.09486448623327842,
+      0.096761775957944,
+      0.09869701147710287,
+      0.10067095170664493,
+      0.10268437074077784,
+      0.1047380581555934,
+      0.10683281931870527,
+      0.10896947570507938,
+      0.11114886521918096,
+      0.11337184252356458,
+      0.11563927937403587,
+      0.11795206496151658,
+      0.12031110626074691,
+      0.12271732838596185
+    ],
+    "Estonia": [
+      0.141,
+      0.16107839999999998,
+      0.15549818399999998,
+      0.14963032799999998,
+      0.15262293455999998,
+      0.15567539325119997,
+      0.15878890111622398,
+      0.16196467913854848,
+      0.16520397272131945,
+      0.16850805217574585,
+      0.17187821321926078,
+      0.175315777483646,
+      0.17882209303331892,
+      0.1823985348939853,
+      0.186046505591865,
+      0.1897674357037023,
+      0.19356278441777636,
+      0.1974340401061319,
+      0.20138272090825451,
+      0.20541037532641962,
+      0.20951858283294802,
+      0.213708954489607,
+      0.21798313357939914,
+      0.22234279625098713,
+      0.22678965217600688,
+      0.23132544521952703
+    ],
+    "Latvia": [
+      0.1361,
+      0.15548064,
+      0.1500943464,
+      0.1444304088,
+      0.147319016976,
+      0.15026539731552,
+      0.1532707052618304,
+      0.156336119367067,
+      0.15946284175440836,
+      0.16265209858949653,
+      0.16590514056128647,
+      0.1692232433725122,
+      0.17260770823996247,
+      0.1760598624047617,
+      0.17958105965285695,
+      0.1831726808459141,
+      0.18683613446283237,
+      0.19057285715208902,
+      0.1943843142951308,
+      0.19827200058103342,
+      0.20223744059265408,
+      0.20628218940450715,
+      0.2104078331925973,
+      0.21461598985644922,
+      0.21890830965357821,
+      0.2232864758466498
+    ],
+    "Lithuania": [
+      0.1591,
+      0.18175584,
+      0.1754592984,
+      0.16883819279999998,
+      0.17221495665599998,
+      0.17565925578911998,
+      0.1791724409049024,
+      0.18275588972300044,
+      0.18641100751746045,
+      0.19013922766780966,
+      0.19394201222116586,
+      0.19782085246558917,
+      0.20177726951490096,
+      0.20581281490519898,
+      0.20992907120330295,
+      0.21412765262736902,
+      0.2184102056799164,
+      0.22277840979351474,
+      0.22723397798938502,
+      0.23177865754917273,
+      0.23641423070015619,
+      0.2411425153141593,
+      0.2459653656204425,
+      0.2508846729328513,
+      0.2559023663915084,
+      0.26102041371933854
+    ],
+    "Netherlands": [
+      0.2046,
+      0.23373504000000003,
+      0.2256377904,
+      0.21712315680000002,
+      0.221465619936,
+      0.22589493233472,
+      0.2304128309814144,
+      0.2350210876010427,
+      0.23972150935306358,
+      0.24451593954012485,
+      0.24940625833092736,
+      0.2543943834975459,
+      0.25948227116749684,
+      0.26467191659084677,
+      0.2699653549226637,
+      0.275364662021117,
+      0.2808719552615393,
+      0.2864893943667701,
+      0.29221918225410554,
+      0.29806356589918764,
+      0.30402483721717144,
+      0.3101053339615148,
+      0.3163074406407451,
+      0.3226335894535601,
+      0.3290862612426313,
+      0.3356679864674839
+    ],
+    "Belgium": [
+      0.194,
+      0.22162560000000003,
+      0.21394785600000002,
+      0.20587435200000004,
+      0.20999183904,
+      0.2141916758208,
+      0.21847550933721602,
+      0.22284501952396032,
+      0.22730191991443957,
+      0.23184795831272836,
+      0.23648491747898293,
+      0.24121461582856257,
+      0.24603890814513382,
+      0.25095968630803656,
+      0.2559788800341972,
+      0.2610984576348812,
+      0.26632042678757883,
+      0.27164683532333045,
+      0.27707977202979706,
+      0.28262136747039296,
+      0.28827379481980087,
+      0.29403927071619684,
+      0.2999200561305208,
+      0.30591845725313127,
+      0.31203682639819386,
+      0.3182775629261578
+    ],
+    "Austria": [
+      0.2029,
+      0.23179296000000002,
+      0.22376298960000002,
+      0.21531910320000003,
+      0.219625485264,
+      0.22401799496928,
+      0.2284983548686656,
+      0.2330683219660389,
+      0.2377296884053597,
+      0.2424842821734669,
+      0.24733396781693626,
+      0.252280647173275,
+      0.2573262601167405,
+      0.2624727853190753,
+      0.2677222410254568,
+      0.27307668584596595,
+      0.27853821956288527,
+      0.28410898395414297,
+      0.2897911636332259,
+      0.29558698690589036,
+      0.30149872664400823,
+      0.30752870117688835,
+      0.3136792752004261,
+      0.3199528607044347,
+      0.32635191791852336,
+      0.33287895627689384
+    ],
+    "Switzerland": [
+      0.23675675675675675,
+      0.26914508108108104,
+      0.25854749351351347,
+      0.24757142067567559,
+      0.2512849919858107,
+      0.25505426686559785,
+      0.2588800808685818,
+      0.2627632820816105,
+      0.2667047313128346,
+      0.27070530228252715,
+      0.274765881816765,
+      0.2788873700440164,
+      0.28307068059467666,
+      0.2873167408035968,
+      0.2916264919156507,
+      0.29600088929438545,
+      0.3004409026338012,
+      0.3049475161733082,
+      0.3095217289159078,
+      0.31416455484964634,
+      0.318877023172391,
+      0.32366017851997686,
+      0.32851508119777645,
+      0.33344280741574306,
+      0.3384444495269792,
+      0.34352111626988385
+    ]
+  },
+  "gas": {
+    "France": [
+      0.9663800000000001,
+      1.29398282,
+      1.1790174233000001,
+      1.05598951826,
+      1.0876692038078002,
+      1.1202992799220342,
+      1.1539082583196951,
+      1.188525506069286,
+      1.2241812712513647,
+      1.2609067093889057,
+      1.2987339106705729,
+      1.3376959279906901,
+      1.3778268058304108,
+      1.4191616100053233,
+      1.461736458305483,
+      1.5055885520546477,
+      1.5507562086162872,
+      1.5972788948747758,
+      1.6451972617210189,
+      1.6945531795726496,
+      1.745389774959829,
+      1.7977514682086242,
+      1.8516840122548828,
+      1.907234532622529,
+      1.964451568601205,
+      2.023385115659241
+    ],
+    "Italy": [
+      0.7385000000000002,
+      0.9888515000000003,
+      0.9009958475000001,
+      0.8069788895000001,
+      0.8311882561850001,
+      0.8561239038705502,
+      0.8818076209866667,
+      0.9082618496162668,
+      0.9355097051047547,
+      0.9635749962578973,
+      0.9924822461456343,
+      1.0222567135300034,
+      1.0529244149359036,
+      1.0845121473839807,
+      1.1170475118055,
+      1.1505589371596652,
+      1.1850757052744552,
+      1.2206279764326888,
+      1.2572468157256698,
+      1.2949642201974398,
+      1.333813146803363,
+      1.3738275412074639,
+      1.4150423674436876,
+      1.4574936384669983,
+      1.5012184476210082,
+      1.5462550010496385
+    ],
+    "Spain": [
+      0.57603,
+      0.7713041700000001,
+      0.70277676105,
+      0.6294435338100001,
+      0.6483268398243001,
+      0.6677766450190291,
+      0.6878099443696001,
+      0.7084442427006882,
+      0.7296975699817089,
+      0.7515884970811602,
+      0.774136151993595,
+      0.7973602365534029,
+      0.821281043650005,
+      0.8459194749595051,
+      0.8712970592082904,
+      0.897435970984539,
+      0.9243590501140753,
+      0.9520898216174974,
+      0.9806525162660223,
+      1.0100720917540031,
+      1.0403742545066232,
+      1.071585482141822,
+      1.1037330466060766,
+      1.136845038004259,
+      1.1709503891443866,
+      1.2060789008187183
+    ],
+    "Germany": [
+      0.9073,
+      1.2148747,
+      1.1069377555,
+      0.9914312071000001,
+      1.0211741433130002,
+      1.05180936761239,
+      1.0833636486407618,
+      1.1158645580999849,
+      1.1493404948429844,
+      1.1838207096882738,
+      1.219335330978922,
+      1.2559153909082899,
+      1.2935928526355387,
+      1.332400638214605,
+      1.372372657361043,
+      1.4135438370818745,
+      1.4559501521943308,
+      1.4996286567601607,
+      1.5446175164629656,
+      1.5909560419568545,
+      1.6386847232155601,
+      1.687845264912027,
+      1.7384806228593879,
+      1.7906350415451693,
+      1.8443540927915245,
+      1.89968471557527
+    ],
+    "United Kingdom": [
+      0.47443786982248526,
+      0.6352723076923078,
+      0.5788308065088759,
+      0.5184310701775149,
+      0.5339840022828403,
+      0.5500035223513254,
+      0.5665036280218653,
+      0.5834987368625212,
+      0.6010036989683969,
+      0.6190338099374488,
+      0.6376048242355723,
+      0.6567329689626396,
+      0.6764349580315188,
+      0.6967280067724643,
+      0.7176298469756383,
+      0.7391587423849073,
+      0.7613335046564546,
+      0.7841735097961482,
+      0.8076987150900327,
+      0.8319296765427336,
+      0.8568875668390157,
+      0.8825941938441862,
+      0.9090720196595119,
+      0.9363441802492972,
+      0.9644345056567761,
+      0.9933675408264795
+    ],
+    "Poland": [
+      0.8186800000000001,
+      1.0908911000000001,
+      0.9891445262499999,
+      0.8816288168749999,
+      0.9036695372968748,
+      0.9262612757292965,
+      0.9494178076225289,
+      0.9731532528130921,
+      0.9974820841334193,
+      1.0224191362367547,
+      1.0479796146426736,
+      1.0741791050087404,
+      1.1010335826339588,
+      1.1285594221998076,
+      1.1567734077548026,
+      1.1856927429486726,
+      1.2153350615223895,
+      1.2457184380604491,
+      1.2768613990119602,
+      1.3087829339872592,
+      1.3415025073369404,
+      1.375040070020364,
+      1.4094160717708728,
+      1.4446514735651443,
+      1.4807677604042728,
+      1.5177869544143796
+    ],
+    "United States": [
+      0.15643103448275864,
+      0.21169811896551727,
+      0.19494954086120686,
+      0.17647171481436205,
+      0.1837070551217509,
+      0.19123904438174266,
+      0.1990798452013941,
+      0.20724211885465124,
+      0.2157390457276919,
+      0.2245843466025273,
+      0.2337923048132309,
+      0.24337778931057333,
+      0.2533562786723068,
+      0.26374388609787136,
+      0.27455738542788405,
+      0.28581423823042734,
+      0.2975326219978748,
+      0.30973145949978764,
+      0.3224304493392789,
+      0.33565009776218935,
+      0.3494117517704391,
+      0.3637376335930271,
+      0.37865087657034113,
+      0.3941755625097251,
+      0.41033676057262375,
+      0.4271605677561013
+    ],
+    "Australia": [
+      0.2986186440677966,
+      0.39790934322033894,
+      0.360796644862288,
+      0.3215796182468219,
+      0.32961910870299244,
+      0.3378595864205673,
+      0.34630607608108144,
+      0.35496372798310843,
+      0.36383782118268604,
+      0.37293376671225326,
+      0.3822571108800596,
+      0.391813538652061,
+      0.4016088771183625,
+      0.41164909904632146,
+      0.4219403265224795,
+      0.43248883468554145,
+      0.4433010555526799,
+      0.45438358194149686,
+      0.46574317149003425,
+      0.47738675077728504,
+      0.48932141954671715,
+      0.501554455035385,
+      0.5140933164112695,
+      0.5269456493215512,
+      0.54011929055459,
+      0.5536222728184546
+    ],
+    "Denmark": [
+      0.8018000000000001,
+      1.0736102,
+      0.9782240630000001,
+      0.8761485086,
+      0.9024329638580001,
+      0.92950595277374,
+      0.9573911313569523,
+      0.9861128652976608,
+      1.0156962512565908,
+      1.0461671387942886,
+      1.0775521529581171,
+      1.1098787175468607,
+      1.1431750790732667,
+      1.1774703314454646,
+      1.2127944413888285,
+      1.2491782746304934,
+      1.286653622869408,
+      1.3252532315554904,
+      1.3650108285021552,
+      1.4059611533572198,
+      1.4481399879579364,
+      1.4915841875966747,
+      1.536331713224575,
+      1.5824216646213123,
+      1.6298943145599516,
+      1.6787911439967502
+    ],
+    "Sweden": [
+      1.3926,
+      1.8646914000000003,
+      1.6990207409999998,
+      1.5217316202000002,
+      1.567383568806,
+      1.61440507587018,
+      1.6628372281462855,
+      1.712722344990674,
+      1.7641040153403944,
+      1.817027135800606,
+      1.8715379498746243,
+      1.9276840883708632,
+      1.985514611021989,
+      2.0450800493526486,
+      2.1064324508332284,
+      2.1696254243582254,
+      2.234714187088972,
+      2.301755612701641,
+      2.3708082810826903,
+      2.4419325295151713,
+      2.5151905054006267,
+      2.5906462205626455,
+      2.668365607179525,
+      2.7484165753949106,
+      2.830869072656758,
+      2.9157951448364607
+    ],
+    "Norway": [
+      "n/a",
+      "n/a",
+      "n/a",
+      "n/a",
+      "n/a",
+      "n/a",
+      "n/a",
+      "n/a",
+      "n/a",
+      "n/a",
+      "n/a",
+      "n/a",
+      "n/a",
+      "n/a",
+      "n/a",
+      "n/a",
+      "n/a",
+      "n/a",
+      "n/a",
+      "n/a",
+      "n/a",
+      "n/a",
+      "n/a",
+      "n/a",
+      "n/a",
+      "n/a"
+    ],
+    "Finland": [
+      0.990645,
+      1.3264736550000003,
+      1.208621572575,
+      1.082504538915,
+      1.11497967508245,
+      1.1484290653349238,
+      1.1828819372949715,
+      1.2183683954138207,
+      1.2549194472762353,
+      1.2925670306945225,
+      1.3313440416153581,
+      1.371284362863819,
+      1.4124228937497334,
+      1.4547955805622255,
+      1.4984394479790923,
+      1.543392631418465,
+      1.5896944103610189,
+      1.6373852426718496,
+      1.6865067999520051,
+      1.7371020039505651,
+      1.789215064069082,
+      1.8428915159911545,
+      1.8981782614708893,
+      1.955123609315016,
+      2.0137773175944664,
+      2.0741906371223005
+    ],
+    "Estonia": [
+      0.58869,
+      0.7882559100000002,
+      0.71822240415,
+      0.6432774576300001,
+      0.6625757813589002,
+      0.6824530547996671,
+      0.7029266464436571,
+      0.7240144458369668,
+      0.7457348792120759,
+      0.7681069255884383,
+      0.7911501333560915,
+      0.8148846373567742,
+      0.8393311764774776,
+      0.8645111117718018,
+      0.8904464451249559,
+      0.9171598384787045,
+      0.9446746336330657,
+      0.9730148726420577,
+      1.0022053188213196,
+      1.0322714783859592,
+      1.063239622737538,
+      1.095136811419664,
+      1.127990915762254,
+      1.1618306432351218,
+      1.1966855625321755,
+      1.2325861294081406
+    ],
+    "Latvia": [
+      0.653045,
+      0.8744272550000001,
+      0.7967377565749999,
+      0.713599903715,
+      0.73500790082645,
+      0.7570581378512435,
+      0.7797698819867809,
+      0.8031629784463843,
+      0.8272578677997758,
+      0.8520756038337692,
+      0.8776378719487823,
+      0.9039670081072457,
+      0.931086018350463,
+      0.959018598900977,
+      0.9877891568680063,
+      1.0174228315740466,
+      1.0479455165212679,
+      1.079383882016906,
+      1.1117653984774132,
+      1.1451183604317354,
+      1.1794719112446876,
+      1.2148560685820282,
+      1.2513017506394892,
+      1.288840803158674,
+      1.327506027253434,
+      1.3673312080710371
+    ],
+    "Lithuania": [
+      0.58236,
+      0.77978004,
+      0.7104995826,
+      0.6363604957200001,
+      0.6554513105916001,
+      0.6751148499093481,
+      0.6953682954066286,
+      0.7162293442688276,
+      0.7377162245968923,
+      0.7598477113347991,
+      0.7826431426748431,
+      0.8061224369550885,
+      0.8303061100637412,
+      0.8552152933656534,
+      0.8808717521666231,
+      0.9072979047316218,
+      0.9345168418735704,
+      0.9625523471297776,
+      0.9914289175436709,
+      1.021171785069981,
+      1.0518069386220805,
+      1.083361146780743,
+      1.1158619811841652,
+      1.1493378406196904,
+      1.183817975838281,
+      1.2193325151134295
+    ],
+    "Netherlands": [
+      0.9495,
+      1.2713805,
+      1.1584232324999997,
+      1.0375442865,
+      1.068670615095,
+      1.10073073354785,
+      1.1337526555542856,
+      1.1677652352209142,
+      1.2027981922775417,
+      1.238882138045868,
+      1.2760486021872441,
+      1.3143300602528614,
+      1.3537599620604472,
+      1.3943727609222607,
+      1.4362039437499288,
+      1.4792900620624265,
+      1.5236687639242994,
+      1.5693788268420283,
+      1.6164601916472894,
+      1.664953997396708,
+      1.7149026173186095,
+      1.7663496958381677,
+      1.8193401867133128,
+      1.8739203923147123,
+      1.9301380040841536,
+      1.9880421442066782
+    ],
+    "Belgium": [
+      0.6119,
+      0.8193341000000001,
+      0.7465394164999999,
+      0.6686396513,
+      0.6886988408390001,
+      0.70935980606417,
+      0.7306406002460952,
+      0.7525598182534781,
+      0.7751366128010825,
+      0.798390711185115,
+      0.8223424325206684,
+      0.8470127054962885,
+      0.8724230866611771,
+      0.8985957792610125,
+      0.9255536526388429,
+      0.9533202622180081,
+      0.9819198700845485,
+      1.011377466187085,
+      1.0417187901726976,
+      1.0729703538778785,
+      1.1051594644942149,
+      1.1383142484290414,
+      1.1724636758819127,
+      1.2076375861583701,
+      1.2438667137431212,
+      1.2811827151554147
+    ],
+    "Austria": [
+      0.7385,
+      0.9888515000000001,
+      0.9009958475,
+      0.8069788895000001,
+      0.8311882561850001,
+      0.8561239038705502,
+      0.8818076209866667,
+      0.9082618496162667,
+      0.9355097051047547,
+      0.9635749962578974,
+      0.9924822461456343,
+      1.0222567135300034,
+      1.0529244149359034,
+      1.0845121473839807,
+      1.1170475118055,
+      1.1505589371596652,
+      1.1850757052744552,
+      1.2206279764326888,
+      1.2572468157256695,
+      1.2949642201974396,
+      1.333813146803363,
+      1.3738275412074639,
+      1.4150423674436878,
+      1.4574936384669985,
+      1.5012184476210084,
+      1.5462550010496388
+    ],
+    "Switzerland": [
+      1.3230270270270272,
+      1.7543338378378381,
+      1.582948916756757,
+      1.4040068652972977,
+      1.4320870026032435,
+      1.4607287426553084,
+      1.4899433175084147,
+      1.519742183858583,
+      1.5501370275357547,
+      1.5811397680864698,
+      1.6127625634481992,
+      1.6450178147171632,
+      1.6779181710115063,
+      1.7114765344317366,
+      1.7457060651203713,
+      1.7806201864227789,
+      1.8162325901512344,
+      1.8525572419542593,
+      1.8896083867933444,
+      1.9274005545292112,
+      1.9659485656197957,
+      2.0052675369321915,
+      2.0453728876708355,
+      2.0862803454242522,
+      2.1280059523327375,
+      2.170566071379392
+    ]
   }
 };
 
-let currentLang = 'fr';
-function t(key) { return (i18n[currentLang] && i18n[currentLang][key]) || i18n.en[key] || key; }
-function applyTranslations() {
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    el.textContent = t(key);
-  });
+const T = {
+fr: {
+    subtitle:"Outil d'Aide à la Décision TCO",
+    client_input:"Saisie Client",
+    target_country:"Pays Cible",
+    client_site_name:"Client / Site Name",
+    client_placeholder:"Saisir le nom du client ou du site",
+    annual_volume:"Volume Annuel de Crémations",
+    crem_yr:"crém./an",
+    inflation_scenario:"Scénario d'Inflation",
+    forecast:"Prévisions",
+    manual:"Manuel",
+    auto:"Automatique",
+    manual_inflation_title:"Taux d'Inflation Annuels",
+    elec_inflation:"Inflation Élec (%/an)",
+    gas_inflation:"Inflation Gaz (%/an)",
+    energy_prices_scenario:"Prix Énergie Actuels",
+    manual_energy_title:"Prix Initiaux de l'Énergie",
+    elec_price_label:"Électricité (€/kWh)",
+    gas_price_label:"Gaz (€/m³)",
+    filtration_config:"Configuration Filtration",
+    with_filtration:"✅ Avec Filtration",
+    without_filtration:"⚠️ Sans Filtration",
+    equipment_pricing:"Prix Équipement (€)",
+    furnace_price_ft3:"Four FT3",
+    furnace_price_ft4:"Four FT4",
+    filtration_price:"Filtration",
+    generate_pdf:"Générer Rapport PDF",
+    rec_label:"Technologie Recommandée (25 Ans)",
+    breakeven_label:"Point Mort (vs FT3)",
+    avoidance_label:"Évitement de Coût sur 25 Ans",
+    cost_per_crem_label:"Coût Opérationnel / Crémation",
+    cost_per_crem_tooltip:"Inclut énergie, main-d'œuvre, maintenance courante, gros entretiens et composants.",
+    chart_title:"Comparaison TCO Cumulé (25 Ans)",
+    table_title:"Synthèse des Coûts Cumulés",
+    table_tech:"Technologie",
+    tco_8y:"TCO 8 Ans",
+    tco_15y:"TCO 15 Ans",
+    tco_25y:"TCO 25 Ans",
+    year:"Année",
+    standard_model:"Modèle standard",
+    optimal_choice:"Choix optimal",
+    baseline:"Référence",
+    rec_ft3:"Le FT3 Standard présente le TCO le plus bas sur 25 ans pour les hypothèses sélectionnées.",
+    rec_ft4h:"Le FT4 Hybride présente le TCO le plus bas sur 25 ans pour les hypothèses sélectionnées.",
+    rec_ft4e:"Le FT4 Électrique présente le TCO le plus bas sur 25 ans pour les hypothèses sélectionnées.",
+    not_applicable:"N/A",
+    norway_no_gas:"Aucun réseau gaz : les technologies gaz ne sont pas applicables.",
+    rec_norway:"Aucun réseau gaz n’est disponible en Norvège. Seule la technologie FT4 Électrique est applicable."
+},
+en: {
+    subtitle:"TCO Decision Support Tool",
+    client_input:"Client Input",
+    target_country:"Target Country",
+    client_site_name:"Client / Site Name",
+    client_placeholder:"Enter client or site name",
+    annual_volume:"Annual Cremation Volume",
+    crem_yr:"crem./yr",
+    inflation_scenario:"Inflation Scenario",
+    forecast:"Forecast",
+    manual:"Manual",
+    auto:"Automatic",
+    manual_inflation_title:"Annual Inflation Rates",
+    elec_inflation:"Electricity Inflation (%/yr)",
+    gas_inflation:"Gas Inflation (%/yr)",
+    energy_prices_scenario:"Current Energy Prices",
+    manual_energy_title:"Initial Energy Prices",
+    elec_price_label:"Electricity (€/kWh)",
+    gas_price_label:"Gas (€/m³)",
+    filtration_config:"Filtration Configuration",
+    with_filtration:"✅ With Filtration",
+    without_filtration:"⚠️ Without Filtration",
+    equipment_pricing:"Equipment Pricing (€)",
+    furnace_price_ft3:"FT3 Furnace",
+    furnace_price_ft4:"FT4 Furnace",
+    filtration_price:"Filtration",
+    generate_pdf:"Generate PDF Report",
+    rec_label:"Recommended Technology (25 Years)",
+    breakeven_label:"Break-even Year (vs FT3)",
+    avoidance_label:"Cost Avoidance over 25 Years",
+    cost_per_crem_label:"Operational Cost per Cremation",
+    cost_per_crem_tooltip:"Includes energy, labour, routine maintenance, major overhauls and components.",
+    chart_title:"Cumulative TCO Comparison (25 Years)",
+    table_title:"Cumulative Costs Summary",
+    table_tech:"Technology",
+    tco_8y:"TCO 8 Years",
+    tco_15y:"TCO 15 Years",
+    tco_25y:"TCO 25 Years",
+    year:"Year",
+    standard_model:"Standard model",
+    optimal_choice:"Optimal choice",
+    baseline:"Baseline",
+    rec_ft3:"FT3 Standard has the lowest 25-year TCO for the selected assumptions.",
+    rec_ft4h:"FT4 Hybrid has the lowest 25-year TCO for the selected assumptions.",
+    rec_ft4e:"FT4 Electric has the lowest 25-year TCO for the selected assumptions.",
+    not_applicable:"N/A",
+    norway_no_gas:"No gas grid: gas technologies are not applicable.",
+    rec_norway:"No gas grid is available in Norway. FT4 Electric is the only applicable technology."
+},
+de: {
+    subtitle:"TCO-Entscheidungsunterstützung",
+    client_input:"Kundeneingabe",
+    target_country:"Zielland",
+    client_site_name:"Kunde / Standort",
+    client_placeholder:"Kunden- oder Standortnamen eingeben",
+    annual_volume:"Jährliches Kremationsvolumen",
+    crem_yr:"Krem./Jahr",
+    inflation_scenario:"Inflationsszenario",
+    forecast:"Prognose",
+    manual:"Manuell",
+    auto:"Automatisch",
+    manual_inflation_title:"Jährliche Inflationsraten",
+    elec_inflation:"Strominflation (%/Jahr)",
+    gas_inflation:"Gasinflation (%/Jahr)",
+    energy_prices_scenario:"Aktuelle Energiepreise",
+    manual_energy_title:"Anfängliche Energiepreise",
+    elec_price_label:"Strom (€/kWh)",
+    gas_price_label:"Gas (€/m³)",
+    filtration_config:"Filterkonfiguration",
+    with_filtration:"✅ Mit Filtration",
+    without_filtration:"⚠️ Ohne Filtration",
+    equipment_pricing:"Anlagenpreise (€)",
+    furnace_price_ft3:"FT3-Ofen",
+    furnace_price_ft4:"FT4-Ofen",
+    filtration_price:"Filtration",
+    generate_pdf:"PDF-Bericht erstellen",
+    rec_label:"Empfohlene Technologie (25 Jahre)",
+    breakeven_label:"Amortisationsjahr (vs. FT3)",
+    avoidance_label:"Kostenvermeidung über 25 Jahre",
+    cost_per_crem_label:"Betriebskosten pro Kremation",
+    cost_per_crem_tooltip:"Enthält Energie, Arbeit, laufende Wartung, große Überholungen und Komponenten.",
+    chart_title:"Kumulativer TCO-Vergleich (25 Jahre)",
+    table_title:"Zusammenfassung der kumulierten Kosten",
+    table_tech:"Technologie",
+    tco_8y:"TCO 8 Jahre",
+    tco_15y:"TCO 15 Jahre",
+    tco_25y:"TCO 25 Jahre",
+    year:"Jahr",
+    standard_model:"Standardmodell",
+    optimal_choice:"Optimale Wahl",
+    baseline:"Referenz",
+    rec_ft3:"FT3 Standard weist für die ausgewählten Annahmen den niedrigsten TCO über 25 Jahre auf.",
+    rec_ft4h:"FT4 Hybrid weist für die ausgewählten Annahmen den niedrigsten TCO über 25 Jahre auf.",
+    rec_ft4e:"FT4 Electric weist für die ausgewählten Annahmen den niedrigsten TCO über 25 Jahre auf.",
+    not_applicable:"N/V",
+    norway_no_gas:"Kein Gasnetz: Gastechnologien sind nicht anwendbar.",
+    rec_norway:"In Norwegen ist kein Gasnetz verfügbar. FT4 Electric ist die einzige anwendbare Technologie."
+},
+it: {
+    subtitle:"Strumento di Supporto Decisionale TCO",
+    client_input:"Dati Cliente",
+    target_country:"Paese",
+    client_site_name:"Cliente / Sito",
+    client_placeholder:"Inserire il nome del cliente o del sito",
+    annual_volume:"Volume Annuale di Cremazioni",
+    crem_yr:"crem./anno",
+    inflation_scenario:"Scenario di Inflazione",
+    forecast:"Previsioni",
+    manual:"Manuale",
+    auto:"Automatico",
+    manual_inflation_title:"Tassi di Inflazione Annuali",
+    elec_inflation:"Inflazione Elettricità (%/anno)",
+    gas_inflation:"Inflazione Gas (%/anno)",
+    energy_prices_scenario:"Prezzi Energetici Attuali",
+    manual_energy_title:"Prezzi Energetici Iniziali",
+    elec_price_label:"Elettricità (€/kWh)",
+    gas_price_label:"Gas (€/m³)",
+    filtration_config:"Configurazione Filtrazione",
+    with_filtration:"✅ Con Filtrazione",
+    without_filtration:"⚠️ Senza Filtrazione",
+    equipment_pricing:"Prezzi Attrezzature (€)",
+    furnace_price_ft3:"Forno FT3",
+    furnace_price_ft4:"Forno FT4",
+    filtration_price:"Filtrazione",
+    generate_pdf:"Genera Rapporto PDF",
+    rec_label:"Tecnologia Raccomandata (25 Anni)",
+    breakeven_label:"Anno di Pareggio (vs FT3)",
+    avoidance_label:"Costi Evitati su 25 Anni",
+    cost_per_crem_label:"Costo Operativo per Cremazione",
+    cost_per_crem_tooltip:"Include energia, manodopera, manutenzione ordinaria, grandi revisioni e componenti.",
+    chart_title:"Confronto TCO Cumulativo (25 Anni)",
+    table_title:"Sintesi dei Costi Cumulativi",
+    table_tech:"Tecnologia",
+    tco_8y:"TCO 8 Anni",
+    tco_15y:"TCO 15 Anni",
+    tco_25y:"TCO 25 Anni",
+    year:"Anno",
+    standard_model:"Modello standard",
+    optimal_choice:"Scelta ottimale",
+    baseline:"Riferimento",
+    rec_ft3:"FT3 Standard presenta il TCO più basso su 25 anni per le ipotesi selezionate.",
+    rec_ft4h:"FT4 Hybrid presenta il TCO più basso su 25 anni per le ipotesi selezionate.",
+    rec_ft4e:"FT4 Electric presenta il TCO più basso su 25 anni per le ipotesi selezionate.",
+    not_applicable:"N/D",
+    norway_no_gas:"Nessuna rete del gas: le tecnologie a gas non sono applicabili.",
+    rec_norway:"In Norvegia non è disponibile una rete del gas. FT4 Electric è l’unica tecnologia applicabile."
+},
+es: {
+    subtitle:"Herramienta de Apoyo a la Decisión TCO",
+    client_input:"Datos del Cliente",
+    target_country:"País Objetivo",
+    client_site_name:"Cliente / Sitio",
+    client_placeholder:"Introduzca el nombre del cliente o del sitio",
+    annual_volume:"Volumen Anual de Cremaciones",
+    crem_yr:"crem./año",
+    inflation_scenario:"Escenario de Inflación",
+    forecast:"Previsión",
+    manual:"Manual",
+    auto:"Automático",
+    manual_inflation_title:"Tasas Anuales de Inflación",
+    elec_inflation:"Inflación Electricidad (%/año)",
+    gas_inflation:"Inflación Gas (%/año)",
+    energy_prices_scenario:"Precios Actuales de la Energía",
+    manual_energy_title:"Precios Iniciales de la Energía",
+    elec_price_label:"Electricidad (€/kWh)",
+    gas_price_label:"Gas (€/m³)",
+    filtration_config:"Configuración de Filtración",
+    with_filtration:"✅ Con Filtración",
+    without_filtration:"⚠️ Sin Filtración",
+    equipment_pricing:"Precios de Equipos (€)",
+    furnace_price_ft3:"Horno FT3",
+    furnace_price_ft4:"Horno FT4",
+    filtration_price:"Filtración",
+    generate_pdf:"Generar Informe PDF",
+    rec_label:"Tecnología Recomendada (25 Años)",
+    breakeven_label:"Año de Equilibrio (vs FT3)",
+    avoidance_label:"Costes Evitados en 25 Años",
+    cost_per_crem_label:"Coste Operativo por Cremación",
+    cost_per_crem_tooltip:"Incluye energía, mano de obra, mantenimiento ordinario, grandes revisiones y componentes.",
+    chart_title:"Comparación TCO Acumulada (25 Años)",
+    table_title:"Resumen de Costes Acumulados",
+    table_tech:"Tecnología",
+    tco_8y:"TCO 8 Años",
+    tco_15y:"TCO 15 Años",
+    tco_25y:"TCO 25 Años",
+    year:"Año",
+    standard_model:"Modelo estándar",
+    optimal_choice:"Elección óptima",
+    baseline:"Referencia",
+    rec_ft3:"FT3 Standard presenta el TCO más bajo a 25 años para las hipótesis seleccionadas.",
+    rec_ft4h:"FT4 Hybrid presenta el TCO más bajo a 25 años para las hipótesis seleccionadas.",
+    rec_ft4e:"FT4 Electric presenta el TCO más bajo a 25 años para las hipótesis seleccionadas.",
+    not_applicable:"N/D",
+    norway_no_gas:"No hay red de gas: las tecnologías de gas no son aplicables.",
+    rec_norway:"En Noruega no hay una red de gas disponible. FT4 Electric es la única tecnología aplicable."
 }
+};
 
-document.getElementById('langSelect').addEventListener('change', function() {
-  currentLang = this.value;
-  document.documentElement.lang = currentLang;
-  applyTranslations();
-  calculateAndRender();
+let selectedCountry = 'France';
+let currentLang = 'fr';
+let selectedVolume = 1000;
+let inflationMode = 'auto';
+let energyMode = 'auto';
+let isWithFiltration = true;
+let tcoChartInstance = null;
+
+document.addEventListener('DOMContentLoaded', () => {
+    const sel = document.getElementById('countrySelect');
+    Object.keys(countriesData).forEach(c => {
+        const o = document.createElement('option');
+        o.value = c; o.textContent = c;
+        if (c === 'France') o.selected = true;
+        sel.appendChild(o);
+    });
+
+    document.getElementById('langSelect').addEventListener('change', e => { currentLang = e.target.value; updateUI(); calc(); });
+    document.getElementById('themeToggle').addEventListener('click', () => { document.body.setAttribute('data-theme', document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); });
+    document.getElementById('countrySelect').addEventListener('change', e => { selectedCountry = e.target.value; syncEnergyFields(); calc(); });
+
+    const vs = document.getElementById('volumeSlider');
+    vs.addEventListener('input', e => { selectedVolume = parseInt(e.target.value); document.getElementById('volumeVal').textContent = selectedVolume; calc(); });
+
+    document.getElementById('btnInflationAuto').addEventListener('click', () => setInflation('auto'));
+    document.getElementById('btnInflationManual').addEventListener('click', () => setInflation('manual'));
+    document.getElementById('btnEnergyAuto').addEventListener('click', () => setEnergy('auto'));
+    document.getElementById('btnEnergyManual').addEventListener('click', () => setEnergy('manual'));
+    document.getElementById('btnWithFilt').addEventListener('click', () => setFiltration(true));
+    document.getElementById('btnWithoutFilt').addEventListener('click', () => setFiltration(false));
+
+    ['manualElecInflation','manualGasInflation','baseElecPrice','baseGasPrice','ft3FurnacePrice','ft4FurnacePrice','filtrationPrice'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) { el.addEventListener('input', calc); el.addEventListener('change', calc); }
+    });
+
+    let printInProgress = false;
+
+    function preparePrintChart() {
+        if (!tcoChartInstance) {
+            return false;
+        }
+
+        const sourceCanvas = tcoChartInstance.canvas;
+        const printCanvas =
+            document.getElementById('tcoChartPrintCanvas');
+
+        if (
+            !sourceCanvas ||
+            !printCanvas ||
+            sourceCanvas.width <= 0 ||
+            sourceCanvas.height <= 0
+        ) {
+            return false;
+        }
+
+        tcoChartInstance.stop();
+        tcoChartInstance.update('none');
+        tcoChartInstance.draw();
+
+        printCanvas.width = sourceCanvas.width;
+        printCanvas.height = sourceCanvas.height;
+
+        const printContext =
+            printCanvas.getContext('2d');
+
+        if (!printContext) {
+            return false;
+        }
+
+        printContext.setTransform(1, 0, 0, 1, 0, 0);
+
+        printContext.clearRect(
+            0,
+            0,
+            printCanvas.width,
+            printCanvas.height
+        );
+
+        printContext.drawImage(
+            sourceCanvas,
+            0,
+            0,
+            printCanvas.width,
+            printCanvas.height
+        );
+
+        return true;
+    }
+
+    document.getElementById('btnPdf').addEventListener('click', () => {
+        if (printInProgress) {
+            return;
+        }
+
+        printInProgress = true;
+
+        document.documentElement.classList.remove(
+            'printSinglePage'
+        );
+
+        buildPrintBlock();
+
+        requestAnimationFrame(() => {
+            const chartReady = preparePrintChart();
+
+            if (!chartReady) {
+                printInProgress = false;
+
+                console.error(
+                    'Le graphique d’impression n’a pas pu être préparé.'
+                );
+
+                return;
+            }
+
+            document.documentElement.classList.add(
+                'printSinglePage'
+            );
+
+            requestAnimationFrame(() => {
+                setTimeout(() => {
+                    window.print();
+                }, 100);
+            });
+        });
+    });
+
+    updateUI();
+    syncEnergyFields();
+    calc();
 });
 
-// ==========================================================
-// OFFICIAL R&D COUNTRY TARIFFS & DATA (19 COUNTRIES)
-// ==========================================================
-const countriesData = {
-  "France":         { gas_kwh: 0.12265, gas_m3: 1.29398282, elec_price: 0.175244, hourly_rate: 45, asp: 650 },
-  "Italy":          { gas_kwh: 0.09373, gas_m3: 0.98885150, elec_price: 0.251671, hourly_rate: 45, asp: 650 },
-  "Spain":          { gas_kwh: 0.07311, gas_m3: 0.77130417, elec_price: 0.151254, hourly_rate: 45, asp: 650 },
-  "Germany":        { gas_kwh: 0.11515, gas_m3: 1.21487470, elec_price: 0.258639, hourly_rate: 45, asp: 650 },
-  "United Kingdom": { gas_kwh: 0.06022, gas_m3: 0.63527231, elec_price: 0.231184, hourly_rate: 45, asp: 650 },
-  "Poland":         { gas_kwh: 0.10340, gas_m3: 1.09089110, elec_price: 0.219842, hourly_rate: 45, asp: 650 },
-  "United States":  { gas_kwh: 0.02007, gas_m3: 0.21169812, elec_price: 0.078453, hourly_rate: 45, asp: 650 },
-  "Australia":      { gas_kwh: 0.03772, gas_m3: 0.39790934, elec_price: 0.279744, hourly_rate: 45, asp: 650 },
-  "Denmark":        { gas_kwh: 0.10176, gas_m3: 1.07361020, elec_price: 0.138916, hourly_rate: 45, asp: 650 },
-  "Sweden":         { gas_kwh: 0.17675, gas_m3: 1.86469140, elec_price: 0.110813, hourly_rate: 45, asp: 650 },
-  "Norway":         { gas_kwh: 0.00000, gas_m3: 0.00000000, elec_price: 0.094476, hourly_rate: 45, asp: 650 },
-  "Finland":        { gas_kwh: 0.12573, gas_m3: 1.32647366, elec_price: 0.085452, hourly_rate: 45, asp: 650 },
-  "Estonia":        { gas_kwh: 0.07472, gas_m3: 0.78825591, elec_price: 0.161078, hourly_rate: 45, asp: 650 },
-  "Latvia":         { gas_kwh: 0.08288, gas_m3: 0.87442726, elec_price: 0.155481, hourly_rate: 45, asp: 650 },
-  "Lithuania":      { gas_kwh: 0.07391, gas_m3: 0.77978004, elec_price: 0.181756, hourly_rate: 45, asp: 650 },
-  // OFFICIAL R&D UPDATED TARIFFS 2026
-  "Netherlands":    { gas_kwh: 0.09000, gas_m3: 1.27000000, elec_price: 0.205000, hourly_rate: 45, asp: 650 },
-  "Belgium":        { gas_kwh: 0.05800, gas_m3: 0.82000000, elec_price: 0.194000, hourly_rate: 45, asp: 650 },
-  "Austria":        { gas_kwh: 0.07000, gas_m3: 0.99000000, elec_price: 0.203000, hourly_rate: 45, asp: 650 },
-  "Switzerland":    { gas_kwh: 0.11600, gas_m3: 1.87000000, elec_price: 0.219000, hourly_rate: 45, asp: 650 },
-};
+function setInflation(m) {
+    inflationMode = m;
+    document.getElementById('btnInflationAuto').classList.toggle('active', m === 'auto');
+    document.getElementById('btnInflationManual').classList.toggle('active', m === 'manual');
+    document.getElementById('manualInflationPanel').classList.toggle('show', m === 'manual');
+    calc();
+}
+function setEnergy(m) {
+    energyMode = m;
+    document.getElementById('btnEnergyAuto').classList.toggle('active', m === 'auto');
+    document.getElementById('btnEnergyManual').classList.toggle('active', m === 'manual');
+    document.getElementById('manualEnergyPanel').classList.toggle('show', m === 'manual');
+    calc();
+}
+function setFiltration(w) {
+    isWithFiltration = w;
+    document.getElementById('btnWithFilt').className = 'filt-btn ' + (w ? 'active-with' : '');
+    document.getElementById('btnWithoutFilt').className = 'filt-btn ' + (!w ? 'active-without' : '');
+    const fg = document.getElementById('filtrationPriceGroup');
+    if (fg) { fg.style.opacity = w ? '1' : '0.4'; document.getElementById('filtrationPrice').disabled = !w; }
+    const fb = document.getElementById('filtrationBanner');
+    if (fb) { const t = T[currentLang] || T.fr; fb.className = 'filtration-banner ' + (w ? 'with' : 'without'); fb.textContent = w ? t.with_filtration : t.without_filtration; }
+    calc();
+}
+function syncEnergyFields() {
+    const c = countriesData[selectedCountry];
+    if (!c) return;
 
-// CONSUMPTIONS DATA (cremations/day -> gas m3/crem, elec kWh/crem)
-const consumptionsData = {
-  FT3: {
-    "2": {gas:47.35, elec:0}, "3": {gas:37.35, elec:0}, "4": {gas:31.62, elec:0},
-    "5": {gas:27.88, elec:0}, "6": {gas:25.19, elec:0}, "7": {gas:23.11, elec:0},
-    "8": {gas:21.46, elec:0}, "9": {gas:20.09, elec:0}, "10":{gas:18.93, elec:0}
-  },
-  FT4_Hybrid: {
-    "2": {gas:17.41, elec:105.74}, "3": {gas:12.83, elec:85.04}, "4": {gas:9.87, elec:73.76},
-    "5": {gas:7.79, elec:65.46},  "6": {gas:6.49, elec:59.40},  "7": {gas:5.56, elec:54.69},
-    "8": {gas:4.87, elec:50.88},  "9": {gas:4.33, elec:47.73},  "10":{gas:3.89, elec:45.06}
-  },
-  FT4_Electric: {
-    "2": {gas:0, elec:60}, "3": {gas:0, elec:40}, "4": {gas:0, elec:35},
-    "5": {gas:0, elec:30}, "6": {gas:0, elec:25}, "7": {gas:0, elec:22},
-    "8": {gas:0, elec:20}, "9": {gas:0, elec:20}, "10":{gas:0, elec:20}
-  }
-};
+    document.getElementById('baseElecPrice').value =
+        Number(c.elec_price).toFixed(4);
 
-// COMPONENT COSTS (annual per cremation basis)
-const componentsBaseData = {
-  FT3: {
-    hearth_cost:9000, hearth_freq:3000, half_cost:20000, half_freq:6000,
-    full_cost:90000, full_freq:10000, cells_cost:0, cells_freq:0,
-    exchanger_cost:40000, exchanger_freq:10,
-    filter_bags_cost:7000, filter_bags_freq:13,
-    filter_box_cost:50000, filter_box_freq:25,
-    abc_tower_cost:15000, abc_tower_freq:20
-  },
-  FT4_Hybrid: {
-    hearth_cost:9000, hearth_freq:3000, half_cost:20000, half_freq:6000,
-    full_cost:90000, full_freq:10000, cells_cost:15000, cells_freq:3000,
-    exchanger_cost:40000, exchanger_freq:10,
-    filter_bags_cost:7000, filter_bags_freq:13,
-    filter_box_cost:50000, filter_box_freq:25,
-    abc_tower_cost:15000, abc_tower_freq:20
-  },
-  FT4_Electric: {
-    hearth_cost:9000, hearth_freq:3000, half_cost:20000, half_freq:6000,
-    full_cost:90000, full_freq:10000, cells_cost:15000, cells_freq:3000,
-    exchanger_cost:40000, exchanger_freq:10,
-    filter_bags_cost:7000, filter_bags_freq:13,
-    filter_box_cost:50000, filter_box_freq:25,
-    abc_tower_cost:15000, abc_tower_freq:20
-  }
-};
+    const gasInput = document.getElementById('baseGasPrice');
+    const gasUnavailable = selectedCountry === 'Norway';
+    const t = T[currentLang] || T.fr;
 
-// FORECASTS DATA (26 years arrays per country)
-const forecastsData = {
-  electricity: {
-    "France":        [0.1534,0.175244,0.169173,0.162789,0.166045,0.169366,0.172753,0.176208,0.179733,0.183327,0.186994,0.190734,0.194548,0.198439,0.202408,0.206456,0.210585,0.214797,0.219093,0.223475,0.227944,0.232503,0.237153,0.241896,0.246734,0.251669],
-    "Italy":         [0.2203,0.251671,0.242952,0.233784,0.238460,0.243229,0.248094,0.253055,0.258117,0.263279,0.268544,0.273915,0.279394,0.284982,0.290681,0.296495,0.302424,0.308473,0.314643,0.320936,0.327354,0.333901,0.340579,0.347391,0.354339,0.361426],
-    "Spain":         [0.1324,0.151254,0.146014,0.140504,0.143314,0.146180,0.149104,0.152086,0.155128,0.158230,0.161395,0.164623,0.167915,0.171274,0.174699,0.178193,0.181757,0.185392,0.189100,0.192882,0.196739,0.200674,0.204688,0.208781,0.212957,0.217216],
-    "Germany":       [0.2264,0.258639,0.249679,0.240257,0.245063,0.249964,0.254963,0.260062,0.265263,0.270569,0.275980,0.281500,0.287130,0.292873,0.298730,0.304705,0.310799,0.317015,0.323355,0.329822,0.336418,0.343147,0.350010,0.357010,0.364150,0.371433],
-    "United Kingdom":[0.20237,0.231184,0.223175,0.214753,0.219048,0.223429,0.227898,0.232456,0.237105,0.241847,0.246684,0.251618,0.256650,0.261783,0.267019,0.272359,0.277806,0.283362,0.289030,0.294810,0.300707,0.306721,0.312855,0.319112,0.325494,0.332004],
-    "Poland":        [0.1915,0.219842,0.213266,0.206225,0.211380,0.216665,0.222081,0.227633,0.233324,0.239157,0.245136,0.251265,0.257546,0.263985,0.270584,0.277349,0.284283,0.291390,0.298675,0.306142,0.313795,0.321640,0.329681,0.337923,0.346371,0.355030],
-    "United States": [0.07431,0.078453,0.079243,0.080024,0.082025,0.084075,0.086177,0.088332,0.090540,0.092803,0.095124,0.097502,0.099939,0.102438,0.104999,0.107624,0.110314,0.113072,0.115899,0.118796,0.121766,0.124810,0.127931,0.131129,0.134407,0.137767],
-    "Australia":     [0.26497,0.279744,0.282562,0.285346,0.292479,0.299791,0.307286,0.314970,0.322842,0.330913,0.339186,0.347666,0.356358,0.365266,0.374398,0.383758,0.393352,0.403186,0.413266,0.423597,0.434187,0.445042,0.456168,0.467572,0.479261,0.491243],
-    "Denmark":       [0.1216,0.138916,0.134103,0.129043,0.131624,0.134256,0.136941,0.139680,0.142474,0.145323,0.148230,0.151194,0.154218,0.157303,0.160449,0.163658,0.166931,0.170269,0.173675,0.177148,0.180691,0.184305,0.187991,0.191751,0.195586,0.199498],
-    "Sweden":        [0.097,0.110813,0.106974,0.102938,0.104996,0.107096,0.109238,0.111423,0.113651,0.115924,0.118242,0.120607,0.123019,0.125480,0.127989,0.130549,0.133160,0.135823,0.138540,0.141311,0.144137,0.147020,0.149960,0.152959,0.156018,0.159139],
-    "Norway":        [0.0827,0.094476,0.091204,0.087762,0.089517,0.091307,0.093134,0.094996,0.096896,0.098834,0.100811,0.102827,0.104884,0.106981,0.109121,0.111303,0.113529,0.115800,0.118116,0.120478,0.122888,0.125346,0.127853,0.130410,0.133018,0.135678],
-    "Finland":       [0.0748,0.085452,0.082491,0.079378,0.080966,0.082585,0.084237,0.085922,0.087640,0.089393,0.091181,0.093004,0.094864,0.096762,0.098697,0.100671,0.102684,0.104738,0.106833,0.108970,0.111149,0.113372,0.115639,0.117952,0.120311,0.122717],
-    "Estonia":       [0.141,0.161078,0.155498,0.149630,0.152623,0.155675,0.158789,0.161965,0.165204,0.168508,0.171878,0.175316,0.178822,0.182399,0.186047,0.189768,0.193563,0.197434,0.201383,0.205410,0.209519,0.213709,0.217983,0.222343,0.226790,0.231326],
-    "Latvia":        [0.1361,0.155481,0.150094,0.144430,0.147319,0.150265,0.153271,0.156336,0.159463,0.162652,0.165905,0.169223,0.172608,0.176060,0.179581,0.183173,0.186836,0.190573,0.194384,0.198272,0.202237,0.206282,0.210408,0.214616,0.218908,0.223287],
-    "Lithuania":     [0.1591,0.181756,0.175459,0.168838,0.172215,0.175659,0.179172,0.182756,0.186411,0.190139,0.193942,0.197821,0.201777,0.205813,0.209929,0.214128,0.218410,0.222778,0.227234,0.231779,0.236414,0.241143,0.245965,0.250885,0.255902,0.261020],
-    "Netherlands":   [0.180,0.205000,0.234000,0.238680,0.243454,0.248323,0.253289,0.258355,0.263522,0.268792,0.274168,0.279652,0.285245,0.290950,0.296769,0.302704,0.308758,0.314933,0.321232,0.327657,0.334210,0.340894,0.347712,0.354666,0.361759,0.368994],
-    "Belgium":       [0.170,0.194000,0.222000,0.226440,0.230969,0.235588,0.240300,0.245106,0.250008,0.255008,0.260108,0.265310,0.270617,0.276029,0.281550,0.287181,0.292924,0.298783,0.304758,0.310854,0.317071,0.323412,0.329880,0.336478,0.343208,0.350072],
-    "Austria":       [0.178,0.203000,0.232000,0.236640,0.241373,0.246200,0.251124,0.256147,0.261270,0.266495,0.271825,0.277262,0.282807,0.288463,0.294232,0.300117,0.306119,0.312242,0.318486,0.324856,0.331353,0.337980,0.344740,0.351635,0.358668,0.365841],
-    "Switzerland":   [0.192,0.219000,0.286000,0.291720,0.297554,0.303506,0.309576,0.315767,0.322082,0.328524,0.335094,0.341796,0.348632,0.355605,0.362717,0.369971,0.377371,0.384918,0.392617,0.400469,0.408478,0.416648,0.424981,0.433480,0.442150,0.450993],
-  },
-  gas: {
-    "France":        [0.96638,1.293983,1.179017,1.055990,1.087669,1.120299,1.153908,1.188526,1.224181,1.260907,1.298734,1.337696,1.377827,1.419162,1.461736,1.505589,1.550756,1.597279,1.645197,1.694553,1.745390,1.797751,1.851684,1.907235,1.964452,2.023385],
-    "Italy":         [0.73850,0.988852,0.900996,0.806979,0.831188,0.856124,0.881808,0.908262,0.935510,0.963575,0.992482,1.022257,1.052924,1.084512,1.117048,1.150559,1.185076,1.220628,1.257247,1.294964,1.333813,1.373828,1.415042,1.457494,1.501218,1.546255],
-    "Spain":         [0.57603,0.771304,0.702777,0.629444,0.648327,0.667777,0.687810,0.708444,0.729698,0.751588,0.774136,0.797360,0.821281,0.845919,0.871297,0.897436,0.924359,0.952090,0.980653,1.010072,1.040374,1.071585,1.103733,1.136845,1.170950,1.206079],
-    "Germany":       [0.90730,1.214875,1.106938,0.991431,1.021174,1.051809,1.083364,1.115865,1.149340,1.183821,1.219335,1.255915,1.293593,1.332401,1.372373,1.413544,1.455950,1.499629,1.544618,1.590956,1.638685,1.687845,1.738481,1.790635,1.844354,1.899685],
-    "United Kingdom":[0.47444,0.635272,0.578831,0.518431,0.533984,0.550004,0.566504,0.583499,0.601004,0.619034,0.637605,0.656733,0.676435,0.696728,0.717630,0.739159,0.761334,0.784174,0.807699,0.831930,0.856888,0.882594,0.909072,0.936344,0.964435,0.993368],
-    "Poland":        [0.81868,1.090891,0.989145,0.881629,0.903670,0.926261,0.949418,0.973153,0.997482,1.022419,1.047980,1.074179,1.101034,1.128559,1.156773,1.185693,1.215335,1.245718,1.276861,1.308783,1.341503,1.375040,1.409416,1.444651,1.480768,1.517787],
-    "United States": [0.15643,0.211698,0.194950,0.176472,0.183707,0.191239,0.199080,0.207242,0.215739,0.224584,0.233792,0.243378,0.253356,0.263744,0.274557,0.285814,0.297533,0.309731,0.322430,0.335650,0.349412,0.363738,0.378651,0.394176,0.410337,0.427161],
-    "Australia":     [0.29862,0.397909,0.360797,0.321580,0.329619,0.337860,0.346306,0.354964,0.363838,0.372934,0.382257,0.391814,0.401609,0.411649,0.421940,0.432489,0.443301,0.454384,0.465744,0.477388,0.489322,0.501555,0.514094,0.526947,0.540120,0.553623],
-    "Denmark":       [0.80511,1.073610,0.978073,0.875500,0.901765,0.928818,0.956683,0.985383,1.014945,1.045393,1.076755,1.109058,1.142330,1.176600,1.211898,1.248255,1.285703,1.324274,1.364002,1.404922,1.447070,1.490482,1.535196,1.581252,1.628690,1.677551],
-    "Sweden":        [1.39852,1.864691,1.699250,1.521006,1.566637,1.613636,1.662045,1.711906,1.763263,1.816161,1.870646,1.926765,1.984568,2.044105,2.105428,2.168591,2.233648,2.300657,2.369677,2.440768,2.513991,2.589410,2.667093,2.747106,2.829519,2.914404],
-    "Norway":        [0.00000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000],
-    "Finland":       [0.99186,1.326474,1.208854,1.082069,1.114531,1.147967,1.182406,1.217878,1.254415,1.292047,1.330808,1.370732,1.411854,1.454210,1.497836,1.542771,1.589054,1.636726,1.685827,1.736402,1.788494,1.842149,1.897413,1.954336,2.012966,2.073354],
-    "Estonia":       [0.59069,0.788256,0.718288,0.643073,0.662385,0.682257,0.702724,0.723806,0.745520,0.767886,0.790923,0.814650,0.839090,0.864263,0.890191,0.916897,0.944404,0.972736,1.001918,1.031976,1.062935,1.094823,1.127668,1.161498,1.196343,1.232234],
-    "Latvia":        [0.65582,0.874427,0.797023,0.713429,0.734832,0.756877,0.779583,0.802971,0.827060,0.851872,0.877428,0.903751,0.930864,0.958790,0.987554,1.017181,1.047696,1.079127,1.111501,1.144846,1.179191,1.214567,1.251004,1.288534,1.327190,1.367006],
-    "Lithuania":     [0.58484,0.779780,0.711022,0.636210,0.655496,0.675161,0.695216,0.715672,0.736543,0.757840,0.779575,0.801762,0.824415,0.847547,0.871174,0.895309,0.919968,0.945167,0.970922,0.997249,1.024165,1.051685,1.079824,1.108599,1.138027,1.168125],
-    "Netherlands":   [0.950,1.270000,1.157600,1.036000,1.067080,1.099092,1.132065,1.166027,1.201008,1.237038,1.274149,1.312374,1.351745,1.392297,1.434066,1.477088,1.521401,1.567043,1.614054,1.662476,1.712350,1.763721,1.816632,1.871131,1.927265,1.985083],
-    "Belgium":       [0.610,0.820000,0.747400,0.669200,0.689276,0.709954,0.731253,0.753191,0.775786,0.799060,0.823032,0.847723,0.873155,0.899349,0.926330,0.954120,0.982743,1.012226,1.042592,1.073870,1.106086,1.139269,1.173447,1.208650,1.244910,1.282257],
-    "Austria":       [0.740,0.990000,0.902400,0.808000,0.832240,0.857207,0.882923,0.909411,0.936693,0.964794,0.993738,1.023550,1.054257,1.085884,1.118461,1.152015,1.186575,1.222172,1.258837,1.296603,1.335501,1.375566,1.416833,1.459338,1.503118,1.548211],
-    "Switzerland":   [1.400,1.870000,1.704500,1.526000,1.571780,1.618933,1.667501,1.717526,1.769052,1.822124,1.876787,1.933091,1.991084,2.050816,2.112341,2.175711,2.240982,2.308212,2.377458,2.448782,2.522245,2.597913,2.675850,2.756126,2.838809,2.923974],
-  }
-};
+    gasInput.value = gasUnavailable
+        ? '0.0000'
+        : Number(c.gas_price).toFixed(4);
 
-// ==========================================================
-// STATE
-// ==========================================================
-let selectedVolume = 1000;
-let selectedCountry = 'France';
-let currentScenario = 'forecast';
-let isWithFiltration = true;
-let tcoChart = null;
+    gasInput.disabled = gasUnavailable;
+    gasInput.title = gasUnavailable
+        ? t.norway_no_gas
+        : '';
 
-// ==========================================================
-// DOM SETUP
-// ==========================================================
-function populateCountries() {
-  const sel = document.getElementById('countrySelect');
-  sel.innerHTML = '';
-  Object.keys(countriesData).forEach(c => {
-    const opt = document.createElement('option');
-    opt.value = c;
-    opt.textContent = c;
-    sel.appendChild(opt);
-  });
-  sel.value = selectedCountry;
+    const gasInflationInput =
+        document.getElementById('manualGasInflation');
+
+    if (gasInflationInput) {
+        gasInflationInput.disabled = gasUnavailable;
+        gasInflationInput.title = gasUnavailable
+            ? t.norway_no_gas
+            : '';
+    }
+
+    // Keep the current manual defaults unless valid country-specific rates exist.
+    if (Number.isFinite(c.elec_inflation)) {
+        document.getElementById('manualElecInflation').value =
+            (c.elec_inflation * 100).toFixed(1);
+    }
+    if (Number.isFinite(c.gas_inflation)) {
+        document.getElementById('manualGasInflation').value =
+            (c.gas_inflation * 100).toFixed(1);
+    }
+}
+function updateUI() {
+    const t = T[currentLang] || T.fr;
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key]) el.textContent = t[key];
+    });
+
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (t[key]) el.placeholder = t[key];
+    });
+
+    const fb = document.getElementById('filtrationBanner');
+    if (fb) {
+        fb.textContent = isWithFiltration
+            ? t.with_filtration
+            : t.without_filtration;
+    }
 }
 
-// ==========================================================
-// DYNAMIC CONSUMPTION INTERPOLATION
-// ==========================================================
 function getConsumption(tech, cremDay) {
-  const d = Math.max(2, Math.min(10, cremDay));
-  const dLow = Math.floor(d);
-  const dHigh = Math.ceil(d);
-  const frac = d - dLow;
-  const cData = consumptionsData[tech];
-  const lowData = cData[dLow.toString()] || cData["2"];
-  const highData = cData[dHigh.toString()] || cData["10"];
-  return {
-    gas: lowData.gas + frac * (highData.gas - lowData.gas),
-    elec: lowData.elec + frac * (highData.elec - lowData.elec)
-  };
-}
-
-// ==========================================================
-// CALCULATION ENGINE
-// ==========================================================
-function getFiltrationServiceFee() {
-  const baseFee = 25.68;
-  return isWithFiltration ? baseFee : baseFee * 2 / 3; // 2/3 rule without filtration (€17.12)
+    const d = Math.max(2, Math.min(10, cremDay));
+    const lo = Math.floor(d), hi = Math.ceil(d), fr = d - lo;
+    const cd = consumptionsData[tech];
+    const L = cd[lo.toString()] || cd["2"];
+    const H = cd[hi.toString()] || cd["10"];
+    return { gas: L.gas + fr * (H.gas - L.gas), elec: L.elec + fr * (H.elec - L.elec) };
 }
 
 function getCapex(tech) {
-  const ft3Furnace = parseFloat(document.getElementById('ft3FurnacePrice').value) || 260000;
-  const ft4Furnace = parseFloat(document.getElementById('ft4FurnacePrice').value) || 360000;
-  const filtPrice  = isWithFiltration ? (parseFloat(document.getElementById('filtrationPrice').value) || 400000) : 0;
-  if (tech === 'FT3') return ft3Furnace + filtPrice;
-  return ft4Furnace + filtPrice;
+    const f3 = parseFloat(document.getElementById('ft3FurnacePrice').value) || 260000;
+    const f4 = parseFloat(document.getElementById('ft4FurnacePrice').value) || 360000;
+    const fp = isWithFiltration ? (parseFloat(document.getElementById('filtrationPrice').value) || 400000) : 0;
+    return (tech === 'FT3' ? f3 : f4) + fp;
 }
 
-function getOtherOpex(tech, volume) {
-  const cDb = componentsBaseData[tech];
-  const hearth = cDb.hearth_cost / cDb.hearth_freq;
-  const half   = cDb.half_cost  / cDb.half_freq;
-  const full   = cDb.full_cost  / cDb.full_freq;
-  const cells  = cDb.cells_freq ? (cDb.cells_cost / cDb.cells_freq) : 0;
-
-  // Filtration components: 0 if without filtration
-  const filt = isWithFiltration ? 1 : 0;
-  const exchanger  = (volume > 0) ? (filt * cDb.exchanger_cost  / (cDb.exchanger_freq  * volume)) : 0;
-  const filterBags = (volume > 0) ? (filt * cDb.filter_bags_cost / (cDb.filter_bags_freq * volume)) : 0;
-  const filterBox  = (volume > 0) ? (filt * cDb.filter_box_cost  / (cDb.filter_box_freq  * volume)) : 0;
-  const abcTower   = (volume > 0) ? (filt * cDb.abc_tower_cost   / (cDb.abc_tower_freq   * volume)) : 0;
-
-  const serviceFee = getFiltrationServiceFee();
-  const cParams = countriesData[selectedCountry];
-  const operator = 0.25 * (cParams ? cParams.hourly_rate : 45);
-
-  return hearth + half + full + cells + exchanger + filterBags + filterBox + abcTower + serviceFee + operator;
+function getServiceFee() {
+    return isWithFiltration ? 25.68 : 25.68 * 2 / 3;
 }
 
-function formatEUR(val) {
-  if (!val && val !== 0) return '—';
-  if (Math.abs(val) >= 1e6) return (val/1e6).toFixed(2) + 'M€';
-  return new Intl.NumberFormat('fr-FR', {style:'currency', currency:'EUR', maximumFractionDigits:0}).format(val);
+function getComponentOpex(tech, volume) {
+    const c = componentsData[tech];
+    let cost = c.hearth_cost / c.hearth_freq + c.half_cost / c.half_freq + c.full_cost / c.full_freq;
+    if (c.cells_freq > 0) cost += c.cells_cost / c.cells_freq;
+    if (isWithFiltration) {
+        cost += (c.exchanger_cost / c.exchanger_freq + c.filter_bags_cost / c.filter_bags_freq + c.filter_box_cost / c.filter_box_freq + c.abc_tower_cost / c.abc_tower_freq) / volume;
+    }
+    return cost;
 }
 
-function calculateAndRender() {
-  const volume = selectedVolume;
-  const cParams = countriesData[selectedCountry];
-  if (!cParams) return;
+function calc() {
+    const vol = selectedVolume;
+    const cp = countriesData[selectedCountry];
+    if (!cp) return;
 
-  let gasPrice  = cParams.gas_m3;
-  let elecPrice = cParams.elec_price;
-  let generalInflation = 0.02;
-  let manualGasInflation = 0.02;
-  let manualElecInflation = 0.02;
+    let elecP = Number(cp.elec_price);
+    let gasP_m3 = Number(cp.gas_price);
+    const gasTechUnavailable = selectedCountry === 'Norway';
 
-  const genInfEl = document.getElementById('generalInflationInput');
-  if (genInfEl) {
-      const parsedGenInf = parseFloat(genInfEl.value);
-      if (!isNaN(parsedGenInf)) {
-          generalInflation = parsedGenInf / 100;
-          manualGasInflation = generalInflation;
-          manualElecInflation = generalInflation;
-      }
-  }
+    if (energyMode === 'manual') {
+        const ev = Number(document.getElementById('baseElecPrice').value);
+        const gv = Number(document.getElementById('baseGasPrice').value);
+        if (Number.isFinite(ev) && ev >= 0) elecP = ev;
+        if (!gasTechUnavailable && Number.isFinite(gv) && gv >= 0) {
+            gasP_m3 = gv;
+        }
+    }
 
-  const baseElecEl = document.getElementById('baseElecPriceInput');
-  const baseGasEl  = document.getElementById('baseGasPriceInput');
+    if (gasTechUnavailable) {
+        gasP_m3 = 0;
+    }
 
-  if (currentScenario === 'manual' && baseElecEl && baseGasEl) {
-      const parsedElec = parseFloat(baseElecEl.value);
-      const parsedGasKwh = parseFloat(baseGasEl.value);
-      if (!isNaN(parsedElec) && parsedElec > 0) elecPrice = parsedElec;
-      if (!isNaN(parsedGasKwh) && parsedGasKwh > 0) gasPrice = parsedGasKwh * 10.55;
-  }
+    // Up to 2,500 cremations: 250 operating days.
+    // Above 2,500: keep the validated efficiency at 10 cremations/day
+    // and increase the number of operating days.
+    const referenceDays = 250;
+    const maxDailyCremations = 10;
+    const operatingDays =
+        vol <= maxDailyCremations * referenceDays
+            ? referenceDays
+            : vol / maxDailyCremations;
 
-  // Internal fixed R&D preheat electricity (300 kWh/day over 250 operating days = 75,000 kWh/yr)
-  const annualPreheatKwh = 300 * 250;
+    const cremDay =
+        vol <= maxDailyCremations * referenceDays
+            ? vol / referenceDays
+            : maxDailyCremations;
 
-  const cremationsDay = Math.max(1, volume / 250);
+    const preheatKwh = 300 * operatingDays;
 
-  const ft3Cons    = getConsumption('FT3', cremationsDay);
-  const hybridCons = getConsumption('FT4_Hybrid', cremationsDay);
-  const elecCons   = getConsumption('FT4_Electric', cremationsDay);
+    const cons = {};
+    ['FT3','FT4_Hybrid','FT4_Electric'].forEach(t => { cons[t] = getConsumption(t, cremDay); });
 
-  const ft3Gas1    = ft3Cons.gas    * gasPrice;
-  const hybridGas1 = hybridCons.gas * gasPrice;
-  const elecGas1   = 0;
+    const capex = {};
+    ['FT3','FT4_Hybrid','FT4_Electric'].forEach(t => { capex[t] = getCapex(t); });
 
-  const ft3Elec1    = ft3Cons.elec    * elecPrice;
-  const hybridElec1 = hybridCons.elec * elecPrice;
-  
-  // FT4 Electric annual energy cost = (volume * elecCons + 75000 kWh preheat) * elecPrice
-  const elecElec1_per_crem = elecCons.elec * elecPrice;
-  const preheatElec1_annual = annualPreheatKwh * elecPrice;
+    const compOpex = {};
+    ['FT3','FT4_Hybrid','FT4_Electric'].forEach(t => { compOpex[t] = getComponentOpex(t, vol); });
 
-  const ft3Other    = getOtherOpex('FT3', volume);
-  const hybridOther = getOtherOpex('FT4_Hybrid', volume);
-  const elecOther   = getOtherOpex('FT4_Electric', volume);
+    const svc = getServiceFee();
+    const opHours = 0.25 * cp.hourly_rate;
+    const generalInflation = 0.02;
 
-  const capexFT3    = getCapex('FT3');
-  const capexFT4    = getCapex('FT4');
+    const tco = { FT3: [capex.FT3], FT4_Hybrid: [capex.FT4_Hybrid], FT4_Electric: [capex.FT4_Electric] };
+    let cum = { FT3: capex.FT3, FT4_Hybrid: capex.FT4_Hybrid, FT4_Electric: capex.FT4_Electric };
+    let totalOp = { FT3: 0, FT4_Hybrid: 0, FT4_Electric: 0 };
+    let firstYearOpPerCrem = { FT3: 0, FT4_Hybrid: 0, FT4_Electric: 0 };
 
-  const ft3TcoCurve    = [capexFT3];
-  const hybridTcoCurve = [capexFT4];
-  const elecTcoCurve   = [capexFT4];
+    for (let yr = 1; yr <= 25; yr++) {
+        let gM3 = 0;
+        let eKwh = 0;
 
-  const isForecast = (currentScenario === 'forecast');
-  const gasPricesCountry  = forecastsData.gas[selectedCountry];
-  const elecPricesCountry = forecastsData.electricity[selectedCountry];
+        if (inflationMode === 'manual') {
+            const ei = parseFloat(document.getElementById('manualElecInflation').value) / 100 || 0;
+            const gi = parseFloat(document.getElementById('manualGasInflation').value) / 100 || 0;
+            gM3 = gasTechUnavailable
+                ? 0
+                : gasP_m3 * Math.pow(1 + gi, yr - 1);
+            eKwh = elecP * Math.pow(1 + ei, yr - 1);
+        } else {
+            const arrElec =
+                forecastDataset.electricity &&
+                forecastDataset.electricity[selectedCountry];
 
-  for (let y = 1; y <= 25; y++) {
-    let gasMult, elecMult;
-    if (!isForecast || !gasPricesCountry || !elecPricesCountry) {
-      gasMult  = ((1 + manualGasInflation)**y  - 1) / (manualGasInflation  || 0.0001);
-      elecMult = ((1 + manualElecInflation)**y - 1) / (manualElecInflation || 0.0001);
+            const arrGas =
+                forecastDataset.gas &&
+                forecastDataset.gas[selectedCountry];
+
+            // Arrays contain 2025-2050. The TCO horizon is 2026-2050,
+            // therefore year 1 uses index 1 and year 25 uses index 25.
+            const forecastIndex = yr;
+            const baseIndex = 1;
+
+            if (
+                !Array.isArray(arrElec) ||
+                arrElec.length <= forecastIndex ||
+                !Number.isFinite(Number(arrElec[baseIndex])) ||
+                !Number.isFinite(Number(arrElec[forecastIndex]))
+            ) {
+                throw new Error(
+                    `Electricity forecast missing for ${selectedCountry}, year ${2025 + yr}`
+                );
+            }
+
+            const elecForecastBase = Number(arrElec[baseIndex]);
+            const elecForecastYear = Number(arrElec[forecastIndex]);
+            eKwh = elecP * (elecForecastYear / elecForecastBase);
+
+            if (
+                Array.isArray(arrGas) &&
+                arrGas.length > forecastIndex &&
+                arrGas[baseIndex] !== "n/a" &&
+                arrGas[forecastIndex] !== "n/a" &&
+                Number.isFinite(Number(arrGas[baseIndex])) &&
+                Number.isFinite(Number(arrGas[forecastIndex])) &&
+                Number(arrGas[baseIndex]) !== 0
+            ) {
+                const gasForecastBase = Number(arrGas[baseIndex]);
+                const gasForecastYear = Number(arrGas[forecastIndex]);
+                gM3 = gasP_m3 * (gasForecastYear / gasForecastBase);
+            } else if (gasTechUnavailable || gasP_m3 === 0) {
+                // Norway has no gas grid in the Excel source.
+                gM3 = 0;
+            } else {
+                throw new Error(
+                    `Gas forecast missing for ${selectedCountry}, year ${2025 + yr}`
+                );
+            }
+        }
+
+        ['FT3','FT4_Hybrid','FT4_Electric'].forEach(t => {
+            let energy;
+            if (t === 'FT4_Electric') {
+                energy = (vol * cons[t].elec + preheatKwh) * eKwh;
+            } else {
+                energy = vol * (cons[t].gas * gM3 + cons[t].elec * eKwh);
+            }
+            const baseNonEnergyOpexPerCremation =
+                compOpex[t] + svc + opHours;
+
+            const yearlyNonEnergyOpexPerCremation =
+                baseNonEnergyOpexPerCremation *
+                Math.pow(1 + generalInflation, yr - 1);
+
+            const opex =
+                vol * yearlyNonEnergyOpexPerCremation +
+                energy;
+
+            if (!Number.isFinite(opex)) {
+                throw new Error(
+                    `Invalid OPEX for ${t}. Check energy prices and component fields.`
+                );
+            }
+
+            if (yr === 1) {
+                firstYearOpPerCrem[t] = opex / vol;
+            }
+
+            cum[t] += opex;
+            tco[t].push(cum[t]);
+            totalOp[t] += opex;
+        });
+    }
+
+    let best = 'FT4 Electric', bestKey = 'FT4_Electric';
+
+    if (!gasTechUnavailable) {
+        if (
+            cum.FT3 <= cum.FT4_Hybrid &&
+            cum.FT3 <= cum.FT4_Electric
+        ) {
+            best = 'FT3';
+            bestKey = 'FT3';
+        } else if (
+            cum.FT4_Hybrid <= cum.FT3 &&
+            cum.FT4_Hybrid <= cum.FT4_Electric
+        ) {
+            best = 'FT4 Hybrid';
+            bestKey = 'FT4_Hybrid';
+        }
+    }
+
+    let beYear = null;
+    if (!gasTechUnavailable) {
+        for (let yr = 1; yr <= 25; yr++) {
+            if (tco[bestKey][yr] < tco.FT3[yr]) {
+                beYear = yr;
+                break;
+            }
+        }
+    }
+
+    const avoidance =
+        gasTechUnavailable
+            ? null
+            : cum.FT3 - cum[bestKey];
+
+    const opCostPerCrem = firstYearOpPerCrem[bestKey];
+
+    const t = T[currentLang] || T.fr;
+    const localeMap = {
+        fr: 'fr-FR',
+        en: 'en-GB',
+        de: 'de-DE',
+        it: 'it-IT',
+        es: 'es-ES'
+    };
+    const locale = localeMap[currentLang] || 'fr-FR';
+    const formatEuro = value =>
+        new Intl.NumberFormat(locale, {
+            style: 'currency',
+            currency: 'EUR',
+            maximumFractionDigits: 0
+        }).format(value);
+
+    document.getElementById('recTechName').textContent = best;
+
+    document.getElementById('recBadge').textContent =
+        best === 'FT3'
+            ? t.standard_model
+            : t.optimal_choice;
+
+    document.getElementById('beValue').textContent =
+        gasTechUnavailable
+            ? t.not_applicable
+            : (
+                beYear
+                    ? `${t.year} ${beYear}`
+                    : (best === 'FT3' ? t.baseline : '> 25')
+            );
+
+    document.getElementById('avoidanceValue').textContent =
+        gasTechUnavailable
+            ? t.not_applicable
+            : (avoidance > 0 ? formatEuro(avoidance) : formatEuro(0));
+
+    document.getElementById('costPerCremValue').textContent =
+        formatEuro(opCostPerCrem);
+
+    const description = document.getElementById('recDescription');
+    description.textContent =
+        gasTechUnavailable
+            ? t.rec_norway
+            : (
+                best === 'FT4 Electric'
+                    ? t.rec_ft4e
+                    : best === 'FT4 Hybrid'
+                        ? t.rec_ft4h
+                        : t.rec_ft3
+            );
+
+    renderTcoChart(tco, t, gasTechUnavailable);
+    updateTcoTable(tco, gasTechUnavailable);
+}
+
+function updateTcoTable(tco, gasTechUnavailable = false) {
+    const tableBody = document.getElementById('tcoTableBody');
+    if (!tableBody) {
+        throw new Error('tcoTableBody est absent du HTML');
+    }
+
+    const localeMap = {
+        fr: 'fr-FR',
+        en: 'en-GB',
+        de: 'de-DE',
+        it: 'it-IT',
+        es: 'es-ES'
+    };
+
+    const locale = localeMap[currentLang] || 'fr-FR';
+
+    const formatCurrency = value =>
+        new Intl.NumberFormat(locale, {
+            style: 'currency',
+            currency: 'EUR',
+            maximumFractionDigits: 0
+        }).format(value);
+
+    const t = T[currentLang] || T.fr;
+    const gasValue = value =>
+        gasTechUnavailable
+            ? t.not_applicable
+            : formatCurrency(value);
+
+    tableBody.innerHTML = `
+        <tr>
+            <td class="tech-ft3">FT3 Standard</td>
+            <td>${gasValue(tco.FT3[8])}</td>
+            <td>${gasValue(tco.FT3[15])}</td>
+            <td>${gasValue(tco.FT3[25])}</td>
+        </tr>
+        <tr>
+            <td class="tech-ft4h">FT4 Hybrid</td>
+            <td>${gasValue(tco.FT4_Hybrid[8])}</td>
+            <td>${gasValue(tco.FT4_Hybrid[15])}</td>
+            <td>${gasValue(tco.FT4_Hybrid[25])}</td>
+        </tr>
+        <tr>
+            <td class="tech-ft4e">FT4 Electric</td>
+            <td>${formatCurrency(tco.FT4_Electric[8])}</td>
+            <td>${formatCurrency(tco.FT4_Electric[15])}</td>
+            <td>${formatCurrency(tco.FT4_Electric[25])}</td>
+        </tr>
+    `;
+}
+
+function renderTcoChart(tco, t, gasTechUnavailable = false) {
+    const ctx1 = document.getElementById('tcoChart').getContext('2d');
+    if (tcoChartInstance) tcoChartInstance.destroy();
+    tcoChartInstance = new Chart(ctx1, {
+        type: 'line',
+        data: {
+            labels: Array.from({length:26}, (_,i) => i.toString()),
+            datasets: [
+                { label:'FT3 Standard', data:tco.FT3, hidden:gasTechUnavailable, borderColor:'#f97316', borderWidth:2.5, pointRadius:0, pointHoverRadius:4, tension:0.2, backgroundColor:'rgba(249,115,22,0.08)' },
+                { label:'FT4 Hybrid', data:tco.FT4_Hybrid, hidden:gasTechUnavailable, borderColor:'#38bdf8', borderWidth:2.5, pointRadius:0, pointHoverRadius:4, tension:0.2, backgroundColor:'rgba(56,189,248,0.08)' },
+                { label:'FT4 Electric', data:tco.FT4_Electric, borderColor:'#22c55e', borderWidth:3, pointRadius:0, pointHoverRadius:4, tension:0.2, backgroundColor:'rgba(34,197,94,0.08)' }
+            ]
+        },
+        options: {
+            responsive:true, maintainAspectRatio:false,
+            plugins: { legend:{ position:'top', labels:{ color:'#94a3b8', font:{ size:10 } } }, tooltip:{ mode:'index', intersect:false, callbacks:{ label: c => { const localeMap={fr:'fr-FR',en:'en-GB',de:'de-DE',it:'it-IT',es:'es-ES'}; const locale=localeMap[currentLang]||'fr-FR'; return c.dataset.label+': '+Math.round(c.parsed.y).toLocaleString(locale)+' €'; } } } },
+            scales: {
+                x: { ticks:{ color:'#94a3b8', font:{ size:9 } }, grid:{ color:'rgba(255,255,255,0.04)' } },
+                y: { ticks:{ color:'#94a3b8', font:{ size:9 }, callback: v => (v/1e6).toFixed(1)+' M€' }, grid:{ color:'rgba(255,255,255,0.04)' } }
+            }
+        }
+    });
+}
+
+function buildPrintBlock() {
+    const t = T[currentLang] || T.fr;
+    const clientName =
+        document.getElementById('clientNameInput').value.trim();
+
+    const clientHeader =
+        document.getElementById('printClientHeader');
+
+    if (clientName) {
+        clientHeader.textContent =
+            `${t.client_site_name}: ${clientName}`;
+        clientHeader.style.display = 'block';
     } else {
-      gasMult  = gasPricesCountry.slice(1, y+1).reduce((a,b) => a+b, 0) / gasPrice;
-      elecMult = elecPricesCountry.slice(1, y+1).reduce((a,b) => a+b, 0) / elecPrice;
+        clientHeader.textContent = '';
+        clientHeader.style.display = 'none';
     }
-    const otherMult = ((1 + generalInflation)**y - 1) / (generalInflation || 0.0001);
 
-    const ft3Energy = volume * (ft3Gas1 * gasMult + ft3Elec1 * elecMult);
-    const hybridEnergy = volume * (hybridGas1 * gasMult + hybridElec1 * elecMult);
-    const elecEnergy = (volume * elecElec1_per_crem + preheatElec1_annual) * elecMult;
+    const inflationLabel =
+        inflationMode === 'auto'
+            ? t.forecast
+            : t.manual;
 
-    ft3TcoCurve.push(capexFT3    + ft3Energy    + volume * ft3Other    * otherMult);
-    hybridTcoCurve.push(capexFT4 + hybridEnergy + volume * hybridOther * otherMult);
-    elecTcoCurve.push(capexFT4   + elecEnergy   + volume * elecOther   * otherMult);
-  }
+    const energyModeLabel =
+        energyMode === 'auto'
+            ? t.auto
+            : t.manual;
 
-  const finalFT3    = ft3TcoCurve[25];
-  const finalHybrid = hybridTcoCurve[25];
-  const finalElec   = elecTcoCurve[25];
-  const minTCO = Math.min(finalFT3, finalHybrid, finalElec);
-  const bestTech = (minTCO === finalFT3) ? 'FT3 Standard' : (minTCO === finalHybrid) ? 'FT4 Hybrid' : 'FT4 Electric';
-  const bestCurve = (minTCO === finalFT3) ? ft3TcoCurve : (minTCO === finalHybrid) ? hybridTcoCurve : elecTcoCurve;
+    const filtrationLabel =
+        isWithFiltration
+            ? t.with_filtration
+            : t.without_filtration;
 
-  // Break-even vs FT3
-  let breakEvenYear = null;
-  if (bestTech !== 'FT3 Standard') {
-    const betterCurve = (bestTech === 'FT4 Hybrid') ? hybridTcoCurve : elecTcoCurve;
-    for (let y = 1; y <= 25; y++) {
-      if (betterCurve[y] < ft3TcoCurve[y]) { breakEvenYear = y; break; }
+    const details = [];
+
+    details.push(
+        `<strong>${t.target_country}:</strong> ${selectedCountry}`
+    );
+
+    details.push(
+        `<strong>${t.annual_volume}:</strong> ` +
+        `${selectedVolume.toLocaleString(
+            ({fr:'fr-FR',en:'en-GB',de:'de-DE',it:'it-IT',es:'es-ES'})[currentLang] || 'fr-FR'
+        )} ${t.crem_yr}`
+    );
+
+    details.push(
+        `<strong>${t.inflation_scenario}:</strong> ${inflationLabel}`
+    );
+
+    if (inflationMode === 'manual') {
+        details.push(
+            `<strong>${t.elec_inflation}:</strong> ` +
+            `${document.getElementById('manualElecInflation').value}%`
+        );
+
+        details.push(
+            `<strong>${t.gas_inflation}:</strong> ` +
+            `${document.getElementById('manualGasInflation').value}%`
+        );
     }
-  }
 
-  const avoidance = (bestTech !== 'FT3 Standard') ? finalFT3 - minTCO : 0;
-  const costPerCrem = (volume > 0) ? (minTCO / (25 * volume)) : 0;
+    details.push(
+        `<strong>${t.energy_prices_scenario}:</strong> ${energyModeLabel}`
+    );
 
-  // UPDATE UI
-  const techEmoji = (bestTech === 'FT3 Standard') ? '🔥' : (bestTech === 'FT4 Hybrid') ? '⚡🔥' : '⚡';
-  document.getElementById('recTechName').textContent = bestTech + ' ' + techEmoji;
+    if (energyMode === 'manual') {
+        details.push(
+            `<strong>${t.elec_price_label}:</strong> ` +
+            `${document.getElementById('baseElecPrice').value}`
+        );
 
-  // Recommendation text
-  let recText = '';
-  if (bestTech === 'FT3 Standard') recText = t('rec_ft3');
-  else if (bestTech === 'FT4 Hybrid') recText = t('rec_hybrid') + (breakEvenYear ? t('year') + ' ' + breakEvenYear + '.' : t('na') + '.');
-  else recText = t('rec_electric') + (breakEvenYear ? t('year') + ' ' + breakEvenYear + '.' : t('na') + '.');
-  document.getElementById('recDescription').textContent = recText;
-
-  // Badge
-  document.getElementById('recBadge').textContent = (breakEvenYear ? t('year') + ' ' + breakEvenYear : t('na'));
-
-  // KPIs
-  document.getElementById('beValue').textContent = breakEvenYear ? t('year') + ' ' + breakEvenYear : t('na');
-  document.getElementById('avoidanceValue').textContent = formatEUR(avoidance);
-  document.getElementById('costPerCremValue').textContent = formatEUR(costPerCrem);
-
-  // Filtration banner
-  const banner = document.getElementById('filtrationBanner');
-  if (isWithFiltration) {
-    banner.className = 'filtration-banner with';
-    banner.textContent = t('with_filt_banner');
-  } else {
-    banner.className = 'filtration-banner without';
-    banner.textContent = t('without_filt_banner');
-  }
-
-  // TABLE
-  const tbody = document.getElementById('tcoTableBody');
-  const tableData = [
-    { name: 'FT3 Standard',  curve: ft3TcoCurve },
-    { name: 'FT4 Hybrid',    curve: hybridTcoCurve },
-    { name: 'FT4 Electric',  curve: elecTcoCurve }
-  ];
-  tbody.innerHTML = tableData.map(row => {
-    const isBest = (row.curve === bestCurve);
-    return `<tr class="${isBest?'best-row':''}">
-      <td>${row.name}${isBest?' ★':''}</td>
-      <td>${formatEUR(row.curve[8])}</td>
-      <td>${formatEUR(row.curve[15])}</td>
-      <td>${formatEUR(row.curve[25])}</td>
-    </tr>`;
-  }).join('');
-
-  // CHART
-  const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
-  const gridColor = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
-  const textColor = isDark ? '#94a3b8' : '#64748b';
-  const years = Array.from({length:26}, (_,i)=>i);
-
-  if (tcoChart) tcoChart.destroy();
-  const ctx = document.getElementById('tcoChart').getContext('2d');
-  tcoChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: years,
-      datasets: [
-        { label: 'FT3 Standard',  data: ft3TcoCurve,    borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.07)',    tension: 0.3, pointRadius:2, borderWidth:2.5 },
-        { label: 'FT4 Hybrid',    data: hybridTcoCurve,  borderColor: '#38bdf8', backgroundColor: 'rgba(56,189,248,0.07)',   tension: 0.3, pointRadius:2, borderWidth:2.5 },
-        { label: 'FT4 Electric',  data: elecTcoCurve,   borderColor: '#22c55e', backgroundColor: 'rgba(34,197,94,0.07)',    tension: 0.3, pointRadius:2, borderWidth:2.5 },
-      ]
-    },
-    options: {
-      responsive:true, maintainAspectRatio:false,
-      plugins: {
-        legend: { labels: { color: textColor, font:{size:12} } },
-        tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + formatEUR(ctx.parsed.y) } }
-      },
-      scales: {
-        x: { ticks:{color:textColor}, grid:{color:gridColor}, title:{display:true, text: (currentLang==='fr'?'Années':'Years'), color:textColor} },
-        y: { ticks:{color:textColor, callback:v=>formatEUR(v)}, grid:{color:gridColor} }
-      }
+        details.push(
+            `<strong>${t.gas_price_label}:</strong> ` +
+            `${document.getElementById('baseGasPrice').value}`
+        );
     }
-  });
+
+    details.push(
+        `<strong>${t.filtration_config}:</strong> ${filtrationLabel}`
+    );
+
+    document.getElementById('printParamsContent').innerHTML =
+        details.join(' &nbsp; | &nbsp; ');
 }
 
-// ==========================================================
-// EVENT LISTENERS & HANDLERS
-// ==========================================================
-document.getElementById('countrySelect').addEventListener('change', function() {
-  selectedCountry = this.value;
-  const cData = countriesData[selectedCountry];
-  if (cData) {
-      const eIn = document.getElementById('baseElecPriceInput');
-      const gIn = document.getElementById('baseGasPriceInput');
-      if (eIn) eIn.value = cData.elec_price;
-      if (gIn) gIn.value = cData.gas_kwh;
-  }
-  updatePrintHeader();
-  calculateAndRender();
-});
+function restoreScreenAfterPrint() {
+    document.documentElement.classList.remove(
+        'printSinglePage'
+    );
 
-const volumeSlider = document.getElementById('volumeSlider');
-const volumeInput  = document.getElementById('volumeInput');
-const volumeVal    = document.getElementById('volumeVal');
+    printInProgress = false;
 
-function setVolume(val) {
-  selectedVolume = Math.max(0, Math.min(8000, parseInt(val) || 0));
-  volumeSlider.value = selectedVolume;
-  volumeInput.value  = selectedVolume;
-  volumeVal.textContent = selectedVolume;
-  calculateAndRender();
+    const clientHeader =
+        document.getElementById('printClientHeader');
+
+    const paramsBlock =
+        document.getElementById('printParamsBlock');
+
+    if (clientHeader) {
+        clientHeader.style.display = 'none';
+    }
+
+    if (paramsBlock) {
+        paramsBlock.style.display = 'none';
+    }
+
+    if (tcoChartInstance) {
+        requestAnimationFrame(() => {
+            tcoChartInstance.resize();
+            tcoChartInstance.update('none');
+        });
+    }
 }
 
-volumeSlider.addEventListener('input', e => setVolume(e.target.value));
-volumeInput.addEventListener('input', e => setVolume(e.target.value));
+window.addEventListener('beforeprint', () => {
+    document.documentElement.classList.add(
+        'printSinglePage'
+    );
 
-function setScenario(scen) {
-  currentScenario = scen;
-  document.getElementById('btnForecast').classList.toggle('active', scen === 'forecast');
-  document.getElementById('btnManual').classList.toggle('active', scen === 'manual');
-  const panel = document.getElementById('manualScenarioPanel');
-  if (panel) panel.style.display = (scen === 'manual') ? 'block' : 'none';
-  
-  if (scen === 'manual') {
-      const cData = countriesData[selectedCountry];
-      if (cData) {
-          const eIn = document.getElementById('baseElecPriceInput');
-          const gIn = document.getElementById('baseGasPriceInput');
-          if (eIn) eIn.value = cData.elec_price;
-          if (gIn) gIn.value = cData.gas_kwh;
-      }
-  }
-  calculateAndRender();
+    buildPrintBlock();
+
+    // Ne pas rappeler preparePrintChart() ici.
+});
+
+window.addEventListener(
+    'afterprint',
+    restoreScreenAfterPrint
+);
+
+const printMediaQuery =
+    window.matchMedia('print');
+
+const handlePrintMediaChange = event => {
+    if (!event.matches) {
+        restoreScreenAfterPrint();
+    }
+};
+
+if (
+    typeof printMediaQuery.addEventListener ===
+    'function'
+) {
+    printMediaQuery.addEventListener(
+        'change',
+        handlePrintMediaChange
+    );
+} else if (
+    typeof printMediaQuery.addListener ===
+    'function'
+) {
+    printMediaQuery.addListener(
+        handlePrintMediaChange
+    );
 }
 
-document.getElementById('btnForecast').addEventListener('click', () => setScenario('forecast'));
-document.getElementById('btnManual').addEventListener('click', () => setScenario('manual'));
-
-document.getElementById('btnWithFilt').addEventListener('click', function() {
-  isWithFiltration = true;
-  this.className = 'filt-btn active-with';
-  document.getElementById('btnWithoutFilt').className = 'filt-btn';
-  document.getElementById('filtrationHint').setAttribute('data-i18n', 'filt_hint_with');
-  document.getElementById('filtrationHint').textContent = t('filt_hint_with');
-  document.getElementById('filtrationPriceGroup').style.opacity = '1';
-  document.getElementById('filtrationPriceGroup').style.pointerEvents = 'auto';
-  
-  // Reset CAPEX to default With Filtration values
-  document.getElementById('ft3FurnacePrice').value = 260000;
-  document.getElementById('ft4FurnacePrice').value = 360000;
-  document.getElementById('filtrationPrice').value = 400000;
-
-  calculateAndRender();
+window.addEventListener('focus', () => {
+    if (printInProgress) {
+        setTimeout(
+            restoreScreenAfterPrint,
+            150
+        );
+    }
 });
 
-document.getElementById('btnWithoutFilt').addEventListener('click', function() {
-  isWithFiltration = false;
-  this.className = 'filt-btn active-without';
-  document.getElementById('btnWithFilt').className = 'filt-btn';
-  document.getElementById('filtrationHint').setAttribute('data-i18n', 'filt_hint_without');
-  document.getElementById('filtrationHint').textContent = t('filt_hint_without');
-  document.getElementById('filtrationPriceGroup').style.opacity = '0.4';
-  document.getElementById('filtrationPriceGroup').style.pointerEvents = 'none';
-
-  // Set CAPEX to Without Filtration defaults (FT3=400k, FT4=500k, Filtration=0)
-  document.getElementById('ft3FurnacePrice').value = 400000;
-  document.getElementById('ft4FurnacePrice').value = 500000;
-  document.getElementById('filtrationPrice').value = 0;
-
-  calculateAndRender();
-});
-
-function updatePrintHeader() {
-  const input = document.getElementById('clientNameInput');
-  const clientVal = input ? input.value.trim() : '';
-  const countryVal = selectedCountry || '';
-  const header = document.getElementById('printClientHeader');
-  if (header) {
-      const siteStr = clientVal ? clientVal.toUpperCase() : 'PROPOSAL';
-      const cStr = countryVal ? countryVal.toUpperCase() : '';
-      header.innerText = 'CLIENT / SITE: ' + siteStr + (cStr ? (' — ' + cStr) : '');
-  }
-}
-
-document.getElementById('clientNameInput').addEventListener('input', updatePrintHeader);
-
-document.getElementById('btnPdf').addEventListener('click', () => {
-  updatePrintHeader();
-  window.print();
-});
-
-// Live recalculation on typing in any parameter
-['clientNameInput', 'generalInflationInput', 'baseElecPriceInput', 'baseGasPriceInput', 'ft3FurnacePrice', 'ft4FurnacePrice', 'filtrationPrice'].forEach(id => {
-  const el = document.getElementById(id);
-  if (el) {
-      el.addEventListener('input', calculateAndRender);
-      el.addEventListener('change', calculateAndRender);
-  }
-});
-
-// Theme toggle
-document.getElementById('themeToggle').addEventListener('click', function() {
-  const html = document.documentElement;
-  const isDark = html.getAttribute('data-theme') !== 'light';
-  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
-  calculateAndRender();
-});
-
-// ==========================================================
-// INIT
-// ==========================================================
-populateCountries();
-applyTranslations();
-updatePrintHeader();
-calculateAndRender();
 </script>
 </body>
 </html>
